@@ -2,6 +2,7 @@
     "require": {
         "illuminate/view": "^5.2",
         "illuminate/database": "^5.2",
+        "illuminate/events": "^5.2",
         "illuminate/pagination": "^5.2",
         "illuminate/http": "^5.2"
     },
