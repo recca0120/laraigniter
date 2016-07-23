@@ -2,6 +2,7 @@
 
 use Illuminate\Container\Container;
 use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Fluent;
 use Illuminate\View\ViewServiceProvider;
+use Recca0120\LaravelTracy\Tracy;
 
 $app = new Container();
 $app['request'] = Request::capture();
@@ -52,6 +54,18 @@ $app['config']['database.connections'] = $connections;
 $databaseServiceProvider = new DatabaseServiceProvider($app);
 $databaseServiceProvider->register();
 $databaseServiceProvider->boot();
+
+$tracy = Tracy::instance();
+$databasePanel = $tracy->getPanel('database');
+$app['events']->listen(QueryExecuted::class, function ($event) use ($databasePanel) {
+    $sql = $event->sql;
+    $bindings = $event->bindings;
+    $time = $event->time;
+    $name = $event->connectionName;
+    $pdo = $event->connection->getPdo();
+
+    $databasePanel->logQuery($sql, $bindings, $time, $name, $pdo);
+});
 
 $paginationServiceProvider = new PaginationServiceProvider($app);
 $paginationServiceProvider->register();

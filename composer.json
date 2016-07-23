@@ -4,11 +4,12 @@
         "illuminate/database": "^5.2",
         "illuminate/events": "^5.2",
         "illuminate/pagination": "^5.2",
-        "illuminate/http": "^5.2"
+        "illuminate/http": "^5.2",
+        "recca0120/laravel-tracy": "^1.5"
     },
     "autoload": {
-        "classmap": [
-            "application/models"
-        ]
+        "psr-4": {
+            "App\\Models\\": "application/models"
+        }
     }
 }
