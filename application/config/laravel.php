@@ -4,12 +4,15 @@ use Illuminate\Container\Container;
 use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Fluent;
 use Illuminate\View\ViewServiceProvider;
 
 $app = new Container();
+$app['request'] = Request::capture();
 $app['events'] = new Dispatcher();
 $app['config'] = new Fluent();
 $app['files'] = new Filesystem();
@@ -46,5 +49,9 @@ $app['config']['database.default'] = $active_group;
 $app['config']['database.connections'] = $connections;
 
 $databaseServiceProvider = new DatabaseServiceProvider($app);
+$databaseServiceProvider->register();
+$databaseServiceProvider->boot();
+
+$paginationServiceProvider = new PaginationServiceProvider($app);
 $databaseServiceProvider->register();
 $databaseServiceProvider->boot();
