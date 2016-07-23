@@ -1,4 +1,7 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+ if (!defined('BASEPATH')) {
+     exit('No direct script access allowed');
+ }
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -37,8 +40,7 @@
 |
 */
 
-$autoload['packages'] = array();
-
+$autoload['packages'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -52,8 +54,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array();
-
+$autoload['libraries'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -64,8 +65,7 @@ $autoload['libraries'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array();
-
+$autoload['helper'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -80,8 +80,7 @@ $autoload['helper'] = array();
 |
 */
 
-$autoload['config'] = array();
-
+$autoload['config'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -96,8 +95,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array();
-
+$autoload['language'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -109,8 +107,10 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = [];
 
+require __DIR__.'/../../vendor/autoload.php';
+require __DIR__.'/laravel.php';
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
