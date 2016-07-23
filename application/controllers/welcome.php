@@ -4,6 +4,8 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
+use App\Models\User;
+
 class Welcome extends CI_Controller
 {
     /**
@@ -23,7 +25,14 @@ class Welcome extends CI_Controller
      */
     public function index()
     {
-        $this->load->view('welcome_message');
+        User::create([
+            'name'     => 'test'.uniqid(),
+            'email'    => 'test'.uniqid().'@test.com',
+            'password' => md5('test'.uniqid()),
+        ]);
+
+        $users = User::all();
+        $this->output->set_output(View::make('users', compact('users')));
     }
 }
 
