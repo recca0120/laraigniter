@@ -13,6 +13,7 @@ use Illuminate\View\ViewServiceProvider;
 
 $app = new Container();
 $app['request'] = Request::capture();
+
 $app['events'] = new Dispatcher();
 $app['config'] = new Fluent();
 $app['files'] = new Filesystem();
@@ -53,5 +54,5 @@ $databaseServiceProvider->register();
 $databaseServiceProvider->boot();
 
 $paginationServiceProvider = new PaginationServiceProvider($app);
-$databaseServiceProvider->register();
-$databaseServiceProvider->boot();
+$paginationServiceProvider->register();
+$paginationServiceProvider->boot();
