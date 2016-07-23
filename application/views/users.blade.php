@@ -16,3 +16,5 @@
         </tbody>
     @endforeach
 </table>
+
+{!! $users->links() !!}

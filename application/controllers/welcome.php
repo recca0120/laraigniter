@@ -31,7 +31,7 @@ class Welcome extends CI_Controller
             'password' => md5('test'.uniqid()),
         ]);
 
-        $users = User::all();
+        $users = User::paginate(5);
         $this->output->set_output(View::make('users', compact('users')));
     }
 }
