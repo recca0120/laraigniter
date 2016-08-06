@@ -1,18 +1,26 @@
 {
-    "name": "recca0120/laraigniter",
-    "description": "codeigniter with laravel eloquent, view, pagination",
-    "keywords": ["codeigniter", "laravel", "eloquent", "blade", "pagination", "tracy"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "recca0120",
-            "email": "recca0120@gmail.com"
-        }
-    ],
-    "require": {
-        "recca0120/laravel-bridge": "^1.0.0"
-    },
-    "autoload": {
+	"description": "The CodeIgniter framework",
+	"name": "codeigniter/framework",
+	"type": "project",
+	"homepage": "https://codeigniter.com",
+	"license": "MIT",
+	"support": {
+		"forum": "http://forum.codeigniter.com/",
+		"wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
+		"irc": "irc://irc.freenode.net/codeigniter",
+		"source": "https://github.com/bcit-ci/CodeIgniter"
+	},
+	"require": {
+		"php": ">=5.2.4",
+		"recca0120/laravel-bridge": "^1.0"
+	},
+	"suggest": {
+		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
+	},
+	"require-dev": {
+		"mikey179/vfsStream": "1.1.*"
+	},
+	"autoload": {
         "psr-4": {
             "App\\Models\\": "application/models"
         }
