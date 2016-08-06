@@ -109,7 +109,5 @@ $autoload['language'] = [];
 
 $autoload['model'] = [];
 
-require __DIR__.'/laravel.php';
-
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
