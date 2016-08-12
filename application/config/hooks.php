@@ -1,5 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -19,8 +20,8 @@ require_once __DIR__.'/database.php';
 
 $connections = [];
 foreach ($db as $key => $options) {
-	$dbdriver = array_get($options, 'dbdriver');
-	$dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
+    $dbdriver = array_get($options, 'dbdriver');
+    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
     $connections[$key] = [
         'driver'    => $dbdriver,
         'host'      => array_get($options, 'hostname'),
@@ -40,7 +41,7 @@ $viewPath = __DIR__.'/../views/';
 $viewCompiledPath = __DIR__.'/../cache/compiled/';
 
 if (is_dir($viewCompiledPath) === false) {
-	mkdir($viewCompiledPath, 0777);
+    mkdir($viewCompiledPath, 0777);
 }
 
 Laravel::instance()
@@ -48,6 +49,6 @@ Laravel::instance()
     ->setupDatabase($connections, $active_group)
     ->setupPagination()
     ->setupTracy([
-        'showBar' => true,
+        'showBar'    => true,
         'strictMode' => false,
     ]);
