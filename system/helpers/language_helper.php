@@ -1,5 +1,8 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
+<?php
+ if (! defined('BASEPATH')) {
+     exit('No direct script access allowed');
+ }
+/*
  * CodeIgniter
  *
  * An open source application development framework for PHP 5.1.6 or newer
@@ -16,7 +19,7 @@
 
 // ------------------------------------------------------------------------
 
-/**
+/*
  * CodeIgniter Language Helpers
  *
  * @package		CodeIgniter
@@ -28,7 +31,7 @@
 
 // ------------------------------------------------------------------------
 
-/**
+/*
  * Lang
  *
  * Fetches a language variable and optionally outputs a form label
@@ -38,20 +41,18 @@
  * @param	string	the id of the form element
  * @return	string
  */
-if ( ! function_exists('lang'))
-{
-	function lang($line, $id = '')
-	{
-		$CI =& get_instance();
-		$line = $CI->lang->line($line);
+if (! function_exists('lang')) {
+    function lang($line, $id = '')
+    {
+        $CI = &get_instance();
+        $line = $CI->lang->line($line);
 
-		if ($id != '')
-		{
-			$line = '<label for="'.$id.'">'.$line."</label>";
-		}
+        if ($id != '') {
+            $line = '<label for="'.$id.'">'.$line.'</label>';
+        }
 
-		return $line;
-	}
+        return $line;
+    }
 }
 
 // ------------------------------------------------------------------------
