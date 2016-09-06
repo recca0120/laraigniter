@@ -1,10 +1,12 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+ if (! defined('BASEPATH')) {
+     exit('No direct script access allowed');
+ }
 /**
- * CodeIgniter
+ * CodeIgniter.
  *
  * An open source application development framework for PHP 5.1.6 or newer
  *
- * @package		CodeIgniter
  * @author		EllisLab Dev Team
  * @copyright		Copyright (c) 2006 - 2014, EllisLab, Inc.
  * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
@@ -17,313 +19,297 @@
 // ------------------------------------------------------------------------
 
 /**
- * Migration Class
+ * Migration Class.
  *
  * All migrations should implement this, forces up() and down() and gives
  * access to the CI super-global.
  *
- * @package		CodeIgniter
- * @subpackage	Libraries
  * @category	Libraries
  * @author		Reactor Engineers
  * @link
  */
-class CI_Migration {
+class CI_Migration
+{
+    protected $_migration_enabled = false;
+    protected $_migration_path = null;
+    protected $_migration_version = 0;
 
-	protected $_migration_enabled = FALSE;
-	protected $_migration_path = NULL;
-	protected $_migration_version = 0;
+    protected $_error_string = '';
 
-	protected $_error_string = '';
+    public function __construct($config = [])
+    {
+        // Only run this constructor on main library load
+        if (get_parent_class($this) !== false) {
+            return;
+        }
 
-	public function __construct($config = array())
-	{
-		# Only run this constructor on main library load
-		if (get_parent_class($this) !== FALSE)
-		{
-			return;
-		}
+        foreach ($config as $key => $val) {
+            $this->{'_'.$key} = $val;
+        }
 
-		foreach ($config as $key => $val)
-		{
-			$this->{'_' . $key} = $val;
-		}
+        log_message('debug', 'Migrations class initialized');
 
-		log_message('debug', 'Migrations class initialized');
+        // Are they trying to use migrations while it is disabled?
+        if ($this->_migration_enabled !== true) {
+            show_error('Migrations has been loaded but is disabled or set up incorrectly.');
+        }
 
-		// Are they trying to use migrations while it is disabled?
-		if ($this->_migration_enabled !== TRUE)
-		{
-			show_error('Migrations has been loaded but is disabled or set up incorrectly.');
-		}
+        // If not set, set it
+        $this->_migration_path == '' and $this->_migration_path = APPPATH.'migrations/';
 
-		// If not set, set it
-		$this->_migration_path == '' AND $this->_migration_path = APPPATH . 'migrations/';
+        // Add trailing slash if not set
+        $this->_migration_path = rtrim($this->_migration_path, '/').'/';
 
-		// Add trailing slash if not set
-		$this->_migration_path = rtrim($this->_migration_path, '/').'/';
+        // Load migration language
+        $this->lang->load('migration');
 
-		// Load migration language
-		$this->lang->load('migration');
+        // They'll probably be using dbforge
+        $this->load->dbforge();
 
-		// They'll probably be using dbforge
-		$this->load->dbforge();
+        // If the migrations table is missing, make it
+        if (! $this->db->table_exists('migrations')) {
+            $this->dbforge->add_field([
+                'version' => ['type' => 'INT', 'constraint' => 3],
+            ]);
 
-		// If the migrations table is missing, make it
-		if ( ! $this->db->table_exists('migrations'))
-		{
-			$this->dbforge->add_field(array(
-				'version' => array('type' => 'INT', 'constraint' => 3),
-			));
+            $this->dbforge->create_table('migrations', true);
 
-			$this->dbforge->create_table('migrations', TRUE);
+            $this->db->insert('migrations', ['version' => 0]);
+        }
+    }
 
-			$this->db->insert('migrations', array('version' => 0));
-		}
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Migrate to a schema version.
+     *
+     * Calls each migration step required to get to the schema version of
+     * choice
+     *
+     * @param	int	Target schema version
+     * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
+     */
+    public function version($target_version)
+    {
+        $start = $current_version = $this->_get_version();
+        $stop = $target_version;
 
-	/**
-	 * Migrate to a schema version
-	 *
-	 * Calls each migration step required to get to the schema version of
-	 * choice
-	 *
-	 * @param	int	Target schema version
-	 * @return	mixed	TRUE if already latest, FALSE if failed, int if upgraded
-	 */
-	public function version($target_version)
-	{
-		$start = $current_version = $this->_get_version();
-		$stop = $target_version;
+        if ($target_version > $current_version) {
+            // Moving Up
+            ++$start;
+            ++$stop;
+            $step = 1;
+        } else {
+            // Moving Down
+            $step = -1;
+        }
 
-		if ($target_version > $current_version)
-		{
-			// Moving Up
-			++$start;
-			++$stop;
-			$step = 1;
-		}
-		else
-		{
-			// Moving Down
-			$step = -1;
-		}
+        $method = ($step === 1) ? 'up' : 'down';
+        $migrations = [];
 
-		$method = ($step === 1) ? 'up' : 'down';
-		$migrations = array();
+        // We now prepare to actually DO the migrations
+        // But first let's make sure that everything is the way it should be
+        for ($i = $start; $i != $stop; $i += $step) {
+            $f = glob(sprintf($this->_migration_path.'%03d_*.php', $i));
 
-		// We now prepare to actually DO the migrations
-		// But first let's make sure that everything is the way it should be
-		for ($i = $start; $i != $stop; $i += $step)
-		{
-			$f = glob(sprintf($this->_migration_path . '%03d_*.php', $i));
+            // Only one migration per step is permitted
+            if (count($f) > 1) {
+                $this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $i);
 
-			// Only one migration per step is permitted
-			if (count($f) > 1)
-			{
-				$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $i);
-				return FALSE;
-			}
+                return false;
+            }
 
-			// Migration step not found
-			if (count($f) == 0)
-			{
-				// If trying to migrate up to a version greater than the last
-				// existing one, migrate to the last one.
-				if ($step == 1)
-				{
-					break;
-				}
+            // Migration step not found
+            if (count($f) == 0) {
+                // If trying to migrate up to a version greater than the last
+                // existing one, migrate to the last one.
+                if ($step == 1) {
+                    break;
+                }
 
-				// If trying to migrate down but we're missing a step,
-				// something must definitely be wrong.
-				$this->_error_string = sprintf($this->lang->line('migration_not_found'), $i);
-				return FALSE;
-			}
+                // If trying to migrate down but we're missing a step,
+                // something must definitely be wrong.
+                $this->_error_string = sprintf($this->lang->line('migration_not_found'), $i);
 
-			$file = basename($f[0]);
-			$name = basename($f[0], '.php');
+                return false;
+            }
 
-			// Filename validations
-			if (preg_match('/^\d{3}_(\w+)$/', $name, $match))
-			{
-				$match[1] = strtolower($match[1]);
+            $file = basename($f[0]);
+            $name = basename($f[0], '.php');
 
-				// Cannot repeat a migration at different steps
-				if (in_array($match[1], $migrations))
-				{
-					$this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $match[1]);
-					return FALSE;
-				}
+            // Filename validations
+            if (preg_match('/^\d{3}_(\w+)$/', $name, $match)) {
+                $match[1] = strtolower($match[1]);
 
-				include $f[0];
-				$class = 'Migration_' . ucfirst($match[1]);
+                // Cannot repeat a migration at different steps
+                if (in_array($match[1], $migrations)) {
+                    $this->_error_string = sprintf($this->lang->line('migration_multiple_version'), $match[1]);
 
-				if ( ! class_exists($class))
-				{
-					$this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
-					return FALSE;
-				}
+                    return false;
+                }
 
-				if ( ! is_callable(array($class, $method)))
-				{
-					$this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
-					return FALSE;
-				}
+                include $f[0];
+                $class = 'Migration_'.ucfirst($match[1]);
 
-				$migrations[] = $match[1];
-			}
-			else
-			{
-				$this->_error_string = sprintf($this->lang->line('migration_invalid_filename'), $file);
-				return FALSE;
-			}
-		}
+                if (! class_exists($class)) {
+                    $this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 
-		log_message('debug', 'Current migration: ' . $current_version);
+                    return false;
+                }
 
-		$version = $i + ($step == 1 ? -1 : 0);
+                if (! is_callable([$class, $method])) {
+                    $this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 
-		// If there is nothing to do so quit
-		if ($migrations === array())
-		{
-			return TRUE;
-		}
+                    return false;
+                }
 
-		log_message('debug', 'Migrating from ' . $method . ' to version ' . $version);
+                $migrations[] = $match[1];
+            } else {
+                $this->_error_string = sprintf($this->lang->line('migration_invalid_filename'), $file);
 
-		// Loop through the migrations
-		foreach ($migrations AS $migration)
-		{
-			// Run the migration class
-			$class = 'Migration_' . ucfirst(strtolower($migration));
-			call_user_func(array(new $class, $method));
+                return false;
+            }
+        }
 
-			$current_version += $step;
-			$this->_update_version($current_version);
-		}
+        log_message('debug', 'Current migration: '.$current_version);
 
-		log_message('debug', 'Finished migrating to '.$current_version);
+        $version = $i + ($step == 1 ? -1 : 0);
 
-		return $current_version;
-	}
+        // If there is nothing to do so quit
+        if ($migrations === []) {
+            return true;
+        }
 
-	// --------------------------------------------------------------------
+        log_message('debug', 'Migrating from '.$method.' to version '.$version);
 
-	/**
-	 * Set's the schema to the latest migration
-	 *
-	 * @return	mixed	true if already latest, false if failed, int if upgraded
-	 */
-	public function latest()
-	{
-		if ( ! $migrations = $this->find_migrations())
-		{
-			$this->_error_string = $this->lang->line('migration_none_found');
-			return false;
-		}
+        // Loop through the migrations
+        foreach ($migrations as $migration) {
+            // Run the migration class
+            $class = 'Migration_'.ucfirst(strtolower($migration));
+            call_user_func([new $class, $method]);
 
-		$last_migration = basename(end($migrations));
+            $current_version += $step;
+            $this->_update_version($current_version);
+        }
 
-		// Calculate the last migration step from existing migration
-		// filenames and procceed to the standard version migration
-		return $this->version((int) substr($last_migration, 0, 3));
-	}
+        log_message('debug', 'Finished migrating to '.$current_version);
 
-	// --------------------------------------------------------------------
+        return $current_version;
+    }
 
-	/**
-	 * Set's the schema to the migration version set in config
-	 *
-	 * @return	mixed	true if already current, false if failed, int if upgraded
-	 */
-	public function current()
-	{
-		return $this->version($this->_migration_version);
-	}
+    // --------------------------------------------------------------------
 
-	// --------------------------------------------------------------------
+    /**
+     * Set's the schema to the latest migration.
+     *
+     * @return	mixed	true if already latest, false if failed, int if upgraded
+     */
+    public function latest()
+    {
+        if (! $migrations = $this->find_migrations()) {
+            $this->_error_string = $this->lang->line('migration_none_found');
 
-	/**
-	 * Error string
-	 *
-	 * @return	string	Error message returned as a string
-	 */
-	public function error_string()
-	{
-		return $this->_error_string;
-	}
+            return false;
+        }
 
-	// --------------------------------------------------------------------
+        $last_migration = basename(end($migrations));
 
-	/**
-	 * Set's the schema to the latest migration
-	 *
-	 * @return	mixed	true if already latest, false if failed, int if upgraded
-	 */
-	protected function find_migrations()
-	{
-		// Load all *_*.php files in the migrations path
-		$files = glob($this->_migration_path . '*_*.php');
-		$file_count = count($files);
+        // Calculate the last migration step from existing migration
+        // filenames and procceed to the standard version migration
+        return $this->version((int) substr($last_migration, 0, 3));
+    }
 
-		for ($i = 0; $i < $file_count; $i++)
-		{
-			// Mark wrongly formatted files as false for later filtering
-			$name = basename($files[$i], '.php');
-			if ( ! preg_match('/^\d{3}_(\w+)$/', $name))
-			{
-				$files[$i] = FALSE;
-			}
-		}
+    // --------------------------------------------------------------------
 
-		sort($files);
-		return $files;
-	}
+    /**
+     * Set's the schema to the migration version set in config.
+     *
+     * @return	mixed	true if already current, false if failed, int if upgraded
+     */
+    public function current()
+    {
+        return $this->version($this->_migration_version);
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Retrieves current schema version
-	 *
-	 * @return	int	Current Migration
-	 */
-	protected function _get_version()
-	{
-		$row = $this->db->get('migrations')->row();
-		return $row ? $row->version : 0;
-	}
+    /**
+     * Error string.
+     *
+     * @return	string	Error message returned as a string
+     */
+    public function error_string()
+    {
+        return $this->_error_string;
+    }
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	/**
-	 * Stores the current schema version
-	 *
-	 * @param	int	Migration reached
-	 * @return	bool
-	 */
-	protected function _update_version($migrations)
-	{
-		return $this->db->update('migrations', array(
-			'version' => $migrations
-		));
-	}
+    /**
+     * Set's the schema to the latest migration.
+     *
+     * @return	mixed	true if already latest, false if failed, int if upgraded
+     */
+    protected function find_migrations()
+    {
+        // Load all *_*.php files in the migrations path
+        $files = glob($this->_migration_path.'*_*.php');
+        $file_count = count($files);
 
-	// --------------------------------------------------------------------
+        for ($i = 0; $i < $file_count; $i++) {
+            // Mark wrongly formatted files as false for later filtering
+            $name = basename($files[$i], '.php');
+            if (! preg_match('/^\d{3}_(\w+)$/', $name)) {
+                $files[$i] = false;
+            }
+        }
 
-	/**
-	 * Enable the use of CI super-global
-	 *
-	 * @param	mixed	$var
-	 * @return	mixed
-	 */
-	public function __get($var)
-	{
-		return get_instance()->$var;
-	}
+        sort($files);
 
+        return $files;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Retrieves current schema version.
+     *
+     * @return	int	Current Migration
+     */
+    protected function _get_version()
+    {
+        $row = $this->db->get('migrations')->row();
+
+        return $row ? $row->version : 0;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Stores the current schema version.
+     *
+     * @param	int	Migration reached
+     * @return	bool
+     */
+    protected function _update_version($migrations)
+    {
+        return $this->db->update('migrations', [
+            'version' => $migrations,
+        ]);
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Enable the use of CI super-global.
+     *
+     * @param	mixed	$var
+     * @return	mixed
+     */
+    public function __get($var)
+    {
+        return get_instance()->$var;
+    }
 }
 
 /* End of file Migration.php */

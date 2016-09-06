@@ -1,12 +1,12 @@
 <?php
 
-if (!defined('BASEPATH')) {
+if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
 use App\Models\User;
 
-class Welcome extends CI_Controller
+class welcome extends CI_Controller
 {
     /**
      * Index Page for this controller.
