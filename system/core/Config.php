@@ -130,13 +130,13 @@ class CI_Config
                     return true;
                 }
 
-                if (!file_exists($file_path)) {
+                if (! file_exists($file_path)) {
                     continue;
                 }
 
                 include $file_path;
 
-                if (!isset($config) or !is_array($config)) {
+                if (! isset($config) or ! is_array($config)) {
                     if ($fail_gracefully === true) {
                         return false;
                     }
@@ -198,7 +198,7 @@ class CI_Config
      */
     public function slash_item($item)
     {
-        if (!isset($this->config[$item])) {
+        if (! isset($this->config[$item])) {
             return;
         } elseif (trim($this->config[$item]) === '') {
             return '';

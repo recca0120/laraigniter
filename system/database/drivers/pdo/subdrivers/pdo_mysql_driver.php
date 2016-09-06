@@ -105,7 +105,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver
             empty($this->port) or $this->dsn .= ';port='.$this->port;
             empty($this->database) or $this->dsn .= ';dbname='.$this->database;
             empty($this->char_set) or $this->dsn .= ';charset='.$this->char_set;
-        } elseif (!empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === false && is_php('5.3.6')) {
+        } elseif (! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === false && is_php('5.3.6')) {
             $this->dsn .= ';charset='.$this->char_set;
         }
     }
@@ -126,7 +126,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver
          *
          * Reference: http://www.php.net/manual/en/ref.pdo-mysql.connection.php
          */
-        if (!is_php('5.3.6') && !empty($this->char_set)) {
+        if (! is_php('5.3.6') && ! empty($this->char_set)) {
             $this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->char_set
                 .(empty($this->dbcollat) ? '' : ' COLLATE '.$this->dbcollat);
         }
@@ -145,7 +145,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver
                                         "STRICT_TRANS_TABLES", "")';
             }
 
-            if (!empty($sql)) {
+            if (! empty($sql)) {
                 if (empty($this->options[PDO::MYSQL_ATTR_INIT_COMMAND])) {
                     $this->options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET SESSION sql_mode = '.$sql;
                 } else {
@@ -175,7 +175,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver
         // Prior to version 5.7.3, MySQL silently downgrades to an unencrypted connection if SSL setup fails
         if (
             ($pdo = parent::db_connect($persistent)) !== false
-            && !empty($ssl)
+            && ! empty($ssl)
             && version_compare($pdo->getAttribute(PDO::ATTR_CLIENT_VERSION), '5.7.3', '<=')
             && empty($pdo->query("SHOW STATUS LIKE 'ssl_cipher'")->fetchObject()->Value)
         ) {
@@ -315,7 +315,7 @@ class CI_DB_pdo_mysql_driver extends CI_DB_pdo_driver
      */
     protected function _from_tables()
     {
-        if (!empty($this->qb_join) && count($this->qb_from) > 1) {
+        if (! empty($this->qb_join) && count($this->qb_from) > 1) {
             return '('.implode(', ', $this->qb_from).')';
         }
 

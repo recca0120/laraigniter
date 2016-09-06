@@ -432,7 +432,7 @@ class CI_Output
         // Do we need to write a cache file? Only if the controller does not have its
         // own _output() method and we are not dealing with a cache file, which we
         // can determine by the existence of the $CI object above
-        if ($this->cache_expiration > 0 && isset($CI) && !method_exists($CI, '_output')) {
+        if ($this->cache_expiration > 0 && isset($CI) && ! method_exists($CI, '_output')) {
             $this->_write_cache($output);
         }
 
@@ -471,7 +471,7 @@ class CI_Output
         // Does the $CI object exist?
         // If not we know we are dealing with a cache file so we'll
         // simply echo out the data and exit.
-        if (!isset($CI)) {
+        if (! isset($CI)) {
             if ($this->_compress_output === true) {
                 if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
                     header('Content-Encoding: gzip');
@@ -496,7 +496,7 @@ class CI_Output
         // If so, load the Profile class and run it.
         if ($this->enable_profiler === true) {
             $CI->load->library('profiler');
-            if (!empty($this->_profiler_sections)) {
+            if (! empty($this->_profiler_sections)) {
                 $CI->profiler->set_sections($this->_profiler_sections);
             }
 
@@ -535,7 +535,7 @@ class CI_Output
         $path = $CI->config->item('cache_path');
         $cache_path = ($path === '') ? APPPATH.'cache/' : $path;
 
-        if (!is_dir($cache_path) or !is_really_writable($cache_path)) {
+        if (! is_dir($cache_path) or ! is_really_writable($cache_path)) {
             log_message('error', 'Unable to write cache file: '.$cache_path);
 
             return;
@@ -545,7 +545,7 @@ class CI_Output
             .$CI->config->item('index_page')
             .$CI->uri->uri_string();
 
-        if (($cache_query_string = $CI->config->item('cache_query_string')) && !empty($_SERVER['QUERY_STRING'])) {
+        if (($cache_query_string = $CI->config->item('cache_query_string')) && ! empty($_SERVER['QUERY_STRING'])) {
             if (is_array($cache_query_string)) {
                 $uri .= '?'.http_build_query(array_intersect_key($_GET, array_flip($cache_query_string)));
             } else {
@@ -555,7 +555,7 @@ class CI_Output
 
         $cache_path .= md5($uri);
 
-        if (!$fp = @fopen($cache_path, 'w+b')) {
+        if (! $fp = @fopen($cache_path, 'w+b')) {
             log_message('error', 'Unable to write cache file: '.$cache_path);
 
             return;
@@ -630,7 +630,7 @@ class CI_Output
         // Build the file path. The file name is an MD5 hash of the full URI
         $uri = $CFG->item('base_url').$CFG->item('index_page').$URI->uri_string;
 
-        if (($cache_query_string = $CFG->item('cache_query_string')) && !empty($_SERVER['QUERY_STRING'])) {
+        if (($cache_query_string = $CFG->item('cache_query_string')) && ! empty($_SERVER['QUERY_STRING'])) {
             if (is_array($cache_query_string)) {
                 $uri .= '?'.http_build_query(array_intersect_key($_GET, array_flip($cache_query_string)));
             } else {
@@ -640,7 +640,7 @@ class CI_Output
 
         $filepath = $cache_path.md5($uri);
 
-        if (!file_exists($filepath) or !$fp = @fopen($filepath, 'rb')) {
+        if (! file_exists($filepath) or ! $fp = @fopen($filepath, 'rb')) {
             return false;
         }
 
@@ -652,7 +652,7 @@ class CI_Output
         fclose($fp);
 
         // Look for embedded serialized file info.
-        if (!preg_match('/^(.*)ENDCI--->/', $cache, $match)) {
+        if (! preg_match('/^(.*)ENDCI--->/', $cache, $match)) {
             return false;
         }
 
@@ -702,7 +702,7 @@ class CI_Output
             $cache_path = APPPATH.'cache/';
         }
 
-        if (!is_dir($cache_path)) {
+        if (! is_dir($cache_path)) {
             log_message('error', 'Unable to find cache path: '.$cache_path);
 
             return false;
@@ -711,7 +711,7 @@ class CI_Output
         if (empty($uri)) {
             $uri = $CI->uri->uri_string();
 
-            if (($cache_query_string = $CI->config->item('cache_query_string')) && !empty($_SERVER['QUERY_STRING'])) {
+            if (($cache_query_string = $CI->config->item('cache_query_string')) && ! empty($_SERVER['QUERY_STRING'])) {
                 if (is_array($cache_query_string)) {
                     $uri .= '?'.http_build_query(array_intersect_key($_GET, array_flip($cache_query_string)));
                 } else {
@@ -722,7 +722,7 @@ class CI_Output
 
         $cache_path .= md5($CI->config->item('base_url').$CI->config->item('index_page').ltrim($uri, '/'));
 
-        if (!@unlink($cache_path)) {
+        if (! @unlink($cache_path)) {
             log_message('error', 'Unable to delete cache file for '.$uri);
 
             return false;

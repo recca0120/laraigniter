@@ -117,7 +117,7 @@ class CI_Migration
     public function __construct($config = [])
     {
         // Only run this constructor on main library load
-        if (!in_array(get_class($this), ['CI_Migration', config_item('subclass_prefix').'Migration'], true)) {
+        if (! in_array(get_class($this), ['CI_Migration', config_item('subclass_prefix').'Migration'], true)) {
             return;
         }
 
@@ -155,12 +155,12 @@ class CI_Migration
             : '/^\d{3}_(\w+)$/';
 
         // Make sure a valid migration numbering type was set.
-        if (!in_array($this->_migration_type, ['sequential', 'timestamp'])) {
+        if (! in_array($this->_migration_type, ['sequential', 'timestamp'])) {
             show_error('An invalid migration numbering type was specified: '.$this->_migration_type);
         }
 
         // If the migrations table is missing, make it
-        if (!$this->db->table_exists($this->_migration_table)) {
+        if (! $this->db->table_exists($this->_migration_table)) {
             $this->dbforge->add_field([
                 'version' => ['type' => 'BIGINT', 'constraint' => 20],
             ]);
@@ -171,7 +171,7 @@ class CI_Migration
         }
 
         // Do we auto migrate to the latest migration?
-        if ($this->_migration_auto_latest === true && !$this->latest()) {
+        if ($this->_migration_auto_latest === true && ! $this->latest()) {
             show_error($this->error_string());
         }
     }
@@ -201,7 +201,7 @@ class CI_Migration
 
         $migrations = $this->find_migrations();
 
-        if ($target_version > 0 && !isset($migrations[$target_version])) {
+        if ($target_version > 0 && ! isset($migrations[$target_version])) {
             $this->_error_string = sprintf($this->lang->line('migration_not_found'), $target_version);
 
             return false;
@@ -259,7 +259,7 @@ class CI_Migration
             $class = 'Migration_'.ucfirst(strtolower($this->_get_migration_name(basename($file, '.php'))));
 
             // Validate the migration file structure
-            if (!class_exists($class, false)) {
+            if (! class_exists($class, false)) {
                 $this->_error_string = sprintf($this->lang->line('migration_class_doesnt_exist'), $class);
 
                 return false;
@@ -267,7 +267,7 @@ class CI_Migration
             // method_exists() returns true for non-public methods,
             // while is_callable() can't be used without instantiating.
             // Only get_class_methods() satisfies both conditions.
-            elseif (!in_array($method, array_map('strtolower', get_class_methods($class)))) {
+            elseif (! in_array($method, array_map('strtolower', get_class_methods($class)))) {
                 $this->_error_string = sprintf($this->lang->line('migration_missing_'.$method.'_method'), $class);
 
                 return false;

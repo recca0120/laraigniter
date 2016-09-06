@@ -90,7 +90,7 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver
             if (empty($this->hostname) && empty($this->host) && empty($this->port) && empty($this->service)) {
                 if (isset($this->DSN)) {
                     $this->dsn .= 'DSN='.$this->DSN;
-                } elseif (!empty($this->database)) {
+                } elseif (! empty($this->database)) {
                     $this->dsn .= 'DSN='.$this->database;
                 }
 
@@ -105,7 +105,7 @@ class CI_DB_pdo_informix_driver extends CI_DB_pdo_driver
 
             if (isset($this->service)) {
                 $this->dsn .= '; service='.$this->service;
-            } elseif (!empty($this->port)) {
+            } elseif (! empty($this->port)) {
                 $this->dsn .= '; service='.$this->port;
             }
 

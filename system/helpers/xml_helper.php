@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('xml_convert')) {
+if (! function_exists('xml_convert')) {
     /**
      * Convert Reserved XML characters to Entities.
      *

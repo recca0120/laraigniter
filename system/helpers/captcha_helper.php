@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('create_captcha')) {
+if (! function_exists('create_captcha')) {
     /**
      * Create CAPTCHA.
      *
@@ -83,7 +83,7 @@ if (!function_exists('create_captcha')) {
         ];
 
         foreach ($defaults as $key => $val) {
-            if (!is_array($data) && empty($$key)) {
+            if (! is_array($data) && empty($$key)) {
                 $$key = $val;
             } else {
                 $$key = isset($data[$key]) ? $data[$key] : $val;
@@ -91,8 +91,8 @@ if (!function_exists('create_captcha')) {
         }
 
         if ($img_path === '' or $img_url === ''
-            or !is_dir($img_path) or !is_really_writable($img_path)
-            or !extension_loaded('gd')) {
+            or ! is_dir($img_path) or ! is_really_writable($img_path)
+            or ! extension_loaded('gd')) {
             return false;
         }
 
@@ -192,7 +192,7 @@ if (!function_exists('create_captcha')) {
             for ($i = 0; $i < $word_length; $i++) {
                 $word .= $pool[mt_rand(0, $rand_max)];
             }
-        } elseif (!is_string($word)) {
+        } elseif (! is_string($word)) {
             $word = (string) $word;
         }
 

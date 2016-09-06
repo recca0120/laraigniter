@@ -216,7 +216,7 @@ class CI_Security
         }
 
         // Do the tokens exist in both the _POST and _COOKIE arrays?
-        if (!isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
+        if (! isset($_POST[$this->_csrf_token_name], $_COOKIE[$this->_csrf_cookie_name])
             or $_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) { // Do the tokens match?
             $this->csrf_show_error();
         }
@@ -253,7 +253,7 @@ class CI_Security
         $expire = time() + $this->_csrf_expire;
         $secure_cookie = (bool) config_item('cookie_secure');
 
-        if ($secure_cookie && !is_https()) {
+        if ($secure_cookie && ! is_https()) {
             return false;
         }
 
@@ -566,7 +566,7 @@ class CI_Security
      */
     public function get_random_bytes($length)
     {
-        if (empty($length) or !ctype_digit((string) $length)) {
+        if (empty($length) or ! ctype_digit((string) $length)) {
             return false;
         }
 
@@ -644,7 +644,7 @@ class CI_Security
 
             // Decode standard entities, avoiding false positives
             if (preg_match_all('/&[a-z]{2,}(?![a-z;])/i', $str, $matches)) {
-                if (!isset($_entities)) {
+                if (! isset($_entities)) {
                     $_entities = array_map(
                         'strtolower',
                         is_php('5.3.4')
@@ -699,7 +699,7 @@ class CI_Security
     {
         $bad = $this->filename_bad_chars;
 
-        if (!$relative_path) {
+        if (! $relative_path) {
             $bad[] = './';
             $bad[] = '/';
         }
@@ -810,7 +810,7 @@ class CI_Security
                 // of numerous XSS issues we've had.
                 $matches['attributes'] = preg_replace('#^[^a-z]+#i', '', $matches['attributes']);
 
-                if (!preg_match($attributes_pattern, $matches['attributes'], $attribute, PREG_OFFSET_CAPTURE)) {
+                if (! preg_match($attributes_pattern, $matches['attributes'], $attribute, PREG_OFFSET_CAPTURE)) {
                     // No (valid) attribute found? Discard everything else inside the tag
                     break;
                 }

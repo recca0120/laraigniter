@@ -402,9 +402,9 @@ abstract class CI_DB_driver
         $this->conn_id = $this->db_connect($this->pconnect);
 
         // No connection resource? Check if there is a failover else throw an error
-        if (!$this->conn_id) {
+        if (! $this->conn_id) {
             // Check if there is a failover set
-            if (!empty($this->failover) && is_array($this->failover)) {
+            if (! empty($this->failover) && is_array($this->failover)) {
                 // Go over all the failovers
                 foreach ($this->failover as $failover) {
                     // Replace the current settings with those of the failover
@@ -423,7 +423,7 @@ abstract class CI_DB_driver
             }
 
             // We still don't have a connection?
-            if (!$this->conn_id) {
+            if (! $this->conn_id) {
                 log_message('error', 'Unable to connect to the database');
 
                 if ($this->db_debug) {
@@ -519,7 +519,7 @@ abstract class CI_DB_driver
      */
     public function db_set_charset($charset)
     {
-        if (method_exists($this, '_db_set_charset') && !$this->_db_set_charset($charset)) {
+        if (method_exists($this, '_db_set_charset') && ! $this->_db_set_charset($charset)) {
             log_message('error', 'Unable to set database connection charset: '.$charset);
 
             if ($this->db_debug) {
@@ -604,8 +604,8 @@ abstract class CI_DB_driver
             log_message('error', 'Invalid query: '.$sql);
 
             return ($this->db_debug) ? $this->display_error('db_invalid_query') : false;
-        } elseif (!is_bool($return_object)) {
-            $return_object = !$this->is_write_type($sql);
+        } elseif (! is_bool($return_object)) {
+            $return_object = ! $this->is_write_type($sql);
         }
 
         // Verify table prefix and replace if necessary
@@ -734,7 +734,7 @@ abstract class CI_DB_driver
     {
         $driver = 'CI_DB_'.$this->dbdriver.'_result';
 
-        if (!class_exists($driver, false)) {
+        if (! class_exists($driver, false)) {
             require_once BASEPATH.'database/DB_result.php';
             require_once BASEPATH.'database/drivers/'.$this->dbdriver.'/'.$this->dbdriver.'_result.php';
         }
@@ -756,8 +756,8 @@ abstract class CI_DB_driver
      */
     public function simple_query($sql)
     {
-        if (!$this->conn_id) {
-            if (!$this->initialize()) {
+        if (! $this->conn_id) {
+            if (! $this->initialize()) {
                 return false;
             }
         }
@@ -810,7 +810,7 @@ abstract class CI_DB_driver
      */
     public function trans_start($test_mode = false)
     {
-        if (!$this->trans_enabled) {
+        if (! $this->trans_enabled) {
             return false;
         }
 
@@ -826,7 +826,7 @@ abstract class CI_DB_driver
      */
     public function trans_complete()
     {
-        if (!$this->trans_enabled) {
+        if (! $this->trans_enabled) {
             return false;
         }
 
@@ -872,7 +872,7 @@ abstract class CI_DB_driver
      */
     public function trans_begin($test_mode = false)
     {
-        if (!$this->trans_enabled) {
+        if (! $this->trans_enabled) {
             return false;
         }
         // When transactions are nested we only begin/commit/rollback the outermost ones
@@ -905,7 +905,7 @@ abstract class CI_DB_driver
      */
     public function trans_commit()
     {
-        if (!$this->trans_enabled or $this->_trans_depth === 0) {
+        if (! $this->trans_enabled or $this->_trans_depth === 0) {
             return false;
         }
         // When transactions are nested we only begin/commit/rollback the outermost ones
@@ -927,7 +927,7 @@ abstract class CI_DB_driver
      */
     public function trans_rollback()
     {
-        if (!$this->trans_enabled or $this->_trans_depth === 0) {
+        if (! $this->trans_enabled or $this->_trans_depth === 0) {
             return false;
         }
         // When transactions are nested we only begin/commit/rollback the outermost ones
@@ -954,7 +954,7 @@ abstract class CI_DB_driver
     {
         if (empty($binds) or empty($this->bind_marker) or strpos($sql, $this->bind_marker) === false) {
             return $sql;
-        } elseif (!is_array($binds)) {
+        } elseif (! is_array($binds)) {
             $binds = [$binds];
             $bind_count = 1;
         } else {
@@ -1213,7 +1213,7 @@ abstract class CI_DB_driver
 
         foreach ($query->result_array() as $row) {
             // Do we know from which column to get the table name?
-            if (!isset($key)) {
+            if (! isset($key)) {
                 if (isset($row['table_name'])) {
                     $key = 'table_name';
                 } elseif (isset($row['TABLE_NAME'])) {
@@ -1274,7 +1274,7 @@ abstract class CI_DB_driver
 
         foreach ($query->result_array() as $row) {
             // Do we know from where to get the column's name?
-            if (!isset($key)) {
+            if (! isset($key)) {
                 if (isset($row['column_name'])) {
                     $key = 'column_name';
                 } elseif (isset($row['COLUMN_NAME'])) {
@@ -1536,7 +1536,7 @@ abstract class CI_DB_driver
             $function = $driver.$function;
         }
 
-        if (!function_exists($function)) {
+        if (! function_exists($function)) {
             return ($this->db_debug) ? $this->display_error('db_unsupported_function') : false;
         }
 
@@ -1623,7 +1623,7 @@ abstract class CI_DB_driver
      */
     protected function _cache_init()
     {
-        if (!class_exists('CI_DB_Cache', false)) {
+        if (! class_exists('CI_DB_Cache', false)) {
             require_once BASEPATH.'database/DB_cache.php';
         } elseif (is_object($this->CACHE)) {
             return true;
@@ -1742,7 +1742,7 @@ abstract class CI_DB_driver
      */
     public function protect_identifiers($item, $prefix_single = false, $protect_identifiers = null, $field_exists = true)
     {
-        if (!is_bool($protect_identifiers)) {
+        if (! is_bool($protect_identifiers)) {
             $protect_identifiers = $this->_protect_identifiers;
         }
 
@@ -1797,10 +1797,10 @@ abstract class CI_DB_driver
             //
             // NOTE: The ! empty() condition prevents this method
             //       from breaking when QB isn't enabled.
-            if (!empty($this->qb_aliased_tables) && in_array($parts[0], $this->qb_aliased_tables)) {
+            if (! empty($this->qb_aliased_tables) && in_array($parts[0], $this->qb_aliased_tables)) {
                 if ($protect_identifiers === true) {
                     foreach ($parts as $key => $val) {
-                        if (!in_array($val, $this->_reserved_identifiers)) {
+                        if (! in_array($val, $this->_reserved_identifiers)) {
                             $parts[$key] = $this->escape_identifiers($val);
                         }
                     }
@@ -1868,7 +1868,7 @@ abstract class CI_DB_driver
             }
         }
 
-        if ($protect_identifiers === true && !in_array($item, $this->_reserved_identifiers)) {
+        if ($protect_identifiers === true && ! in_array($item, $this->_reserved_identifiers)) {
             $item = $this->escape_identifiers($item);
         }
 

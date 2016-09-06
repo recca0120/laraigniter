@@ -93,7 +93,7 @@ class CI_DB_mssql_driver extends CI_DB
     {
         parent::__construct($params);
 
-        if (!empty($this->port)) {
+        if (! empty($this->port)) {
             $this->hostname .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
         }
     }
@@ -113,14 +113,14 @@ class CI_DB_mssql_driver extends CI_DB
                 ? mssql_pconnect($this->hostname, $this->username, $this->password)
                 : mssql_connect($this->hostname, $this->username, $this->password);
 
-        if (!$this->conn_id) {
+        if (! $this->conn_id) {
             return false;
         }
 
         // ----------------------------------------------------------------
 
         // Select the DB... assuming a database name is specified in the config file
-        if ($this->database !== '' && !$this->db_select()) {
+        if ($this->database !== '' && ! $this->db_select()) {
             log_message('error', 'Unable to select database: '.$this->database);
 
             return ($this->db_debug === true)
@@ -366,7 +366,7 @@ class CI_DB_mssql_driver extends CI_DB
         static $error = ['code' => 0, 'message' => null];
 
         $message = mssql_get_last_message();
-        if (!empty($message)) {
+        if (! empty($message)) {
             $error['code'] = $this->query('SELECT @@ERROR AS code')->row()->code;
             $error['message'] = $message;
         }
@@ -450,7 +450,7 @@ class CI_DB_mssql_driver extends CI_DB
 
         // As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
         // however an ORDER BY clause is required for it to work
-        if (version_compare($this->version(), '9', '>=') && $this->qb_offset && !empty($this->qb_orderby)) {
+        if (version_compare($this->version(), '9', '>=') && $this->qb_offset && ! empty($this->qb_orderby)) {
             $orderby = $this->_compile_order_by();
 
             // We have to strip the ORDER BY clause

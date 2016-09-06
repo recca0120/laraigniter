@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('smiley_js')) {
+if (! function_exists('smiley_js')) {
     /**
      * Smiley Javascript.
      *
@@ -68,7 +68,7 @@ if (!function_exists('smiley_js')) {
         static $do_setup = true;
         $r = '';
 
-        if ($alias !== '' && !is_array($alias)) {
+        if ($alias !== '' && ! is_array($alias)) {
             $alias = [$alias => $field_id];
         }
 
@@ -127,7 +127,7 @@ EOF;
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('get_clickable_smileys')) {
+if (! function_exists('get_clickable_smileys')) {
     /**
      * Get Clickable Smileys.
      *
@@ -171,7 +171,7 @@ if (!function_exists('get_clickable_smileys')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('parse_smileys')) {
+if (! function_exists('parse_smileys')) {
     /**
      * Parse Smileys.
      *
@@ -185,7 +185,7 @@ if (!function_exists('parse_smileys')) {
      */
     function parse_smileys($str = '', $image_url = '', $smileys = null)
     {
-        if ($image_url === '' or (!is_array($smileys) && false === ($smileys = _get_smiley_array()))) {
+        if ($image_url === '' or (! is_array($smileys) && false === ($smileys = _get_smiley_array()))) {
             return $str;
         }
 
@@ -202,7 +202,7 @@ if (!function_exists('parse_smileys')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_get_smiley_array')) {
+if (! function_exists('_get_smiley_array')) {
     /**
      * Get Smiley Array.
      *
@@ -214,7 +214,7 @@ if (!function_exists('_get_smiley_array')) {
     {
         static $_smileys;
 
-        if (!is_array($_smileys)) {
+        if (! is_array($_smileys)) {
             if (file_exists(APPPATH.'config/smileys.php')) {
                 include APPPATH.'config/smileys.php';
             }
@@ -223,7 +223,7 @@ if (!function_exists('_get_smiley_array')) {
                 include APPPATH.'config/'.ENVIRONMENT.'/smileys.php';
             }
 
-            if (empty($smileys) or !is_array($smileys)) {
+            if (empty($smileys) or ! is_array($smileys)) {
                 $_smileys = [];
 
                 return false;

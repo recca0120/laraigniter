@@ -51,7 +51,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('is_php')) {
+if (! function_exists('is_php')) {
     /**
      * Determines if the current version of PHP is equal to or greater than the supplied value.
      *
@@ -64,7 +64,7 @@ if (!function_exists('is_php')) {
         static $_is_php;
         $version = (string) $version;
 
-        if (!isset($_is_php[$version])) {
+        if (! isset($_is_php[$version])) {
             $_is_php[$version] = version_compare(PHP_VERSION, $version, '>=');
         }
 
@@ -74,7 +74,7 @@ if (!function_exists('is_php')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('is_really_writable')) {
+if (! function_exists('is_really_writable')) {
     /**
      * Tests for file writability.
      *
@@ -91,7 +91,7 @@ if (!function_exists('is_really_writable')) {
     function is_really_writable($file)
     {
         // If we're on a Unix server with safe_mode off we call is_writable
-        if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') or !ini_get('safe_mode'))) {
+        if (DIRECTORY_SEPARATOR === '/' && (is_php('5.4') or ! ini_get('safe_mode'))) {
             return is_writable($file);
         }
 
@@ -109,7 +109,7 @@ if (!function_exists('is_really_writable')) {
             @unlink($file);
 
             return true;
-        } elseif (!is_file($file) or ($fp = @fopen($file, 'ab')) === false) {
+        } elseif (! is_file($file) or ($fp = @fopen($file, 'ab')) === false) {
             return false;
         }
 
@@ -121,7 +121,7 @@ if (!function_exists('is_really_writable')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('load_class')) {
+if (! function_exists('load_class')) {
     /**
      * Class registry.
      *
@@ -191,7 +191,7 @@ if (!function_exists('load_class')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('is_loaded')) {
+if (! function_exists('is_loaded')) {
     /**
      * Keeps track of which libraries have been loaded. This function is
      * called by the load_class() function above.
@@ -214,7 +214,7 @@ if (!function_exists('is_loaded')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('get_config')) {
+if (! function_exists('get_config')) {
     /**
      * Loads the main config.php file.
      *
@@ -240,14 +240,14 @@ if (!function_exists('get_config')) {
             // Is the config file in the environment folder?
             if (file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php')) {
                 require $file_path;
-            } elseif (!$found) {
+            } elseif (! $found) {
                 set_status_header(503);
                 echo 'The configuration file does not exist.';
                 exit(3); // EXIT_CONFIG
             }
 
             // Does the $config array exist in the file?
-            if (!isset($config) or !is_array($config)) {
+            if (! isset($config) or ! is_array($config)) {
                 set_status_header(503);
                 echo 'Your config file does not appear to be formatted correctly.';
                 exit(3); // EXIT_CONFIG
@@ -265,7 +265,7 @@ if (!function_exists('get_config')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('config_item')) {
+if (! function_exists('config_item')) {
     /**
      * Returns the specified config item.
      *
@@ -288,7 +288,7 @@ if (!function_exists('config_item')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('get_mimes')) {
+if (! function_exists('get_mimes')) {
     /**
      * Returns the MIME types array from config/mimes.php.
      *
@@ -314,7 +314,7 @@ if (!function_exists('get_mimes')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('is_https')) {
+if (! function_exists('is_https')) {
     /**
      * Is HTTPS?
      *
@@ -325,11 +325,11 @@ if (!function_exists('is_https')) {
      */
     function is_https()
     {
-        if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+        if (! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
             return true;
         } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
             return true;
-        } elseif (!empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
+        } elseif (! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
             return true;
         }
 
@@ -339,7 +339,7 @@ if (!function_exists('is_https')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('is_cli')) {
+if (! function_exists('is_cli')) {
 
     /**
      * Is CLI?
@@ -356,7 +356,7 @@ if (!function_exists('is_cli')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('show_error')) {
+if (! function_exists('show_error')) {
     /**
      * Error Handler.
      *
@@ -394,7 +394,7 @@ if (!function_exists('show_error')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('show_404')) {
+if (! function_exists('show_404')) {
     /**
      * 404 Page Handler.
      *
@@ -417,7 +417,7 @@ if (!function_exists('show_404')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('log_message')) {
+if (! function_exists('log_message')) {
     /**
      * Error Logging Interface.
      *
@@ -444,7 +444,7 @@ if (!function_exists('log_message')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('set_status_header')) {
+if (! function_exists('set_status_header')) {
     /**
      * Set HTTP Status Header.
      *
@@ -459,7 +459,7 @@ if (!function_exists('set_status_header')) {
             return;
         }
 
-        if (empty($code) or !is_numeric($code)) {
+        if (empty($code) or ! is_numeric($code)) {
             show_error('Status codes must be numeric', 500);
         }
 
@@ -531,7 +531,7 @@ if (!function_exists('set_status_header')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('_error_handler')) {
+if (! function_exists('_error_handler')) {
     /**
      * Error Handler.
      *
@@ -589,7 +589,7 @@ if (!function_exists('_error_handler')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_exception_handler')) {
+if (! function_exists('_exception_handler')) {
     /**
      * Exception Handler.
      *
@@ -617,7 +617,7 @@ if (!function_exists('_exception_handler')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_shutdown_handler')) {
+if (! function_exists('_shutdown_handler')) {
     /**
      * Shutdown Handler.
      *
@@ -644,7 +644,7 @@ if (!function_exists('_shutdown_handler')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('remove_invisible_characters')) {
+if (! function_exists('remove_invisible_characters')) {
     /**
      * Remove Invisible Characters.
      *
@@ -679,7 +679,7 @@ if (!function_exists('remove_invisible_characters')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('html_escape')) {
+if (! function_exists('html_escape')) {
     /**
      * Returns HTML escaped variable.
      *
@@ -708,7 +708,7 @@ if (!function_exists('html_escape')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_stringify_attributes')) {
+if (! function_exists('_stringify_attributes')) {
     /**
      * Stringify attributes for use in HTML tags.
      *
@@ -744,7 +744,7 @@ if (!function_exists('_stringify_attributes')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('function_usable')) {
+if (! function_exists('function_usable')) {
     /**
      * Function usable.
      *
@@ -775,13 +775,13 @@ if (!function_exists('function_usable')) {
         static $_suhosin_func_blacklist;
 
         if (function_exists($function_name)) {
-            if (!isset($_suhosin_func_blacklist)) {
+            if (! isset($_suhosin_func_blacklist)) {
                 $_suhosin_func_blacklist = extension_loaded('suhosin')
                     ? explode(',', trim(ini_get('suhosin.executor.func.blacklist')))
                     : [];
             }
 
-            return !in_array($function_name, $_suhosin_func_blacklist, true);
+            return ! in_array($function_name, $_suhosin_func_blacklist, true);
         }
 
         return false;

@@ -380,13 +380,13 @@ abstract class CI_DB_query_builder extends CI_DB_driver
      */
     protected function _max_min_avg_sum($select = '', $alias = '', $type = 'MAX')
     {
-        if (!is_string($select) or $select === '') {
+        if (! is_string($select) or $select === '') {
             $this->display_error('db_invalid_query');
         }
 
         $type = strtoupper($type);
 
-        if (!in_array($type, ['MAX', 'MIN', 'AVG', 'SUM'])) {
+        if (! in_array($type, ['MAX', 'MIN', 'AVG', 'SUM'])) {
             show_error('Invalid function type: '.$type);
         }
 
@@ -509,7 +509,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         if ($type !== '') {
             $type = strtoupper(trim($type));
 
-            if (!in_array($type, ['LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'], true)) {
+            if (! in_array($type, ['LEFT', 'RIGHT', 'OUTER', 'INNER', 'LEFT OUTER', 'RIGHT OUTER'], true)) {
                 $type = '';
             } else {
                 $type .= ' ';
@@ -522,7 +522,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
 
         is_bool($escape) or $escape = $this->_protect_identifiers;
 
-        if (!$this->_has_operator($cond)) {
+        if (! $this->_has_operator($cond)) {
             $cond = ' USING ('.($escape ? $this->escape_identifiers($cond) : $cond).')';
         } elseif ($escape === false) {
             $cond = ' ON '.$cond;
@@ -630,7 +630,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     {
         $qb_cache_key = ($qb_key === 'qb_having') ? 'qb_cache_having' : 'qb_cache_where';
 
-        if (!is_array($key)) {
+        if (! is_array($key)) {
             $key = [$key => $value];
         }
 
@@ -647,10 +647,10 @@ abstract class CI_DB_query_builder extends CI_DB_driver
                     $v = ' '.$this->escape($v);
                 }
 
-                if (!$this->_has_operator($k)) {
+                if (! $this->_has_operator($k)) {
                     $k .= ' = ';
                 }
-            } elseif (!$this->_has_operator($k)) {
+            } elseif (! $this->_has_operator($k)) {
                 // value appears not to have been set, assign the test to IS NULL
                 $k .= ' IS NULL';
             } elseif (preg_match('/\s*(!?=|<>|IS(?:\s+NOT)?)\s*$/i', $k, $match, PREG_OFFSET_CAPTURE)) {
@@ -767,7 +767,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             return $this;
         }
 
-        if (!is_array($values)) {
+        if (! is_array($values)) {
             $values = [$values];
         }
 
@@ -903,7 +903,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
      */
     protected function _like($field, $match = '', $type = 'AND ', $side = 'both', $not = '', $escape = null)
     {
-        if (!is_array($field)) {
+        if (! is_array($field)) {
             $field = [$field => $match];
         }
 
@@ -1246,7 +1246,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     {
         $key = $this->_object_to_array($key);
 
-        if (!is_array($key)) {
+        if (! is_array($key)) {
             $key = [$key => $value];
         }
 
@@ -1309,7 +1309,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $this->from($table);
         }
 
-        if (!empty($limit)) {
+        if (! empty($limit)) {
             $this->limit($limit, $offset);
         }
 
@@ -1342,12 +1342,12 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         // ORDER BY usage is often problematic here (most notably
         // on Microsoft SQL Server) and ultimately unnecessary
         // for selecting COUNT(*) ...
-        if (!empty($this->qb_orderby)) {
+        if (! empty($this->qb_orderby)) {
             $orderby = $this->qb_orderby;
             $this->qb_orderby = null;
         }
 
-        $result = ($this->qb_distinct === true or !empty($this->qb_groupby))
+        $result = ($this->qb_distinct === true or ! empty($this->qb_groupby))
             ? $this->query($this->_count_string.$this->protect_identifiers('numrows')."\nFROM (\n".$this->_compile_select()."\n) CI_count_all_results")
             : $this->query($this->_compile_select($this->_count_string.$this->protect_identifiers('numrows')));
 
@@ -1355,7 +1355,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $this->_reset_select();
         }
         // If we've previously reset the qb_orderby values, get them back
-        elseif (!isset($this->qb_orderby)) {
+        elseif (! isset($this->qb_orderby)) {
             $this->qb_orderby = $orderby;
         }
 
@@ -1392,7 +1392,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $this->where($where);
         }
 
-        if (!empty($limit)) {
+        if (! empty($limit)) {
             $this->limit($limit, $offset);
         }
 
@@ -1430,7 +1430,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         }
 
         if (strlen($table) === 0) {
-            if (!isset($this->qb_from[0])) {
+            if (! isset($this->qb_from[0])) {
                 return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
             }
 
@@ -1483,7 +1483,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     {
         $key = $this->_object_to_array_batch($key);
 
-        if (!is_array($key)) {
+        if (! is_array($key)) {
             $key = [$key => $value];
         }
 
@@ -1612,7 +1612,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
 
         if ($table !== '') {
             $this->qb_from[0] = $table;
-        } elseif (!isset($this->qb_from[0])) {
+        } elseif (! isset($this->qb_from[0])) {
             return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
         }
 
@@ -1642,7 +1642,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         }
 
         if ($table === '') {
-            if (!isset($this->qb_from[0])) {
+            if (! isset($this->qb_from[0])) {
                 return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
             }
 
@@ -1752,7 +1752,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $this->where($where);
         }
 
-        if (!empty($limit)) {
+        if (! empty($limit)) {
             $this->limit($limit);
         }
 
@@ -1783,7 +1783,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
 
         if ($table !== '') {
             $this->qb_from = [$this->protect_identifiers($table, true, null, false)];
-        } elseif (!isset($this->qb_from[0])) {
+        } elseif (! isset($this->qb_from[0])) {
             return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
         }
 
@@ -1825,7 +1825,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         }
 
         if (strlen($table) === 0) {
-            if (!isset($this->qb_from[0])) {
+            if (! isset($this->qb_from[0])) {
                 return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
             }
 
@@ -1900,7 +1900,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     {
         $key = $this->_object_to_array_batch($key);
 
-        if (!is_array($key)) {
+        if (! is_array($key)) {
             // @todo error
         }
 
@@ -1941,7 +1941,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     public function empty_table($table = '')
     {
         if ($table === '') {
-            if (!isset($this->qb_from[0])) {
+            if (! isset($this->qb_from[0])) {
                 return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
             }
 
@@ -1972,7 +1972,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     public function truncate($table = '')
     {
         if ($table === '') {
-            if (!isset($this->qb_from[0])) {
+            if (! isset($this->qb_from[0])) {
                 return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
             }
 
@@ -2047,7 +2047,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         $this->_merge_cache();
 
         if ($table === '') {
-            if (!isset($this->qb_from[0])) {
+            if (! isset($this->qb_from[0])) {
                 return ($this->db_debug) ? $this->display_error('db_must_set_table') : false;
             }
 
@@ -2068,7 +2068,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $this->where($where);
         }
 
-        if (!empty($limit)) {
+        if (! empty($limit)) {
             $this->limit($limit);
         }
 
@@ -2173,7 +2173,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $table = trim(strrchr($table, ' '));
 
             // Store the alias, if it doesn't already exist
-            if (!in_array($table, $this->qb_aliased_tables)) {
+            if (! in_array($table, $this->qb_aliased_tables)) {
                 $this->qb_aliased_tables[] = $table;
             }
         }
@@ -2200,7 +2200,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
         if ($select_override !== false) {
             $sql = $select_override;
         } else {
-            $sql = (!$this->qb_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
+            $sql = (! $this->qb_distinct) ? 'SELECT ' : 'SELECT DISTINCT ';
 
             if (count($this->qb_select) === 0) {
                 $sql .= '*';
@@ -2277,7 +2277,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
 
                 for ($ci = 0, $cc = count($conditions); $ci < $cc; $ci++) {
                     if (($op = $this->_get_operator($conditions[$ci])) === false
-                        or !preg_match('/^(\(?)(.*)('.preg_quote($op, '/').')\s*(.*(?<!\)))?(\)?)$/i', $conditions[$ci], $matches)) {
+                        or ! preg_match('/^(\(?)(.*)('.preg_quote($op, '/').')\s*(.*(?<!\)))?(\)?)$/i', $conditions[$ci], $matches)) {
                         continue;
                     }
 
@@ -2290,7 +2290,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
                     //	5 => ')'		/* optional */
                     // );
 
-                    if (!empty($matches[4])) {
+                    if (! empty($matches[4])) {
                         $this->_is_literal($matches[4]) or $matches[4] = $this->protect_identifiers(trim($matches[4]));
                         $matches[4] = ' '.$matches[4];
                     }
@@ -2359,7 +2359,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
     {
         if (is_array($this->qb_orderby) && count($this->qb_orderby) > 0) {
             for ($i = 0, $c = count($this->qb_orderby); $i < $c; $i++) {
-                if ($this->qb_orderby[$i]['escape'] !== false && !$this->_is_literal($this->qb_orderby[$i]['field'])) {
+                if ($this->qb_orderby[$i]['escape'] !== false && ! $this->_is_literal($this->qb_orderby[$i]['field'])) {
                     $this->qb_orderby[$i]['field'] = $this->protect_identifiers($this->qb_orderby[$i]['field']);
                 }
 
@@ -2387,14 +2387,14 @@ abstract class CI_DB_query_builder extends CI_DB_driver
      */
     protected function _object_to_array($object)
     {
-        if (!is_object($object)) {
+        if (! is_object($object)) {
             return $object;
         }
 
         $array = [];
         foreach (get_object_vars($object) as $key => $val) {
             // There are some built in keys we need to ignore for this conversion
-            if (!is_object($val) && !is_array($val) && $key !== '_parent_name') {
+            if (! is_object($val) && ! is_array($val) && $key !== '_parent_name') {
                 $array[$key] = $val;
             }
         }
@@ -2415,7 +2415,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
      */
     protected function _object_to_array_batch($object)
     {
-        if (!is_object($object)) {
+        if (! is_object($object)) {
             return $object;
         }
 
@@ -2519,7 +2519,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver
             $qb_new = $this->$qb_cache_var;
 
             for ($i = 0, $c = count($this->$qb_variable); $i < $c; $i++) {
-                if (!in_array($this->{$qb_variable}[$i], $qb_new, true)) {
+                if (! in_array($this->{$qb_variable}[$i], $qb_new, true)) {
                     $qb_new[] = $this->{$qb_variable}[$i];
                     if ($val === 'select') {
                         $qb_no_escape[] = $this->qb_no_escape[$i];

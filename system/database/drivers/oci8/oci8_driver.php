@@ -175,7 +175,7 @@ class CI_DB_oci8_driver extends CI_DB
 
             return;
         } elseif ($this->hostname !== '' && strpos($this->hostname, '/') === false && strpos($this->hostname, ':') === false
-            && ((!empty($this->port) && ctype_digit($this->port)) or $this->database !== '')) {
+            && ((! empty($this->port) && ctype_digit($this->port)) or $this->database !== '')) {
             /* If the hostname field isn't empty, doesn't contain
              * ':' and/or '/' and if port and/or database aren't
              * empty, then the hostname field is most likely indeed
@@ -184,7 +184,7 @@ class CI_DB_oci8_driver extends CI_DB
              * that the database field is a service name.
              */
             $this->dsn = $this->hostname
-                .((!empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : '')
+                .((! empty($this->port) && ctype_digit($this->port)) ? ':'.$this->port : '')
                 .($this->database !== '' ? '/'.ltrim($this->database, '/') : '');
 
             if (preg_match($valid_dsns['ec'], $this->dsn)) {
@@ -246,7 +246,7 @@ class CI_DB_oci8_driver extends CI_DB
             return $this->data_cache['version'];
         }
 
-        if (!$this->conn_id or ($version_string = oci_server_version($this->conn_id)) === false) {
+        if (! $this->conn_id or ($version_string = oci_server_version($this->conn_id)) === false) {
             return false;
         } elseif (preg_match('#Release\s(\d+(?:\.\d+)+)#', $version_string, $match)) {
             return $this->data_cache['version'] = $match[1];
@@ -351,13 +351,13 @@ class CI_DB_oci8_driver extends CI_DB
      */
     protected function _bind_params($params)
     {
-        if (!is_array($params) or !is_resource($this->stmt_id)) {
+        if (! is_array($params) or ! is_resource($this->stmt_id)) {
             return;
         }
 
         foreach ($params as $param) {
             foreach (['name', 'value', 'type', 'length'] as $val) {
-                if (!isset($param[$val])) {
+                if (! isset($param[$val])) {
                     $param[$val] = '';
                 }
             }

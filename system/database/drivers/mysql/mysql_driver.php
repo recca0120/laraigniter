@@ -108,7 +108,7 @@ class CI_DB_mysql_driver extends CI_DB
     {
         parent::__construct($params);
 
-        if (!empty($this->port)) {
+        if (! empty($this->port)) {
             $this->hostname .= ':'.$this->port;
         }
     }
@@ -138,7 +138,7 @@ class CI_DB_mysql_driver extends CI_DB
         // ----------------------------------------------------------------
 
         // Select the DB... assuming a database name is specified in the config file
-        if ($this->database !== '' && !$this->db_select()) {
+        if ($this->database !== '' && ! $this->db_select()) {
             log_message('error', 'Unable to select database: '.$this->database);
 
             return ($this->db_debug === true)
@@ -236,7 +236,7 @@ class CI_DB_mysql_driver extends CI_DB
             return $this->data_cache['version'];
         }
 
-        if (!$this->conn_id or ($version = mysql_get_server_info($this->conn_id)) === false) {
+        if (! $this->conn_id or ($version = mysql_get_server_info($this->conn_id)) === false) {
             return false;
         }
 
@@ -465,7 +465,7 @@ class CI_DB_mysql_driver extends CI_DB
      */
     protected function _from_tables()
     {
-        if (!empty($this->qb_join) && count($this->qb_from) > 1) {
+        if (! empty($this->qb_join) && count($this->qb_from) > 1) {
             return '('.implode(', ', $this->qb_from).')';
         }
 

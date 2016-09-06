@@ -383,7 +383,7 @@ class CI_Jquery extends CI_Javascript
      */
     protected function _output($array_js = [])
     {
-        if (!is_array($array_js)) {
+        if (! is_array($array_js)) {
             $array_js = [$array_js];
         }
 

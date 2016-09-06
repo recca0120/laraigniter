@@ -154,7 +154,7 @@ class CI_Input
         $this->_sanitize_globals();
 
         // CSRF Protection check
-        if ($this->_enable_csrf === true && !is_cli()) {
+        if ($this->_enable_csrf === true && ! is_cli()) {
             $this->security->csrf_verify();
         }
 
@@ -326,7 +326,7 @@ class CI_Input
     {
         // Prior to PHP 5.6, the input stream can only be read once,
         // so we'll need to check if we have already done that first.
-        if (!is_array($this->_input_stream)) {
+        if (! is_array($this->_input_stream)) {
             // $this->raw_input_stream will trigger __get().
             parse_str($this->raw_input_stream, $this->_input_stream);
             is_array($this->_input_stream) or $this->_input_stream = [];
@@ -385,7 +385,7 @@ class CI_Input
             $httponly = config_item('cookie_httponly');
         }
 
-        if (!is_numeric($expire)) {
+        if (! is_numeric($expire)) {
             $expire = time() - 86500;
         } else {
             $expire = ($expire > 0) ? time() + $expire : 0;
@@ -410,7 +410,7 @@ class CI_Input
         }
 
         $proxy_ips = config_item('proxy_ips');
-        if (!empty($proxy_ips) && !is_array($proxy_ips)) {
+        if (! empty($proxy_ips) && ! is_array($proxy_ips)) {
             $proxy_ips = explode(',', str_replace(' ', '', $proxy_ips));
         }
 
@@ -424,7 +424,7 @@ class CI_Input
                     // e.g. client_ip, proxy_ip1, proxy_ip2, etc.
                     sscanf($spoof, '%[^,]', $spoof);
 
-                    if (!$this->valid_ip($spoof)) {
+                    if (! $this->valid_ip($spoof)) {
                         $spoof = null;
                     } else {
                         break;
@@ -455,7 +455,7 @@ class CI_Input
                     }
 
                     // Convert the REMOTE_ADDR IP address to binary, if needed
-                    if (!isset($ip, $sprintf)) {
+                    if (! isset($ip, $sprintf)) {
                         if ($separator === ':') {
                             // Make sure we're have the "full" IPv6 format
                             $ip = explode(':',
@@ -500,7 +500,7 @@ class CI_Input
             }
         }
 
-        if (!$this->valid_ip($this->ip_address)) {
+        if (! $this->valid_ip($this->ip_address)) {
             return $this->ip_address = '0.0.0.0';
         }
 
@@ -633,7 +633,7 @@ class CI_Input
            NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
                  it will probably not exist in future versions at all.
         */
-        if (!is_php('5.4') && get_magic_quotes_gpc()) {
+        if (! is_php('5.4') && get_magic_quotes_gpc()) {
             $str = stripslashes($str);
         }
 
@@ -671,7 +671,7 @@ class CI_Input
      */
     protected function _clean_input_keys($str, $fatal = true)
     {
-        if (!preg_match('/^[a-z0-9:_\/|-]+$/i', $str)) {
+        if (! preg_match('/^[a-z0-9:_\/|-]+$/i', $str)) {
             if ($fatal === true) {
                 return false;
             } else {
@@ -701,7 +701,7 @@ class CI_Input
     public function request_headers($xss_clean = false)
     {
         // If header is already defined, return it immediately
-        if (!empty($this->headers)) {
+        if (! empty($this->headers)) {
             return $this->_fetch_from_array($this->headers, null, $xss_clean);
         }
 
@@ -741,7 +741,7 @@ class CI_Input
     {
         static $headers;
 
-        if (!isset($headers)) {
+        if (! isset($headers)) {
             empty($this->headers) && $this->request_headers();
             foreach ($this->headers as $key => $value) {
                 $headers[strtolower($key)] = $value;
@@ -750,7 +750,7 @@ class CI_Input
 
         $index = strtolower($index);
 
-        if (!isset($headers[$index])) {
+        if (! isset($headers[$index])) {
             return;
         }
 
@@ -770,7 +770,7 @@ class CI_Input
      */
     public function is_ajax_request()
     {
-        return  !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+        return  ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 
     // --------------------------------------------------------------------

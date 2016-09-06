@@ -103,9 +103,9 @@ class CI_DB_pdo_firebird_forge extends CI_DB_pdo_forge
      */
     public function drop_database($db_name = '')
     {
-        if (!ibase_drop_db($this->conn_id)) {
+        if (! ibase_drop_db($this->conn_id)) {
             return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : false;
-        } elseif (!empty($this->db->data_cache['db_names'])) {
+        } elseif (! empty($this->db->data_cache['db_names'])) {
             $key = array_search(strtolower($this->db->database), array_map('strtolower', $this->db->data_cache['db_names']), true);
             if ($key !== false) {
                 unset($this->db->data_cache['db_names'][$key]);
@@ -144,7 +144,7 @@ class CI_DB_pdo_firebird_forge extends CI_DB_pdo_forge
                     .' TYPE '.$field[$i]['type'].$field[$i]['length'];
             }
 
-            if (!empty($field[$i]['default'])) {
+            if (! empty($field[$i]['default'])) {
                 $sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
                     .' SET DEFAULT '.$field[$i]['default'];
             }
@@ -156,7 +156,7 @@ class CI_DB_pdo_firebird_forge extends CI_DB_pdo_forge
                     .' AND "RDB$RELATION_NAME" = '.$this->db->escape($table);
             }
 
-            if (!empty($field[$i]['new_name'])) {
+            if (! empty($field[$i]['new_name'])) {
                 $sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
                     .' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
             }

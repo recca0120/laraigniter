@@ -176,7 +176,7 @@ class CI_DB_result
     {
         if (isset($this->custom_result_object[$class_name])) {
             return $this->custom_result_object[$class_name];
-        } elseif (!$this->result_id or $this->num_rows === 0) {
+        } elseif (! $this->result_id or $this->num_rows === 0) {
             return [];
         }
 
@@ -226,7 +226,7 @@ class CI_DB_result
         // In the event that query caching is on, the result_id variable
         // will not be a valid resource so we'll simply return an empty
         // array.
-        if (!$this->result_id or $this->num_rows === 0) {
+        if (! $this->result_id or $this->num_rows === 0) {
             return [];
         }
 
@@ -262,7 +262,7 @@ class CI_DB_result
         // In the event that query caching is on, the result_id variable
         // will not be a valid resource so we'll simply return an empty
         // array.
-        if (!$this->result_id or $this->num_rows === 0) {
+        if (! $this->result_id or $this->num_rows === 0) {
             return [];
         }
 
@@ -296,12 +296,12 @@ class CI_DB_result
      */
     public function row($n = 0, $type = 'object')
     {
-        if (!is_numeric($n)) {
+        if (! is_numeric($n)) {
             // We cache the row data for subsequent uses
             is_array($this->row_data) or $this->row_data = $this->row_array(0);
 
             // array_key_exists() instead of isset() to allow for NULL values
-            if (empty($this->row_data) or !array_key_exists($n, $this->row_data)) {
+            if (empty($this->row_data) or ! array_key_exists($n, $this->row_data)) {
                 return;
             }
 
@@ -330,7 +330,7 @@ class CI_DB_result
     public function set_row($key, $value = null)
     {
         // We cache the row data for subsequent uses
-        if (!is_array($this->row_data)) {
+        if (! is_array($this->row_data)) {
             $this->row_data = $this->row_array(0);
         }
 

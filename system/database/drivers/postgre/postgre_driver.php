@@ -90,7 +90,7 @@ class CI_DB_postgre_driver extends CI_DB
     {
         parent::__construct($params);
 
-        if (!empty($this->dsn)) {
+        if (! empty($this->dsn)) {
             return;
         }
 
@@ -103,7 +103,7 @@ class CI_DB_postgre_driver extends CI_DB
 
         $this->hostname === '' or $this->dsn = 'host='.$this->hostname.' ';
 
-        if (!empty($this->port) && ctype_digit($this->port)) {
+        if (! empty($this->port) && ctype_digit($this->port)) {
             $this->dsn .= 'port='.$this->port.' ';
         }
 
@@ -207,7 +207,7 @@ class CI_DB_postgre_driver extends CI_DB
             return $this->data_cache['version'];
         }
 
-        if (!$this->conn_id or ($pg_version = pg_version($this->conn_id)) === false) {
+        if (! $this->conn_id or ($pg_version = pg_version($this->conn_id)) === false) {
             return false;
         }
 
@@ -480,7 +480,7 @@ class CI_DB_postgre_driver extends CI_DB
     {
         $direction = strtoupper(trim($direction));
         if ($direction === 'RANDOM') {
-            if (!is_float($orderby) && ctype_digit((string) $orderby)) {
+            if (! is_float($orderby) && ctype_digit((string) $orderby)) {
                 $orderby = ($orderby > 1)
                     ? (float) '0.'.$orderby
                     : (float) $orderby;

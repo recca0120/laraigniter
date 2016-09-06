@@ -117,7 +117,7 @@ class CI_Trackback
      */
     public function send($tb_data)
     {
-        if (!is_array($tb_data)) {
+        if (! is_array($tb_data)) {
             $this->set_error('The send() method must be passed an array');
 
             return false;
@@ -125,7 +125,7 @@ class CI_Trackback
 
         // Pre-process the Trackback Data
         foreach (['url', 'title', 'excerpt', 'blog_name', 'ping_url'] as $item) {
-            if (!isset($tb_data[$item])) {
+            if (! isset($tb_data[$item])) {
                 $this->set_error('Required item missing: '.$item);
 
                 return false;
@@ -279,7 +279,7 @@ class CI_Trackback
         $target = parse_url($url);
 
         // Open the socket
-        if (!$fp = @fsockopen($target['host'], 80)) {
+        if (! $fp = @fsockopen($target['host'], 80)) {
             $this->set_error('Invalid Connection: '.$url);
 
             return false;
@@ -305,7 +305,7 @@ class CI_Trackback
         // Was it successful?
 
         $this->response = '';
-        while (!feof($fp)) {
+        while (! feof($fp)) {
             $this->response .= fgets($fp, 128);
         }
         @fclose($fp);
@@ -385,7 +385,7 @@ class CI_Trackback
             $tb_array = explode('/', $url);
             $tb_end = $tb_array[count($tb_array) - 1];
 
-            if (!is_numeric($tb_end)) {
+            if (! is_numeric($tb_end)) {
                 $tb_end = $tb_array[count($tb_array) - 2];
             }
 
@@ -397,7 +397,7 @@ class CI_Trackback
             $tb_array = explode('/', $url);
             $tb_id = $tb_array[count($tb_array) - 1];
 
-            if (!is_numeric($tb_id)) {
+            if (! is_numeric($tb_id)) {
                 $tb_id = $tb_array[count($tb_array) - 2];
             }
         }

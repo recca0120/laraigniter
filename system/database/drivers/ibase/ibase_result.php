@@ -145,7 +145,7 @@ class CI_DB_ibase_result extends CI_DB_result
     {
         $row = ibase_fetch_object($this->result_id, IBASE_FETCH_BLOBS);
 
-        if ($class_name === 'stdClass' or !$row) {
+        if ($class_name === 'stdClass' or ! $row) {
             return $row;
         }
 

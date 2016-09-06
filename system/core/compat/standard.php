@@ -55,7 +55,7 @@ if (is_php('5.5')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('array_column')) {
+if (! function_exists('array_column')) {
     /**
      * array_column().
      *
@@ -69,7 +69,7 @@ if (!function_exists('array_column')) {
      */
     function array_column(array $array, $column_key, $index_key = null)
     {
-        if (!in_array($type = gettype($column_key), ['integer', 'string', 'NULL'], true)) {
+        if (! in_array($type = gettype($column_key), ['integer', 'string', 'NULL'], true)) {
             if ($type === 'double') {
                 $column_key = (int) $column_key;
             } elseif ($type === 'object' && method_exists($column_key, '__toString')) {
@@ -81,7 +81,7 @@ if (!function_exists('array_column')) {
             }
         }
 
-        if (!in_array($type = gettype($index_key), ['integer', 'string', 'NULL'], true)) {
+        if (! in_array($type = gettype($index_key), ['integer', 'string', 'NULL'], true)) {
             if ($type === 'double') {
                 $index_key = (int) $index_key;
             } elseif ($type === 'object' && method_exists($index_key, '__toString')) {
@@ -103,7 +103,7 @@ if (!function_exists('array_column')) {
                 continue;
             }
 
-            if ($index_key === null or !array_key_exists($index_key, $a)) {
+            if ($index_key === null or ! array_key_exists($index_key, $a)) {
                 $result[] = $value;
             } else {
                 $result[$a[$index_key]] = $value;
@@ -122,7 +122,7 @@ if (is_php('5.4')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('hex2bin')) {
+if (! function_exists('hex2bin')) {
     /**
      * hex2bin().
      *
@@ -148,7 +148,7 @@ if (!function_exists('hex2bin')) {
             trigger_error('Hexadecimal input string must have an even length', E_USER_WARNING);
 
             return false;
-        } elseif (!preg_match('/^[0-9a-f]*$/i', $data)) {
+        } elseif (! preg_match('/^[0-9a-f]*$/i', $data)) {
             trigger_error('Input string must be hexadecimal string', E_USER_WARNING);
 
             return false;
@@ -166,7 +166,7 @@ if (is_php('5.3')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('array_replace')) {
+if (! function_exists('array_replace')) {
     /**
      * array_replace().
      *
@@ -183,7 +183,7 @@ if (!function_exists('array_replace')) {
 
             return;
         } elseif ($c === 1) {
-            if (!is_array($arrays[0])) {
+            if (! is_array($arrays[0])) {
                 trigger_error('array_replace(): Argument #1 is not an array', E_USER_WARNING);
 
                 return;
@@ -196,7 +196,7 @@ if (!function_exists('array_replace')) {
         $c--;
 
         for ($i = 0; $i < $c; $i++) {
-            if (!is_array($arrays[$i])) {
+            if (! is_array($arrays[$i])) {
                 trigger_error('array_replace(): Argument #'.($i + 2).' is not an array', E_USER_WARNING);
 
                 return;
@@ -215,7 +215,7 @@ if (!function_exists('array_replace')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('array_replace_recursive')) {
+if (! function_exists('array_replace_recursive')) {
     /**
      * array_replace_recursive().
      *
@@ -232,7 +232,7 @@ if (!function_exists('array_replace_recursive')) {
 
             return;
         } elseif ($c === 1) {
-            if (!is_array($arrays[0])) {
+            if (! is_array($arrays[0])) {
                 trigger_error('array_replace_recursive(): Argument #1 is not an array', E_USER_WARNING);
 
                 return;
@@ -245,7 +245,7 @@ if (!function_exists('array_replace_recursive')) {
         $c--;
 
         for ($i = 0; $i < $c; $i++) {
-            if (!is_array($arrays[$i])) {
+            if (! is_array($arrays[$i])) {
                 trigger_error('array_replace_recursive(): Argument #'.($i + 2).' is not an array', E_USER_WARNING);
 
                 return;
@@ -266,7 +266,7 @@ if (!function_exists('array_replace_recursive')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('quoted_printable_encode')) {
+if (! function_exists('quoted_printable_encode')) {
     /**
      * quoted_printable_encode().
      *

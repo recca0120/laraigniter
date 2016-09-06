@@ -58,7 +58,7 @@ class CI_Cache_apc extends CI_Driver
      */
     public function __construct()
     {
-        if (!$this->is_supported()) {
+        if (! $this->is_supported()) {
             log_message('error', 'Cache: Failed to initialize APC; extension not loaded/enabled?');
         }
     }

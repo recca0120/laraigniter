@@ -86,15 +86,15 @@ class CI_DB_pdo_firebird_driver extends CI_DB_pdo_driver
         if (empty($this->dsn)) {
             $this->dsn = 'firebird:';
 
-            if (!empty($this->database)) {
+            if (! empty($this->database)) {
                 $this->dsn .= 'dbname='.$this->database;
-            } elseif (!empty($this->hostname)) {
+            } elseif (! empty($this->hostname)) {
                 $this->dsn .= 'dbname='.$this->hostname;
             }
 
             empty($this->char_set) or $this->dsn .= ';charset='.$this->char_set;
             empty($this->role) or $this->dsn .= ';role='.$this->role;
-        } elseif (!empty($this->char_set) && strpos($this->dsn, 'charset=', 9) === false) {
+        } elseif (! empty($this->char_set) && strpos($this->dsn, 'charset=', 9) === false) {
             $this->dsn .= ';charset='.$this->char_set;
         }
     }

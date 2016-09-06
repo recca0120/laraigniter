@@ -268,7 +268,7 @@ class CI_DB_sqlsrv_driver extends CI_DB
             return $this->data_cache['version'];
         }
 
-        if (!$this->conn_id or ($info = sqlsrv_server_info($this->conn_id)) === false) {
+        if (! $this->conn_id or ($info = sqlsrv_server_info($this->conn_id)) === false) {
             return false;
         }
 
@@ -365,7 +365,7 @@ class CI_DB_sqlsrv_driver extends CI_DB
         $error = ['code' => '00000', 'message' => ''];
         $sqlsrv_errors = sqlsrv_errors(SQLSRV_ERR_ERRORS);
 
-        if (!is_array($sqlsrv_errors)) {
+        if (! is_array($sqlsrv_errors)) {
             return $error;
         }
 
@@ -466,7 +466,7 @@ class CI_DB_sqlsrv_driver extends CI_DB
         $limit = $this->qb_offset + $this->qb_limit;
 
         // An ORDER BY clause is required for ROW_NUMBER() to work
-        if ($this->qb_offset && !empty($this->qb_orderby)) {
+        if ($this->qb_offset && ! empty($this->qb_orderby)) {
             $orderby = $this->_compile_order_by();
 
             // We have to strip the ORDER BY clause

@@ -117,7 +117,7 @@ class CI_DB_pdo_oci_driver extends CI_DB_pdo_driver
             }
 
             empty($this->char_set) or $this->dsn .= ';charset='.$this->char_set;
-        } elseif (!empty($this->char_set) && strpos($this->dsn, 'charset=', 4) === false) {
+        } elseif (! empty($this->char_set) && strpos($this->dsn, 'charset=', 4) === false) {
             $this->dsn .= ';charset='.$this->char_set;
         }
     }

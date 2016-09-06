@@ -161,7 +161,7 @@ class CI_DB_cubrid_driver extends CI_DB
             return $this->data_cache['version'];
         }
 
-        return (!$this->conn_id or ($version = cubrid_get_server_info($this->conn_id)) === false)
+        return (! $this->conn_id or ($version = cubrid_get_server_info($this->conn_id)) === false)
             ? false
             : $this->data_cache['version'] = $version;
     }
@@ -207,11 +207,11 @@ class CI_DB_cubrid_driver extends CI_DB
      */
     protected function _trans_commit()
     {
-        if (!cubrid_commit($this->conn_id)) {
+        if (! cubrid_commit($this->conn_id)) {
             return false;
         }
 
-        if ($this->auto_commit && !cubrid_get_autocommit($this->conn_id)) {
+        if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id)) {
             return cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
         }
 
@@ -227,11 +227,11 @@ class CI_DB_cubrid_driver extends CI_DB
      */
     protected function _trans_rollback()
     {
-        if (!cubrid_rollback($this->conn_id)) {
+        if (! cubrid_rollback($this->conn_id)) {
             return false;
         }
 
-        if ($this->auto_commit && !cubrid_get_autocommit($this->conn_id)) {
+        if ($this->auto_commit && ! cubrid_get_autocommit($this->conn_id)) {
             cubrid_set_autocommit($this->conn_id, CUBRID_AUTOCOMMIT_TRUE);
         }
 
@@ -374,7 +374,7 @@ class CI_DB_cubrid_driver extends CI_DB
      */
     protected function _from_tables()
     {
-        if (!empty($this->qb_join) && count($this->qb_from) > 1) {
+        if (! empty($this->qb_join) && count($this->qb_from) > 1) {
             return '('.implode(', ', $this->qb_from).')';
         }
 

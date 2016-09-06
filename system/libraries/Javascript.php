@@ -791,7 +791,7 @@ class CI_Javascript
         $json = [];
         $_is_assoc = true;
 
-        if (!is_array($json_result) && empty($json_result)) {
+        if (! is_array($json_result) && empty($json_result)) {
             show_error('Generate JSON Failed - Illegal key, value pair.');
         } elseif ($match_array_type) {
             $_is_assoc = $this->_is_associative_array($json_result);

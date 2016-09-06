@@ -61,7 +61,7 @@ class CI_Cache_wincache extends CI_Driver
      */
     public function __construct()
     {
-        if (!$this->is_supported()) {
+        if (! $this->is_supported()) {
             log_message('error', 'Cache: Failed to initialize Wincache; extension not loaded/enabled?');
         }
     }

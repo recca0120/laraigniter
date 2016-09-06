@@ -234,7 +234,7 @@ abstract class CI_DB_utility
      */
     public function csv_from_result($query, $delim = ',', $newline = "\n", $enclosure = '"')
     {
-        if (!is_object($query) or !method_exists($query, 'list_fields')) {
+        if (! is_object($query) or ! method_exists($query, 'list_fields')) {
             show_error('You must submit a valid result object');
         }
 
@@ -270,13 +270,13 @@ abstract class CI_DB_utility
      */
     public function xml_from_result($query, $params = [])
     {
-        if (!is_object($query) or !method_exists($query, 'list_fields')) {
+        if (! is_object($query) or ! method_exists($query, 'list_fields')) {
             show_error('You must submit a valid result object');
         }
 
         // Set our default values
         foreach (['root' => 'root', 'element' => 'element', 'newline' => "\n", 'tab' => "\t"] as $key => $val) {
-            if (!isset($params[$key])) {
+            if (! isset($params[$key])) {
                 $params[$key] = $val;
             }
         }
@@ -346,14 +346,14 @@ abstract class CI_DB_utility
         }
 
         // Validate the format
-        if (!in_array($prefs['format'], ['gzip', 'zip', 'txt'], true)) {
+        if (! in_array($prefs['format'], ['gzip', 'zip', 'txt'], true)) {
             $prefs['format'] = 'txt';
         }
 
         // Is the encoder supported? If not, we'll either issue an
         // error or use plain text depending on the debug settings
-        if (($prefs['format'] === 'gzip' && !function_exists('gzencode'))
-            or ($prefs['format'] === 'zip' && !function_exists('gzcompress'))) {
+        if (($prefs['format'] === 'gzip' && ! function_exists('gzencode'))
+            or ($prefs['format'] === 'zip' && ! function_exists('gzcompress'))) {
             if ($this->db->db_debug) {
                 return $this->db->display_error('db_unsupported_compression');
             }
@@ -374,7 +374,7 @@ abstract class CI_DB_utility
                 }
 
                 // Tack on the ".sql" file extension if needed
-                if (!preg_match('|.+?\.sql$|', $prefs['filename'])) {
+                if (! preg_match('|.+?\.sql$|', $prefs['filename'])) {
                     $prefs['filename'] .= '.sql';
                 }
             }

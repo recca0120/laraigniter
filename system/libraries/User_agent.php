@@ -357,7 +357,7 @@ class CI_User_agent
      */
     protected function _set_languages()
     {
-        if ((count($this->languages) === 0) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        if ((count($this->languages) === 0) && ! empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             $this->languages = explode(',', preg_replace('/(;\s?q=[0-9\.]+)|\s/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_LANGUAGE']))));
         }
 
@@ -375,7 +375,7 @@ class CI_User_agent
      */
     protected function _set_charsets()
     {
-        if ((count($this->charsets) === 0) && !empty($_SERVER['HTTP_ACCEPT_CHARSET'])) {
+        if ((count($this->charsets) === 0) && ! empty($_SERVER['HTTP_ACCEPT_CHARSET'])) {
             $this->charsets = explode(',', preg_replace('/(;\s?q=.+)|\s/i', '', strtolower(trim($_SERVER['HTTP_ACCEPT_CHARSET']))));
         }
 
@@ -395,7 +395,7 @@ class CI_User_agent
      */
     public function is_browser($key = null)
     {
-        if (!$this->is_browser) {
+        if (! $this->is_browser) {
             return false;
         }
 
@@ -419,7 +419,7 @@ class CI_User_agent
      */
     public function is_robot($key = null)
     {
-        if (!$this->is_robot) {
+        if (! $this->is_robot) {
             return false;
         }
 
@@ -443,7 +443,7 @@ class CI_User_agent
      */
     public function is_mobile($key = null)
     {
-        if (!$this->is_mobile) {
+        if (! $this->is_mobile) {
             return false;
         }
 
@@ -465,7 +465,7 @@ class CI_User_agent
      */
     public function is_referral()
     {
-        if (!isset($this->referer)) {
+        if (! isset($this->referer)) {
             if (empty($_SERVER['HTTP_REFERER'])) {
                 $this->referer = false;
             } else {
@@ -646,7 +646,7 @@ class CI_User_agent
         // Set the new user-agent string and parse it, unless empty
         $this->agent = $string;
 
-        if (!empty($string)) {
+        if (! empty($string)) {
             $this->_compile_data();
         }
     }

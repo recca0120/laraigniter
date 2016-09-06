@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('force_download')) {
+if (! function_exists('force_download')) {
     /**
      * Force Download.
      *
@@ -66,7 +66,7 @@ if (!function_exists('force_download')) {
         if ($filename === '' or $data === '') {
             return;
         } elseif ($data === null) {
-            if (!@is_file($filename) or ($filesize = @filesize($filename)) === false) {
+            if (! @is_file($filename) or ($filesize = @filesize($filename)) === false) {
                 return;
             }
 
@@ -134,7 +134,7 @@ if (!function_exists('force_download')) {
         }
 
         // Flush 1MB chunks of data
-        while (!feof($fp) && ($data = fread($fp, 1048576)) !== false) {
+        while (! feof($fp) && ($data = fread($fp, 1048576)) !== false) {
             echo $data;
         }
 

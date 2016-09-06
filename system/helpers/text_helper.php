@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('word_limiter')) {
+if (! function_exists('word_limiter')) {
     /**
      * Word Limiter.
      *
@@ -79,7 +79,7 @@ if (!function_exists('word_limiter')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('character_limiter')) {
+if (! function_exists('character_limiter')) {
     /**
      * Character Limiter.
      *
@@ -120,7 +120,7 @@ if (!function_exists('character_limiter')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('ascii_to_entities')) {
+if (! function_exists('ascii_to_entities')) {
     /**
      * High ASCII to Entities.
      *
@@ -176,7 +176,7 @@ if (!function_exists('ascii_to_entities')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('entities_to_ascii')) {
+if (! function_exists('entities_to_ascii')) {
     /**
      * Entities to ASCII.
      *
@@ -222,7 +222,7 @@ if (!function_exists('entities_to_ascii')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('word_censor')) {
+if (! function_exists('word_censor')) {
     /**
      * Word Censoring Function.
      *
@@ -238,7 +238,7 @@ if (!function_exists('word_censor')) {
      */
     function word_censor($str, $censored, $replacement = '')
     {
-        if (!is_array($censored)) {
+        if (! is_array($censored)) {
             return $str;
         }
 
@@ -278,7 +278,7 @@ if (!function_exists('word_censor')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('highlight_code')) {
+if (! function_exists('highlight_code')) {
     /**
      * Code Highlighter.
      *
@@ -333,7 +333,7 @@ if (!function_exists('highlight_code')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('highlight_phrase')) {
+if (! function_exists('highlight_phrase')) {
     /**
      * Phrase Highlighter.
      *
@@ -356,7 +356,7 @@ if (!function_exists('highlight_phrase')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('convert_accented_characters')) {
+if (! function_exists('convert_accented_characters')) {
     /**
      * Convert Accented Foreign Characters to ASCII.
      *
@@ -368,7 +368,7 @@ if (!function_exists('convert_accented_characters')) {
     {
         static $array_from, $array_to;
 
-        if (!is_array($array_from)) {
+        if (! is_array($array_from)) {
             if (file_exists(APPPATH.'config/foreign_chars.php')) {
                 include APPPATH.'config/foreign_chars.php';
             }
@@ -377,7 +377,7 @@ if (!function_exists('convert_accented_characters')) {
                 include APPPATH.'config/'.ENVIRONMENT.'/foreign_chars.php';
             }
 
-            if (empty($foreign_characters) or !is_array($foreign_characters)) {
+            if (empty($foreign_characters) or ! is_array($foreign_characters)) {
                 $array_from = [];
                 $array_to = [];
 
@@ -394,7 +394,7 @@ if (!function_exists('convert_accented_characters')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('word_wrap')) {
+if (! function_exists('word_wrap')) {
     /**
      * Word Wrap.
      *
@@ -479,7 +479,7 @@ if (!function_exists('word_wrap')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('ellipsize')) {
+if (! function_exists('ellipsize')) {
     /**
      * Ellipsize String.
      *

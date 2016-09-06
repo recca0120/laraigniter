@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('directory_map')) {
+if (! function_exists('directory_map')) {
     /**
      * Create a Directory Map.
      *

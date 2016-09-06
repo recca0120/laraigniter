@@ -125,7 +125,7 @@ class CI_DB_pdo_result extends CI_DB_result
                 $retval[$i]->name = $field['name'];
                 $retval[$i]->type = $field['native_type'];
                 $retval[$i]->max_length = ($field['len'] > 0) ? $field['len'] : null;
-                $retval[$i]->primary_key = (int) (!empty($field['flags']) && in_array('primary_key', $field['flags'], true));
+                $retval[$i]->primary_key = (int) (! empty($field['flags']) && in_array('primary_key', $field['flags'], true));
             }
 
             return $retval;

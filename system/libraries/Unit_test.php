@@ -127,7 +127,7 @@ class CI_Unit_test
      */
     public function set_test_items($items)
     {
-        if (!empty($items) && is_array($items)) {
+        if (! empty($items) && is_array($items)) {
             $this->_test_items_visible = $items;
         }
     }
@@ -278,7 +278,7 @@ class CI_Unit_test
         foreach ($results as $result) {
             $temp = [];
             foreach ($result as $key => $val) {
-                if (!in_array($key, $this->_test_items_visible)) {
+                if (! in_array($key, $this->_test_items_visible)) {
                     continue;
                 } elseif (in_array($key, ['test_name', 'test_datatype', 'test_res_datatype', 'result'], true)) {
                     if (false !== ($line = $CI->lang->line(strtolower('ut_'.$val), false))) {
@@ -360,7 +360,7 @@ class CI_Unit_test
             return;
         }
 
-        if ($this->_template === null or !preg_match('/\{rows\}(.*?)\{\/rows\}/si', $this->_template, $match)) {
+        if ($this->_template === null or ! preg_match('/\{rows\}(.*?)\{\/rows\}/si', $this->_template, $match)) {
             $this->_default_template();
 
             return;

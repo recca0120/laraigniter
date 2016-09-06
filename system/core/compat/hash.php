@@ -56,7 +56,7 @@ if (is_php('5.6')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('hash_equals')) {
+if (! function_exists('hash_equals')) {
     /**
      * hash_equals().
      *
@@ -69,11 +69,11 @@ if (!function_exists('hash_equals')) {
      */
     function hash_equals($known_string, $user_string)
     {
-        if (!is_string($known_string)) {
+        if (! is_string($known_string)) {
             trigger_error('hash_equals(): Expected known_string to be a string, '.strtolower(gettype($known_string)).' given', E_USER_WARNING);
 
             return false;
-        } elseif (!is_string($user_string)) {
+        } elseif (! is_string($user_string)) {
             trigger_error('hash_equals(): Expected user_string to be a string, '.strtolower(gettype($user_string)).' given', E_USER_WARNING);
 
             return false;
@@ -98,7 +98,7 @@ if (is_php('5.5')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('hash_pbkdf2')) {
+if (! function_exists('hash_pbkdf2')) {
     /**
      * hash_pbkdf2().
      *
@@ -115,7 +115,7 @@ if (!function_exists('hash_pbkdf2')) {
      */
     function hash_pbkdf2($algo, $password, $salt, $iterations, $length = 0, $raw_output = false)
     {
-        if (!in_array($algo, hash_algos(), true)) {
+        if (! in_array($algo, hash_algos(), true)) {
             trigger_error('hash_pbkdf2(): Unknown hashing algorithm: '.$algo, E_USER_WARNING);
 
             return false;

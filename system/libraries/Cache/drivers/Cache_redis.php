@@ -93,7 +93,7 @@ class CI_Cache_redis extends CI_Driver
      */
     public function __construct()
     {
-        if (!$this->is_supported()) {
+        if (! $this->is_supported()) {
             log_message('error', 'Cache: Failed to create Redis object; extension not loaded?');
 
             return;
@@ -116,11 +116,11 @@ class CI_Cache_redis extends CI_Driver
                 $success = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
             }
 
-            if (!$success) {
+            if (! $success) {
                 log_message('error', 'Cache: Redis connection failed. Check your configuration.');
             }
 
-            if (isset($config['password']) && !$this->_redis->auth($config['password'])) {
+            if (isset($config['password']) && ! $this->_redis->auth($config['password'])) {
                 log_message('error', 'Cache: Redis authentication failed.');
             }
         } catch (RedisException $e) {
@@ -167,7 +167,7 @@ class CI_Cache_redis extends CI_Driver
     public function save($id, $data, $ttl = 60, $raw = false)
     {
         if (is_array($data) or is_object($data)) {
-            if (!$this->_redis->sIsMember('_ci_redis_serialized', $id) && !$this->_redis->sAdd('_ci_redis_serialized', $id)) {
+            if (! $this->_redis->sIsMember('_ci_redis_serialized', $id) && ! $this->_redis->sAdd('_ci_redis_serialized', $id)) {
                 return false;
             }
 

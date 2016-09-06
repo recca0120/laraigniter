@@ -106,8 +106,8 @@ class CI_Cache extends CI_Driver_Library
         isset($config['key_prefix']) && $this->key_prefix = $config['key_prefix'];
 
         // If the specified adapter isn't available, check the backup.
-        if (!$this->is_supported($this->_adapter)) {
-            if (!$this->is_supported($this->_backup_driver)) {
+        if (! $this->is_supported($this->_adapter)) {
+            if (! $this->is_supported($this->_backup_driver)) {
                 // Backup isn't supported either. Default to 'Dummy' driver.
                 log_message('error', 'Cache adapter "'.$this->_adapter.'" and backup "'.$this->_backup_driver.'" are both unavailable. Cache is now using "Dummy" adapter.');
                 $this->_adapter = 'dummy';
@@ -250,7 +250,7 @@ class CI_Cache extends CI_Driver_Library
     {
         static $support;
 
-        if (!isset($support, $support[$driver])) {
+        if (! isset($support, $support[$driver])) {
             $support[$driver] = $this->{$driver}->is_supported();
         }
 

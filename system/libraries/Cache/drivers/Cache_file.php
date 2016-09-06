@@ -143,7 +143,7 @@ class CI_Cache_file extends CI_Driver
 
         if ($data === false) {
             $data = ['data' => 0, 'ttl' => 60];
-        } elseif (!is_int($data['data'])) {
+        } elseif (! is_int($data['data'])) {
             return false;
         }
 
@@ -170,7 +170,7 @@ class CI_Cache_file extends CI_Driver
 
         if ($data === false) {
             $data = ['data' => 0, 'ttl' => 60];
-        } elseif (!is_int($data['data'])) {
+        } elseif (! is_int($data['data'])) {
             return false;
         }
 
@@ -220,7 +220,7 @@ class CI_Cache_file extends CI_Driver
      */
     public function get_metadata($id)
     {
-        if (!file_exists($this->_cache_path.$id)) {
+        if (! file_exists($this->_cache_path.$id)) {
             return false;
         }
 
@@ -229,7 +229,7 @@ class CI_Cache_file extends CI_Driver
         if (is_array($data)) {
             $mtime = filemtime($this->_cache_path.$id);
 
-            if (!isset($data['ttl'])) {
+            if (! isset($data['ttl'])) {
                 return false;
             }
 
@@ -269,7 +269,7 @@ class CI_Cache_file extends CI_Driver
      */
     protected function _get($id)
     {
-        if (!is_file($this->_cache_path.$id)) {
+        if (! is_file($this->_cache_path.$id)) {
             return false;
         }
 

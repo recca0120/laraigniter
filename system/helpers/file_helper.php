@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('read_file')) {
+if (! function_exists('read_file')) {
     /**
      * Read File.
      *
@@ -71,7 +71,7 @@ if (!function_exists('read_file')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('write_file')) {
+if (! function_exists('write_file')) {
     /**
      * Write File.
      *
@@ -86,7 +86,7 @@ if (!function_exists('write_file')) {
      */
     function write_file($path, $data, $mode = 'wb')
     {
-        if (!$fp = @fopen($path, $mode)) {
+        if (! $fp = @fopen($path, $mode)) {
             return false;
         }
 
@@ -107,7 +107,7 @@ if (!function_exists('write_file')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('delete_files')) {
+if (! function_exists('delete_files')) {
     /**
      * Delete Files.
      *
@@ -128,7 +128,7 @@ if (!function_exists('delete_files')) {
         // Trim the trailing slash
         $path = rtrim($path, '/\\');
 
-        if (!$current_dir = @opendir($path)) {
+        if (! $current_dir = @opendir($path)) {
             return false;
         }
 
@@ -136,9 +136,9 @@ if (!function_exists('delete_files')) {
             if ($filename !== '.' && $filename !== '..') {
                 $filepath = $path.DIRECTORY_SEPARATOR.$filename;
 
-                if (is_dir($filepath) && $filename[0] !== '.' && !is_link($filepath)) {
+                if (is_dir($filepath) && $filename[0] !== '.' && ! is_link($filepath)) {
                     delete_files($filepath, $del_dir, $htdocs, $_level + 1);
-                } elseif ($htdocs !== true or !preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename)) {
+                } elseif ($htdocs !== true or ! preg_match('/^(\.htaccess|index\.(html|htm|php)|web\.config)$/i', $filename)) {
                     @unlink($filepath);
                 }
             }
@@ -154,7 +154,7 @@ if (!function_exists('delete_files')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('get_filenames')) {
+if (! function_exists('get_filenames')) {
     /**
      * Get Filenames.
      *
@@ -197,7 +197,7 @@ if (!function_exists('get_filenames')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('get_dir_file_info')) {
+if (! function_exists('get_dir_file_info')) {
     /**
      * Get Directory File Information.
      *
@@ -245,7 +245,7 @@ if (!function_exists('get_dir_file_info')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('get_file_info')) {
+if (! function_exists('get_file_info')) {
     /**
      * Get File Info.
      *
@@ -261,7 +261,7 @@ if (!function_exists('get_file_info')) {
      */
     function get_file_info($file, $returned_values = ['name', 'server_path', 'size', 'date'])
     {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             return false;
         }
 
@@ -304,7 +304,7 @@ if (!function_exists('get_file_info')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('get_mime_by_extension')) {
+if (! function_exists('get_mime_by_extension')) {
     /**
      * Get Mime by Extension.
      *
@@ -322,7 +322,7 @@ if (!function_exists('get_mime_by_extension')) {
     {
         static $mimes;
 
-        if (!is_array($mimes)) {
+        if (! is_array($mimes)) {
             $mimes = get_mimes();
 
             if (empty($mimes)) {
@@ -344,7 +344,7 @@ if (!function_exists('get_mime_by_extension')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('symbolic_permissions')) {
+if (! function_exists('symbolic_permissions')) {
     /**
      * Symbolic Permissions.
      *
@@ -396,7 +396,7 @@ if (!function_exists('symbolic_permissions')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('octal_permissions')) {
+if (! function_exists('octal_permissions')) {
     /**
      * Octal Permissions.
      *

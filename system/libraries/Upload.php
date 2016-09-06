@@ -370,7 +370,7 @@ class CI_Upload
             $_file = $_FILES;
             for ($i = 0; $i < $c; $i++) {
                 // We can't track numeric iterations, only full field names are accepted
-                if (($field = trim($matches[0][$i], '[]')) === '' or !isset($_file[$field])) {
+                if (($field = trim($matches[0][$i], '[]')) === '' or ! isset($_file[$field])) {
                     $_file = null;
                     break;
                 }
@@ -379,20 +379,20 @@ class CI_Upload
             }
         }
 
-        if (!isset($_file)) {
+        if (! isset($_file)) {
             $this->set_error('upload_no_file_selected', 'debug');
 
             return false;
         }
 
         // Is the upload path valid?
-        if (!$this->validate_upload_path()) {
+        if (! $this->validate_upload_path()) {
             // errors will already be set by validate_upload_path() so just return FALSE
             return false;
         }
 
         // Was the file able to be uploaded? If not, determine the reason why.
-        if (!is_uploaded_file($_file['tmp_name'])) {
+        if (! is_uploaded_file($_file['tmp_name'])) {
             $error = isset($_file['error']) ? $_file['error'] : 4;
 
             switch ($error) {
@@ -441,7 +441,7 @@ class CI_Upload
         $this->client_name = $this->file_name;
 
         // Is the file type allowed to be uploaded?
-        if (!$this->is_allowed_filetype()) {
+        if (! $this->is_allowed_filetype()) {
             $this->set_error('upload_invalid_filetype', 'debug');
 
             return false;
@@ -459,7 +459,7 @@ class CI_Upload
                 $this->file_ext = $this->get_extension($this->_file_name_override);
             }
 
-            if (!$this->is_allowed_filetype(true)) {
+            if (! $this->is_allowed_filetype(true)) {
                 $this->set_error('upload_invalid_filetype', 'debug');
 
                 return false;
@@ -472,7 +472,7 @@ class CI_Upload
         }
 
         // Is the file size within the allowed maximum?
-        if (!$this->is_allowed_filesize()) {
+        if (! $this->is_allowed_filesize()) {
             $this->set_error('upload_invalid_filesize', 'info');
 
             return false;
@@ -480,7 +480,7 @@ class CI_Upload
 
         // Are the image dimensions within the allowed size?
         // Note: This can fail if the server has an open_basedir restriction.
-        if (!$this->is_allowed_dimensions()) {
+        if (! $this->is_allowed_dimensions()) {
             $this->set_error('upload_invalid_dimensions', 'info');
 
             return false;
@@ -534,8 +534,8 @@ class CI_Upload
          * we'll use move_uploaded_file(). One of the two should
          * reliably work in most environments
          */
-        if (!@copy($this->file_temp, $this->upload_path.$this->file_name)) {
-            if (!@move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name)) {
+        if (! @copy($this->file_temp, $this->upload_path.$this->file_name)) {
+            if (! @move_uploaded_file($this->file_temp, $this->upload_path.$this->file_name)) {
                 $this->set_error('upload_destination_error', 'error');
 
                 return false;
@@ -584,7 +584,7 @@ class CI_Upload
                 'image_size_str' => $this->image_size_str,
             ];
 
-        if (!empty($index)) {
+        if (! empty($index)) {
             return isset($data[$index]) ? $data[$index] : null;
         }
 
@@ -628,7 +628,7 @@ class CI_Upload
             $filename = md5(uniqid(mt_rand())).$this->file_ext;
         }
 
-        if ($this->overwrite === true or !file_exists($path.$filename)) {
+        if ($this->overwrite === true or ! file_exists($path.$filename)) {
             return $filename;
         }
 
@@ -636,7 +636,7 @@ class CI_Upload
 
         $new_filename = '';
         for ($i = 1; $i < $this->max_filename_increment; $i++) {
-            if (!file_exists($path.$filename.$i.$this->file_ext)) {
+            if (! file_exists($path.$filename.$i.$this->file_ext)) {
                 $new_filename = $filename.$i.$this->file_ext;
                 break;
             }
@@ -869,7 +869,7 @@ class CI_Upload
             return true;
         }
 
-        if (empty($this->allowed_types) or !is_array($this->allowed_types)) {
+        if (empty($this->allowed_types) or ! is_array($this->allowed_types)) {
             $this->set_error('upload_no_file_types', 'debug');
 
             return false;
@@ -877,7 +877,7 @@ class CI_Upload
 
         $ext = strtolower(ltrim($this->file_ext, '.'));
 
-        if (!in_array($ext, $this->allowed_types, true)) {
+        if (! in_array($ext, $this->allowed_types, true)) {
             return false;
         }
 
@@ -920,7 +920,7 @@ class CI_Upload
      */
     public function is_allowed_dimensions()
     {
-        if (!$this->is_image()) {
+        if (! $this->is_image()) {
             return true;
         }
 
@@ -968,13 +968,13 @@ class CI_Upload
             $this->upload_path = str_replace('\\', '/', realpath($this->upload_path));
         }
 
-        if (!is_dir($this->upload_path)) {
+        if (! is_dir($this->upload_path)) {
             $this->set_error('upload_no_filepath', 'error');
 
             return false;
         }
 
-        if (!is_really_writable($this->upload_path)) {
+        if (! is_really_writable($this->upload_path)) {
             $this->set_error('upload_not_writable', 'error');
 
             return false;
@@ -1084,7 +1084,7 @@ class CI_Upload
             // title is basically just in SVG, but we filter it anyhow
 
             // if it's an image or no "triggers" detected in the first 256 bytes - we're good
-            return !preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
+            return ! preg_match('/<(a|body|head|html|img|plaintext|pre|script|table|title)[\s>]/i', $opening_bytes);
         }
 
         if (($data = @file_get_contents($file)) === false) {
@@ -1228,7 +1228,7 @@ class CI_Upload
                 }
             }
 
-            if (!ini_get('safe_mode') && function_usable('shell_exec')) {
+            if (! ini_get('safe_mode') && function_usable('shell_exec')) {
                 $mime = @shell_exec($cmd);
                 if (strlen($mime) > 0) {
                     $mime = explode("\n", trim($mime));

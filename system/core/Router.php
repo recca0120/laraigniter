@@ -127,7 +127,7 @@ class CI_Router
         $this->config = &load_class('Config', 'core');
         $this->uri = &load_class('URI', 'core');
 
-        $this->enable_query_strings = (!is_cli() && $this->config->item('enable_query_strings') === true);
+        $this->enable_query_strings = (! is_cli() && $this->config->item('enable_query_strings') === true);
 
         // If a directory override is configured, it has to be set before any dynamic routing logic
         is_array($routing) && isset($routing['directory']) && $this->set_directory($routing['directory']);
@@ -178,7 +178,7 @@ class CI_Router
         // If this feature is enabled, we will gather the directory/class/method a little differently
         if ($this->enable_query_strings) {
             // If the directory is set at this time, it means an override exists, so skip the checks
-            if (!isset($this->directory)) {
+            if (! isset($this->directory)) {
                 $_d = $this->config->item('directory_trigger');
                 $_d = isset($_GET[$_d]) ? trim($_GET[$_d], " \t\n\r\0\x0B/") : '';
 
@@ -189,12 +189,12 @@ class CI_Router
             }
 
             $_c = trim($this->config->item('controller_trigger'));
-            if (!empty($_GET[$_c])) {
+            if (! empty($_GET[$_c])) {
                 $this->uri->filter_uri($_GET[$_c]);
                 $this->set_class($_GET[$_c]);
 
                 $_f = trim($this->config->item('function_trigger'));
-                if (!empty($_GET[$_f])) {
+                if (! empty($_GET[$_f])) {
                     $this->uri->filter_uri($_GET[$_f]);
                     $this->set_method($_GET[$_f]);
                 }
@@ -282,7 +282,7 @@ class CI_Router
             $method = 'index';
         }
 
-        if (!file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).'.php')) {
+        if (! file_exists(APPPATH.'controllers/'.$this->directory.ucfirst($class).'.php')) {
             // This will trigger 404 later
             return;
         }
@@ -323,7 +323,7 @@ class CI_Router
             $test = $this->directory
                 .ucfirst($this->translate_uri_dashes === true ? str_replace('-', '_', $segments[0]) : $segments[0]);
 
-            if (!file_exists(APPPATH.'controllers/'.$test.'.php')
+            if (! file_exists(APPPATH.'controllers/'.$test.'.php')
                 && $directory_override === false
                 && is_dir(APPPATH.'controllers/'.$this->directory.$segments[0])
             ) {
@@ -374,7 +374,7 @@ class CI_Router
             // Does the RegEx match?
             if (preg_match('#^'.$key.'$#', $uri, $matches)) {
                 // Are we using callbacks to process back-references?
-                if (!is_string($val) && is_callable($val)) {
+                if (! is_string($val) && is_callable($val)) {
                     // Remove the original string from the matches array.
                     array_shift($matches);
 

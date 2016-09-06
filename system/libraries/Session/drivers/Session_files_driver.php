@@ -112,11 +112,11 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
      */
     public function open($save_path, $name)
     {
-        if (!is_dir($save_path)) {
-            if (!mkdir($save_path, 0700, true)) {
+        if (! is_dir($save_path)) {
+            if (! mkdir($save_path, 0700, true)) {
                 throw new Exception("Session: Configured save path '".$this->_config['save_path']."' is not a directory, doesn't exist or cannot be created.");
             }
-        } elseif (!is_writable($save_path)) {
+        } elseif (! is_writable($save_path)) {
             throw new Exception("Session: Configured save path '".$this->_config['save_path']."' is not writable by the PHP process.");
         }
 
@@ -147,7 +147,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
             // Just using fopen() with 'c+b' mode would be perfect, but it is only
             // available since PHP 5.2.6 and we have to set permissions for new files,
             // so we'd have to hack around this ...
-            if (($this->_file_new = !file_exists($this->_file_path.$session_id)) === true) {
+            if (($this->_file_new = ! file_exists($this->_file_path.$session_id)) === true) {
                 if (($this->_file_handle = fopen($this->_file_path.$session_id, 'w+b')) === false) {
                     log_message('error', "Session: File '".$this->_file_path.$session_id."' doesn't exist and cannot be created.");
 
@@ -219,15 +219,15 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
             return $this->_failure;
         }
 
-        if (!is_resource($this->_file_handle)) {
+        if (! is_resource($this->_file_handle)) {
             return $this->_failure;
         } elseif ($this->_fingerprint === md5($session_data)) {
-            return (!$this->_file_new && !touch($this->_file_path.$session_id))
+            return (! $this->_file_new && ! touch($this->_file_path.$session_id))
                 ? $this->_failure
                 : $this->_success;
         }
 
-        if (!$this->_file_new) {
+        if (! $this->_file_new) {
             ftruncate($this->_file_handle, 0);
             rewind($this->_file_handle);
         }
@@ -239,7 +239,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
                 }
             }
 
-            if (!is_int($result)) {
+            if (! is_int($result)) {
                 $this->_fingerprint = md5(substr($session_data, 0, $written));
                 log_message('error', 'Session: Unable to write data.');
 
@@ -325,7 +325,7 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
      */
     public function gc($maxlifetime)
     {
-        if (!is_dir($this->_config['save_path']) or ($directory = opendir($this->_config['save_path'])) === false) {
+        if (! is_dir($this->_config['save_path']) or ($directory = opendir($this->_config['save_path'])) === false) {
             log_message('debug', "Session: Garbage collector couldn't list files under directory '".$this->_config['save_path']."'.");
 
             return $this->_failure;
@@ -341,8 +341,8 @@ class CI_Session_files_driver extends CI_Session_driver implements SessionHandle
 
         while (($file = readdir($directory)) !== false) {
             // If the filename doesn't match this pattern, it's either not a session file or is not ours
-            if (!preg_match($pattern, $file)
-                or !is_file($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)
+            if (! preg_match($pattern, $file)
+                or ! is_file($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)
                 or ($mtime = filemtime($this->_config['save_path'].DIRECTORY_SEPARATOR.$file)) === false
                 or $mtime > $ts) {
                 continue;

@@ -198,7 +198,7 @@ class CI_Typography
         }
 
         // No opening block level tag? Add it if needed.
-        if (!preg_match('/^\s*<(?:'.$this->block_elements.')/i', $str)) {
+        if (! preg_match('/^\s*<(?:'.$this->block_elements.')/i', $str)) {
             $str = preg_replace('/^(.*?)<('.$this->block_elements.')/i', '<p>$1</p><$2', $str);
         }
 
@@ -277,7 +277,7 @@ class CI_Typography
     {
         static $table;
 
-        if (!isset($table)) {
+        if (! isset($table)) {
             $table = [
                             // nested smart quotes, opening and closing
                             // note that rules for grammar (English) allow only for two levels deep
@@ -338,7 +338,7 @@ class CI_Typography
      */
     protected function _format_newlines($str)
     {
-        if ($str === '' or (strpos($str, "\n") === false && !in_array($this->last_block_element, $this->inner_block_required))) {
+        if ($str === '' or (strpos($str, "\n") === false && ! in_array($this->last_block_element, $this->inner_block_required))) {
             return $str;
         }
 

@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('lang')) {
+if (! function_exists('lang')) {
     /**
      * Lang.
      *

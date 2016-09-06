@@ -176,7 +176,7 @@ class CI_DB_odbc_result extends CI_DB_result
     {
         $row = odbc_fetch_object($this->result_id);
 
-        if ($class_name === 'stdClass' or !$row) {
+        if ($class_name === 'stdClass' or ! $row) {
             return $row;
         }
 
@@ -191,7 +191,7 @@ class CI_DB_odbc_result extends CI_DB_result
 
 // --------------------------------------------------------------------
 
-if (!function_exists('odbc_fetch_array')) {
+if (! function_exists('odbc_fetch_array')) {
     /**
      * ODBC Fetch array.
      *
@@ -206,7 +206,7 @@ if (!function_exists('odbc_fetch_array')) {
     function odbc_fetch_array(&$result, $rownumber = 1)
     {
         $rs = [];
-        if (!odbc_fetch_into($result, $rs, $rownumber)) {
+        if (! odbc_fetch_into($result, $rs, $rownumber)) {
             return false;
         }
 
@@ -222,7 +222,7 @@ if (!function_exists('odbc_fetch_array')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('odbc_fetch_object')) {
+if (! function_exists('odbc_fetch_object')) {
     /**
      * ODBC Fetch object.
      *
@@ -237,7 +237,7 @@ if (!function_exists('odbc_fetch_object')) {
     function odbc_fetch_object(&$result, $rownumber = 1)
     {
         $rs = [];
-        if (!odbc_fetch_into($result, $rs, $rownumber)) {
+        if (! odbc_fetch_into($result, $rs, $rownumber)) {
             return false;
         }
 

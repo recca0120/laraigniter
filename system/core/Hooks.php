@@ -106,7 +106,7 @@ class CI_Hooks
         }
 
         // If there are no hooks, we're done.
-        if (!isset($hook) or !is_array($hook)) {
+        if (! isset($hook) or ! is_array($hook)) {
             return;
         }
 
@@ -129,11 +129,11 @@ class CI_Hooks
      */
     public function call_hook($which = '')
     {
-        if (!$this->enabled or !isset($this->hooks[$which])) {
+        if (! $this->enabled or ! isset($this->hooks[$which])) {
             return false;
         }
 
-        if (is_array($this->hooks[$which]) && !isset($this->hooks[$which]['function'])) {
+        if (is_array($this->hooks[$which]) && ! isset($this->hooks[$which]['function'])) {
             foreach ($this->hooks[$which] as $val) {
                 $this->_run_hook($val);
             }
@@ -164,7 +164,7 @@ class CI_Hooks
                 : $data();
 
             return true;
-        } elseif (!is_array($data)) {
+        } elseif (! is_array($data)) {
             return false;
         }
 
@@ -182,13 +182,13 @@ class CI_Hooks
         // Set file path
         // -----------------------------------
 
-        if (!isset($data['filepath'], $data['filename'])) {
+        if (! isset($data['filepath'], $data['filename'])) {
             return false;
         }
 
         $filepath = APPPATH.$data['filepath'].'/'.$data['filename'];
 
-        if (!file_exists($filepath)) {
+        if (! file_exists($filepath)) {
             return false;
         }
 
@@ -216,7 +216,7 @@ class CI_Hooks
             } else {
                 class_exists($class, false) or require_once $filepath;
 
-                if (!class_exists($class, false) or !method_exists($class, $function)) {
+                if (! class_exists($class, false) or ! method_exists($class, $function)) {
                     return $this->_in_progress = false;
                 }
 
@@ -227,7 +227,7 @@ class CI_Hooks
         } else {
             function_exists($function) or require_once $filepath;
 
-            if (!function_exists($function)) {
+            if (! function_exists($function)) {
                 return $this->_in_progress = false;
             }
 

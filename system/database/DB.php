@@ -55,8 +55,8 @@ function &DB($params = '', $query_builder_override = null)
     // Load the DB config file if a DSN string wasn't passed
     if (is_string($params) && strpos($params, '://') === false) {
         // Is the config file in the environment folder?
-        if (!file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')
-            && !file_exists($file_path = APPPATH.'config/database.php')) {
+        if (! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php')
+            && ! file_exists($file_path = APPPATH.'config/database.php')) {
             show_error('The configuration file database.php does not exist.');
         }
 
@@ -76,7 +76,7 @@ function &DB($params = '', $query_builder_override = null)
             }
         }
 
-        if (!isset($db) or count($db) === 0) {
+        if (! isset($db) or count($db) === 0) {
             show_error('No database connection settings were found in the database config file.');
         }
 
@@ -84,9 +84,9 @@ function &DB($params = '', $query_builder_override = null)
             $active_group = $params;
         }
 
-        if (!isset($active_group)) {
+        if (! isset($active_group)) {
             show_error('You have not specified a database connection group via $active_group in your config/database.php file.');
-        } elseif (!isset($db[$active_group])) {
+        } elseif (! isset($db[$active_group])) {
             show_error('You have specified an invalid database connection group ('.$active_group.') in your config/database.php file.');
         }
 
@@ -140,15 +140,15 @@ function &DB($params = '', $query_builder_override = null)
     // Backwards compatibility work-around for keeping the
     // $active_record config variable working. Should be
     // removed in v3.1
-    elseif (!isset($query_builder) && isset($active_record)) {
+    elseif (! isset($query_builder) && isset($active_record)) {
         $query_builder = $active_record;
     }
 
     require_once BASEPATH.'database/DB_driver.php';
 
-    if (!isset($query_builder) or $query_builder === true) {
+    if (! isset($query_builder) or $query_builder === true) {
         require_once BASEPATH.'database/DB_query_builder.php';
-        if (!class_exists('CI_DB', false)) {
+        if (! class_exists('CI_DB', false)) {
             /**
              * CI_DB.
              *
@@ -161,7 +161,7 @@ function &DB($params = '', $query_builder_override = null)
             {
             }
         }
-    } elseif (!class_exists('CI_DB', false)) {
+    } elseif (! class_exists('CI_DB', false)) {
         /**
          * @ignore
          */
@@ -181,7 +181,7 @@ function &DB($params = '', $query_builder_override = null)
     $DB = new $driver($params);
 
     // Check for a subdriver
-    if (!empty($DB->subdriver)) {
+    if (! empty($DB->subdriver)) {
         $driver_file = BASEPATH.'database/drivers/'.$DB->dbdriver.'/subdrivers/'.$DB->dbdriver.'_'.$DB->subdriver.'_driver.php';
 
         if (file_exists($driver_file)) {

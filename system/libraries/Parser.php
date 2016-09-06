@@ -224,7 +224,7 @@ class CI_Parser
                 foreach ($row as $key => $val) {
                     if (is_array($val)) {
                         $pair = $this->_parse_pair($key, $val, $match[1]);
-                        if (!empty($pair)) {
+                        if (! empty($pair)) {
                             $temp = array_merge($temp, $pair);
                         }
 
