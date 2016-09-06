@@ -95,7 +95,7 @@ class CI_Driver_Library
         // Get CodeIgniter instance and subclass prefix
         $prefix = config_item('subclass_prefix');
 
-        if (!isset($this->lib_name)) {
+        if (! isset($this->lib_name)) {
             // Get library name without any prefix
             $this->lib_name = str_replace(['CI_', $prefix], '', get_class($this));
         }
@@ -104,7 +104,7 @@ class CI_Driver_Library
         $child_name = $this->lib_name.'_'.$child;
 
         // See if requested child is a valid driver
-        if (!in_array($child, $this->valid_drivers)) {
+        if (! in_array($child, $this->valid_drivers)) {
             // The requested driver isn't valid!
             $msg = 'Invalid driver requested: '.$child_name;
             log_message('error', $msg);
@@ -118,7 +118,7 @@ class CI_Driver_Library
         // Is there an extension?
         $class_name = $prefix.$child_name;
         $found = class_exists($class_name, false);
-        if (!$found) {
+        if (! $found) {
             // Check for subclass file
             foreach ($paths as $path) {
                 // Does the file exist?
@@ -126,7 +126,7 @@ class CI_Driver_Library
                 if (file_exists($file)) {
                     // Yes - require base class from BASEPATH
                     $basepath = BASEPATH.'libraries/'.$this->lib_name.'/drivers/'.$child_name.'.php';
-                    if (!file_exists($basepath)) {
+                    if (! file_exists($basepath)) {
                         $msg = 'Unable to load the requested class: CI_'.$child_name;
                         log_message('error', $msg);
                         show_error($msg);
@@ -142,10 +142,10 @@ class CI_Driver_Library
         }
 
         // Do we need to search for the class?
-        if (!$found) {
+        if (! $found) {
             // Use standard class name
             $class_name = 'CI_'.$child_name;
-            if (!class_exists($class_name, false)) {
+            if (! class_exists($class_name, false)) {
                 // Check package paths
                 foreach ($paths as $path) {
                     // Does the file exist?
@@ -160,7 +160,7 @@ class CI_Driver_Library
         }
 
         // Did we finally find the class?
-        if (!class_exists($class_name, false)) {
+        if (! class_exists($class_name, false)) {
             if (class_exists($child_name, false)) {
                 $class_name = $child_name;
             } else {
@@ -243,7 +243,7 @@ class CI_Driver
 
         $class_name = get_class($parent);
 
-        if (!isset(self::$_reflections[$class_name])) {
+        if (! isset(self::$_reflections[$class_name])) {
             $r = new ReflectionObject($parent);
 
             foreach ($r->getMethods() as $method) {

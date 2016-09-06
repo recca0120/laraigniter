@@ -145,7 +145,7 @@ class CI_DB_pdo_informix_forge extends CI_DB_pdo_forge
      */
     protected function _attr_unique(&$attributes, &$field)
     {
-        if (!empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === true) {
+        if (! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === true) {
             $field['unique'] = ' UNIQUE CONSTRAINT '.$this->db->escape_identifiers($field['name']);
         }
     }

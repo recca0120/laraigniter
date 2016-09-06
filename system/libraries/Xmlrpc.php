@@ -37,7 +37,7 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-if (!function_exists('xml_parser_create')) {
+if (! function_exists('xml_parser_create')) {
     show_error('Your PHP installation does not support XML');
 }
 
@@ -363,7 +363,7 @@ class CI_Xmlrpc
 
         $path = isset($parts['path']) ? $parts['path'] : '/';
 
-        if (!empty($parts['query'])) {
+        if (! empty($parts['query'])) {
             $path .= '?'.$parts['query'];
         }
 
@@ -411,7 +411,7 @@ class CI_Xmlrpc
      */
     public function request($incoming)
     {
-        if (!is_array($incoming)) {
+        if (! is_array($incoming)) {
             // Send Error
             return;
         }
@@ -449,7 +449,7 @@ class CI_Xmlrpc
     public function values_parsing($value)
     {
         if (is_array($value) && array_key_exists(0, $value)) {
-            if (!isset($value[1], $this->xmlrpcTypes[$value[1]])) {
+            if (! isset($value[1], $this->xmlrpcTypes[$value[1]])) {
                 $temp = new XML_RPC_Values($value[0], (is_array($value[0]) ? 'array' : 'string'));
             } else {
                 if (is_array($value[0]) && ($value[1] === 'struct' or $value[1] === 'array')) {
@@ -479,7 +479,7 @@ class CI_Xmlrpc
         $this->message = new XML_RPC_Message($this->method, $this->data);
         $this->message->debug = $this->debug;
 
-        if (!$this->result = $this->client->send($this->message) or !is_object($this->result->val)) {
+        if (! $this->result = $this->client->send($this->message) or ! is_object($this->result->val)) {
             $this->error = $this->result->errstr;
 
             return false;
@@ -705,7 +705,7 @@ class XML_RPC_Client extends CI_Xmlrpc
 
         $fp = @fsockopen($server, $port, $this->errno, $this->errstring, $this->timeout);
 
-        if (!is_resource($fp)) {
+        if (! is_resource($fp)) {
             error_log($this->xmlrpcstr['http_error']);
 
             return new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error']);
@@ -823,7 +823,7 @@ class XML_RPC_Response
             $this->errstr = htmlspecialchars($fstr,
                             (is_php('5.4') ? ENT_XML1 | ENT_NOQUOTES : ENT_NOQUOTES),
                             'UTF-8');
-        } elseif (!is_object($val)) {
+        } elseif (! is_object($val)) {
             // programmer error, not an object
             error_log("Invalid type '".gettype($val)."' (value: ".$val.') passed to XML_RPC_Response. Defaulting to empty value.');
             $this->val = new XML_RPC_Values();
@@ -1107,7 +1107,7 @@ class XML_RPC_Message extends CI_Xmlrpc
         }
 
         // Check for HTTP 200 Response
-        if (strpos($data, 'HTTP') === 0 && !preg_match('/^HTTP\/[0-9\.]+ 200 /', $data)) {
+        if (strpos($data, 'HTTP') === 0 && ! preg_match('/^HTTP\/[0-9\.]+ 200 /', $data)) {
             $errstr = substr($data, 0, strpos($data, "\n") - 1);
 
             return new XML_RPC_Response(0, $this->xmlrpcerr['http_error'], $this->xmlrpcstr['http_error'].' ('.$errstr.')');
@@ -1145,7 +1145,7 @@ class XML_RPC_Message extends CI_Xmlrpc
         $data = implode("\r\n", $lines);
 
         // Parse XML data
-        if (!xml_parse($parser, $data, count($data))) {
+        if (! xml_parse($parser, $data, count($data))) {
             $errstr = sprintf('XML error: %s at line %d',
                         xml_error_string(xml_get_error_code($parser)),
                         xml_get_current_line_number($parser));
@@ -1164,7 +1164,7 @@ class XML_RPC_Message extends CI_Xmlrpc
             }
 
             return new XML_RPC_Response(0, $this->xmlrpcerr['invalid_return'], $this->xmlrpcstr['invalid_return'].' '.$this->xh[$pname]['isf_reason']);
-        } elseif (!is_object($this->xh[$pname]['value'])) {
+        } elseif (! is_object($this->xh[$pname]['value'])) {
             return new XML_RPC_Response(0, $this->xmlrpcerr['invalid_return'], $this->xmlrpcstr['invalid_return'].' '.$this->xh[$pname]['isf_reason']);
         }
 
@@ -1252,7 +1252,7 @@ class XML_RPC_Message extends CI_Xmlrpc
             }
         }
         // not top level element: see if parent is OK
-        elseif (!in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name], true)) {
+        elseif (! in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name], true)) {
             $this->xh[$the_parser]['isf'] = 2;
             $this->xh[$the_parser]['isf_reason'] = 'XML-RPC element '.$name.' cannot be child of '.$this->xh[$the_parser]['stack'][0];
 
@@ -1468,7 +1468,7 @@ class XML_RPC_Message extends CI_Xmlrpc
                 $this->xh[$the_parser]['lv'] = 2; // Found a value
             }
 
-            if (!isset($this->xh[$the_parser]['ac'])) {
+            if (! isset($this->xh[$the_parser]['ac'])) {
                 $this->xh[$the_parser]['ac'] = '';
             }
 
@@ -1503,7 +1503,7 @@ class XML_RPC_Message extends CI_Xmlrpc
     {
         $CI = &get_instance();
 
-        if (!empty($array)) {
+        if (! empty($array)) {
             while (list($key) = each($array)) {
                 if (is_array($array[$key])) {
                     $array[$key] = $this->output_parameters($array[$key]);

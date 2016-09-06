@@ -130,7 +130,7 @@ class CI_Zip
     public function add_dir($directory)
     {
         foreach ((array) $directory as $dir) {
-            if (!preg_match('|.+/$|', $dir)) {
+            if (! preg_match('|.+/$|', $dir)) {
                 $dir .= '/';
             }
 
@@ -341,7 +341,7 @@ class CI_Zip
     public function read_dir($path, $preserve_filepath = true, $root_path = null)
     {
         $path = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
-        if (!$fp = @opendir($path)) {
+        if (! $fp = @opendir($path)) {
             return false;
         }
 
@@ -408,7 +408,7 @@ class CI_Zip
      */
     public function archive($filepath)
     {
-        if (!($fp = @fopen($filepath, 'w+b'))) {
+        if (! ($fp = @fopen($filepath, 'w+b'))) {
             return false;
         }
 
@@ -437,7 +437,7 @@ class CI_Zip
      */
     public function download($filename = 'backup.zip')
     {
-        if (!preg_match('|.+?\.zip$|', $filename)) {
+        if (! preg_match('|.+?\.zip$|', $filename)) {
             $filename .= '.zip';
         }
 

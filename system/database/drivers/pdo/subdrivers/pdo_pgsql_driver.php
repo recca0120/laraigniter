@@ -96,7 +96,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver
             empty($this->port) or $this->dsn .= ';port='.$this->port;
             empty($this->database) or $this->dsn .= ';dbname='.$this->database;
 
-            if (!empty($this->username)) {
+            if (! empty($this->username)) {
                 $this->dsn .= ';username='.$this->username;
                 empty($this->password) or $this->dsn .= ';password='.$this->password;
             }
@@ -116,7 +116,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver
     {
         $this->conn_id = parent::db_connect($persistent);
 
-        if (is_object($this->conn_id) && !empty($this->schema)) {
+        if (is_object($this->conn_id) && ! empty($this->schema)) {
             $this->simple_query('SET search_path TO '.$this->schema.',public');
         }
 
@@ -197,7 +197,7 @@ class CI_DB_pdo_pgsql_driver extends CI_DB_pdo_driver
     {
         $direction = strtoupper(trim($direction));
         if ($direction === 'RANDOM') {
-            if (!is_float($orderby) && ctype_digit((string) $orderby)) {
+            if (! is_float($orderby) && ctype_digit((string) $orderby)) {
                 $orderby = ($orderby > 1)
                     ? (float) '0.'.$orderby
                     : (float) $orderby;

@@ -126,7 +126,7 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge
                     .' TYPE '.$field[$i]['type'].$field[$i]['length'];
             }
 
-            if (!empty($field[$i]['default'])) {
+            if (! empty($field[$i]['default'])) {
                 $sqls[] = $sql.' ALTER COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
                     .' SET DEFAULT '.$field[$i]['default'];
             }
@@ -136,12 +136,12 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge
                     .($field[$i]['null'] === true ? ' DROP NOT NULL' : ' SET NOT NULL');
             }
 
-            if (!empty($field[$i]['new_name'])) {
+            if (! empty($field[$i]['new_name'])) {
                 $sqls[] = $sql.' RENAME COLUMN '.$this->db->escape_identifiers($field[$i]['name'])
                     .' TO '.$this->db->escape_identifiers($field[$i]['new_name']);
             }
 
-            if (!empty($field[$i]['comment'])) {
+            if (! empty($field[$i]['comment'])) {
                 $sqls[] = 'COMMENT ON COLUMN '
                     .$this->db->escape_identifiers($table).'.'.$this->db->escape_identifiers($field[$i]['name'])
                     .' IS '.$field[$i]['comment'];
@@ -196,7 +196,7 @@ class CI_DB_pdo_pgsql_forge extends CI_DB_pdo_forge
      */
     protected function _attr_auto_increment(&$attributes, &$field)
     {
-        if (!empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true) {
+        if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true) {
             $field['type'] = ($field['type'] === 'NUMERIC')
                 ? 'BIGSERIAL'
                 : 'SERIAL';

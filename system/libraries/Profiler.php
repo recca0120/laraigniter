@@ -102,7 +102,7 @@ class CI_Profiler
 
         // default all sections to display
         foreach ($this->_available_sections as $section) {
-            if (!isset($config[$section])) {
+            if (! isset($config[$section])) {
                 $this->_compile_[$section] = true;
             }
         }
@@ -471,7 +471,7 @@ class CI_Profiler
      */
     protected function _compile_session_data()
     {
-        if (!isset($this->CI->session)) {
+        if (! isset($this->CI->session)) {
             return;
         }
 

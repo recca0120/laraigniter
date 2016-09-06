@@ -441,7 +441,7 @@ class CI_Pagination
                 $first_url = $base_url;
 
                 // If we saved any GET items earlier, make sure they're appended.
-                if (!empty($get)) {
+                if (! empty($get)) {
                     $first_url .= $query_string_sep.http_build_query($get);
                 }
             }
@@ -452,7 +452,7 @@ class CI_Pagination
         } else {
             // Standard segment mode.
             // Generate our saved query string to append later after the page number.
-            if (!empty($get)) {
+            if (! empty($get)) {
                 $query_string = $query_string_sep.http_build_query($get);
                 $this->suffix .= $query_string;
             }
@@ -493,7 +493,7 @@ class CI_Pagination
         }
 
         // If something isn't quite right, back to the default base page.
-        if (!ctype_digit($this->cur_page) or ($this->use_page_numbers && (int) $this->cur_page === 0)) {
+        if (! ctype_digit($this->cur_page) or ($this->use_page_numbers && (int) $this->cur_page === 0)) {
             $this->cur_page = $base_page;
         } else {
             // Make sure we're using integers for comparisons later.
@@ -514,7 +514,7 @@ class CI_Pagination
 
         // If we're using offset instead of page numbers, convert it
         // to a page number, so we can generate the surrounding number links.
-        if (!$this->use_page_numbers) {
+        if (! $this->use_page_numbers) {
             $this->cur_page = (int) floor(($this->cur_page / $this->per_page) + 1);
         }
 
@@ -527,7 +527,7 @@ class CI_Pagination
         $output = '';
 
         // Render the "First" link.
-        if ($this->first_link !== false && $this->cur_page > ($this->num_links + 1 + !$this->num_links)) {
+        if ($this->first_link !== false && $this->cur_page > ($this->num_links + 1 + ! $this->num_links)) {
             // Take the general parameters, and squeeze this pagination-page attr in for JS frameworks.
             $attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, 1);
 
@@ -588,7 +588,7 @@ class CI_Pagination
         }
 
         // Render the "Last" link
-        if ($this->last_link !== false && ($this->cur_page + $this->num_links + !$this->num_links) < $num_pages) {
+        if ($this->last_link !== false && ($this->cur_page + $this->num_links + ! $this->num_links) < $num_pages) {
             $i = ($this->use_page_numbers) ? $num_pages : ($num_pages * $this->per_page) - $this->per_page;
 
             $attributes = sprintf('%s %s="%d"', $this->_attributes, $this->data_page_attr, $num_pages);

@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('valid_email')) {
+if (! function_exists('valid_email')) {
     /**
      * Validate email address.
      *
@@ -67,7 +67,7 @@ if (!function_exists('valid_email')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('send_email')) {
+if (! function_exists('send_email')) {
     /**
      * Send an email.
      *

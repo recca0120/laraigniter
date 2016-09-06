@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (is_php('5.5') or !is_php('5.3.7') or !defined('CRYPT_BLOWFISH') or CRYPT_BLOWFISH !== 1 or defined('HHVM_VERSION')) {
+if (is_php('5.5') or ! is_php('5.3.7') or ! defined('CRYPT_BLOWFISH') or CRYPT_BLOWFISH !== 1 or defined('HHVM_VERSION')) {
     return;
 }
 
@@ -61,7 +61,7 @@ defined('PASSWORD_DEFAULT') or define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('password_get_info')) {
+if (! function_exists('password_get_info')) {
     /**
      * password_get_info().
      *
@@ -81,7 +81,7 @@ if (!function_exists('password_get_info')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('password_hash')) {
+if (! function_exists('password_hash')) {
     /**
      * password_hash().
      *
@@ -114,7 +114,7 @@ if (!function_exists('password_hash')) {
             trigger_error('password_hash(): Provided salt is too short: '.$saltlen.' expecting 22', E_USER_WARNING);
 
             return;
-        } elseif (!isset($options['salt'])) {
+        } elseif (! isset($options['salt'])) {
             if (function_exists('random_bytes')) {
                 try {
                     $options['salt'] = random_bytes(16);
@@ -161,7 +161,7 @@ if (!function_exists('password_hash')) {
             }
 
             $options['salt'] = str_replace('+', '.', rtrim(base64_encode($options['salt']), '='));
-        } elseif (!preg_match('#^[a-zA-Z0-9./]+$#D', $options['salt'])) {
+        } elseif (! preg_match('#^[a-zA-Z0-9./]+$#D', $options['salt'])) {
             $options['salt'] = str_replace('+', '.', rtrim(base64_encode($options['salt']), '='));
         }
 
@@ -175,7 +175,7 @@ if (!function_exists('password_hash')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('password_needs_rehash')) {
+if (! function_exists('password_needs_rehash')) {
     /**
      * password_needs_rehash().
      *
@@ -208,7 +208,7 @@ if (!function_exists('password_needs_rehash')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('password_verify')) {
+if (! function_exists('password_verify')) {
     /**
      * password_verify().
      *

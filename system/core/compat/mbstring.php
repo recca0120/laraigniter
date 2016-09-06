@@ -56,7 +56,7 @@ if (MB_ENABLED === true) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('mb_strlen')) {
+if (! function_exists('mb_strlen')) {
     /**
      * mb_strlen().
      *
@@ -84,7 +84,7 @@ if (!function_exists('mb_strlen')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('mb_strpos')) {
+if (! function_exists('mb_strpos')) {
     /**
      * mb_strpos().
      *
@@ -114,7 +114,7 @@ if (!function_exists('mb_strpos')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('mb_substr')) {
+if (! function_exists('mb_substr')) {
     /**
      * mb_substr().
      *

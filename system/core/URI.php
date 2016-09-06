@@ -187,7 +187,7 @@ class CI_URI
      */
     protected function _parse_request_uri()
     {
-        if (!isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'])) {
+        if (! isset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'])) {
             return '';
         }
 
@@ -283,7 +283,7 @@ class CI_URI
         $uris = [];
         $tok = strtok($uri, '/');
         while ($tok !== false) {
-            if ((!empty($tok) or $tok === '0') && $tok !== '..') {
+            if ((! empty($tok) or $tok === '0') && $tok !== '..') {
                 $uris[] = $tok;
             }
             $tok = strtok('/');
@@ -305,7 +305,7 @@ class CI_URI
      */
     public function filter_uri(&$str)
     {
-        if (!empty($str) && !empty($this->_permitted_uri_chars) && !preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str)) {
+        if (! empty($str) && ! empty($this->_permitted_uri_chars) && ! preg_match('/^['.$this->_permitted_uri_chars.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $str)) {
             show_error('The URI you submitted has disallowed characters.', 400);
         }
     }
@@ -415,7 +415,7 @@ class CI_URI
      */
     protected function _uri_to_assoc($n = 3, $default = [], $which = 'segment')
     {
-        if (!is_numeric($n)) {
+        if (! is_numeric($n)) {
             return $default;
         }
 
@@ -449,7 +449,7 @@ class CI_URI
 
         if (count($default) > 0) {
             foreach ($default as $val) {
-                if (!array_key_exists($val, $retval)) {
+                if (! array_key_exists($val, $retval)) {
                     $retval[$val] = null;
                 }
             }

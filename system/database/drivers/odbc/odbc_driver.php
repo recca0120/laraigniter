@@ -156,7 +156,7 @@ class CI_DB_odbc_driver extends CI_DB_driver
     {
         if (empty($binds) or empty($this->bind_marker) or strpos($sql, $this->bind_marker) === false) {
             return $sql;
-        } elseif (!is_array($binds)) {
+        } elseif (! is_array($binds)) {
             $binds = [$binds];
             $bind_count = 1;
         } else {
@@ -209,7 +209,7 @@ class CI_DB_odbc_driver extends CI_DB_driver
      */
     protected function _execute($sql)
     {
-        if (!isset($this->odbc_result)) {
+        if (! isset($this->odbc_result)) {
             return odbc_exec($this->conn_id, $sql);
         } elseif ($this->odbc_result === false) {
             return false;

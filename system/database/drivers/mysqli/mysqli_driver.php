@@ -161,7 +161,7 @@ class CI_DB_mysqli_driver extends CI_DB
             empty($this->encrypt['ssl_capath']) or $ssl['capath'] = $this->encrypt['ssl_capath'];
             empty($this->encrypt['ssl_cipher']) or $ssl['cipher'] = $this->encrypt['ssl_cipher'];
 
-            if (!empty($ssl)) {
+            if (! empty($ssl)) {
                 if (isset($this->encrypt['ssl_verify'])) {
                     if ($this->encrypt['ssl_verify']) {
                         defined('MYSQLI_OPT_SSL_VERIFY_SERVER_CERT') && $this->_mysqli->options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, true);
@@ -489,7 +489,7 @@ class CI_DB_mysqli_driver extends CI_DB
      */
     public function error()
     {
-        if (!empty($this->_mysqli->connect_errno)) {
+        if (! empty($this->_mysqli->connect_errno)) {
             return [
                 'code'    => $this->_mysqli->connect_errno,
                 'message' => is_php('5.2.9') ? $this->_mysqli->connect_error : mysqli_connect_error(),
@@ -511,7 +511,7 @@ class CI_DB_mysqli_driver extends CI_DB
      */
     protected function _from_tables()
     {
-        if (!empty($this->qb_join) && count($this->qb_from) > 1) {
+        if (! empty($this->qb_join) && count($this->qb_from) > 1) {
             return '('.implode(', ', $this->qb_from).')';
         }
 

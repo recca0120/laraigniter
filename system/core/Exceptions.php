@@ -233,7 +233,7 @@ class CI_Exceptions
         $severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
 
         // For safety reasons we don't show the full file path in non-CLI requests
-        if (!is_cli()) {
+        if (! is_cli()) {
             $filepath = str_replace('\\', '/', $filepath);
             if (false !== strpos($filepath, '/')) {
                 $x = explode('/', $filepath);

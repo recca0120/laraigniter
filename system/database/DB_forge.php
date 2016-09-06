@@ -186,11 +186,11 @@ abstract class CI_DB_forge
     {
         if ($this->_create_database === false) {
             return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : false;
-        } elseif (!$this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat))) {
+        } elseif (! $this->db->query(sprintf($this->_create_database, $db_name, $this->db->char_set, $this->db->dbcollat))) {
             return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : false;
         }
 
-        if (!empty($this->db->data_cache['db_names'])) {
+        if (! empty($this->db->data_cache['db_names'])) {
             $this->db->data_cache['db_names'][] = $db_name;
         }
 
@@ -210,11 +210,11 @@ abstract class CI_DB_forge
     {
         if ($this->_drop_database === false) {
             return ($this->db->db_debug) ? $this->db->display_error('db_unsupported_feature') : false;
-        } elseif (!$this->db->query(sprintf($this->_drop_database, $db_name))) {
+        } elseif (! $this->db->query(sprintf($this->_drop_database, $db_name))) {
             return ($this->db->db_debug) ? $this->db->display_error('db_unable_to_drop') : false;
         }
 
-        if (!empty($this->db->data_cache['db_names'])) {
+        if (! empty($this->db->data_cache['db_names'])) {
             $key = array_search(strtolower($db_name), array_map('strtolower', $this->db->data_cache['db_names']), true);
             if ($key !== false) {
                 unset($this->db->data_cache['db_names'][$key]);
@@ -332,7 +332,7 @@ abstract class CI_DB_forge
             empty($this->db->data_cache['table_names']) or $this->db->data_cache['table_names'][] = $table;
 
             // Most databases don't support creating indexes from within the CREATE TABLE statement
-            if (!empty($this->keys)) {
+            if (! empty($this->keys)) {
                 for ($i = 0, $sqls = $this->_process_indexes($table), $c = count($sqls); $i < $c; $i++) {
                     $this->db->query($sqls[$i]);
                 }
@@ -440,7 +440,7 @@ abstract class CI_DB_forge
         $query = $this->db->query($query);
 
         // Update table list cache
-        if ($query && !empty($this->db->data_cache['table_names'])) {
+        if ($query && ! empty($this->db->data_cache['table_names'])) {
             $key = array_search(strtolower($this->db->dbprefix.$table_name), array_map('strtolower', $this->db->data_cache['table_names']), true);
             if ($key !== false) {
                 unset($this->db->data_cache['table_names'][$key]);
@@ -468,7 +468,7 @@ abstract class CI_DB_forge
 
         if ($if_exists) {
             if ($this->_drop_table_if === false) {
-                if (!$this->db->table_exists($table)) {
+                if (! $this->db->table_exists($table)) {
                     return true;
                 }
             } else {
@@ -504,7 +504,7 @@ abstract class CI_DB_forge
                         $this->db->escape_identifiers($this->db->dbprefix.$new_table_name))
                     );
 
-        if ($result && !empty($this->db->data_cache['table_names'])) {
+        if ($result && ! empty($this->db->data_cache['table_names'])) {
             $key = array_search(strtolower($this->db->dbprefix.$table_name), array_map('strtolower', $this->db->data_cache['table_names']), true);
             if ($key !== false) {
                 $this->db->data_cache['table_names'][$key] = $this->db->dbprefix.$new_table_name;
@@ -534,7 +534,7 @@ abstract class CI_DB_forge
 
         foreach (array_keys($field) as $k) {
             // Backwards-compatibility work-around for MySQL/CUBRID AFTER clause (remove in 3.1+)
-            if ($_after !== null && is_array($field[$k]) && !isset($field[$k]['after'])) {
+            if ($_after !== null && is_array($field[$k]) && ! isset($field[$k]['after'])) {
                 $field[$k]['after'] = $_after;
             }
 
@@ -661,7 +661,7 @@ abstract class CI_DB_forge
         $fields = [];
 
         foreach ($this->fields as $key => $attributes) {
-            if (is_int($key) && !is_array($attributes)) {
+            if (is_int($key) && ! is_array($attributes)) {
                 $fields[] = ['_literal' => $attributes];
                 continue;
             }
@@ -716,7 +716,7 @@ abstract class CI_DB_forge
                 $field['comment'] = $this->db->escape($attributes['COMMENT']);
             }
 
-            if (isset($attributes['TYPE']) && !empty($attributes['CONSTRAINT'])) {
+            if (isset($attributes['TYPE']) && ! empty($attributes['CONSTRAINT'])) {
                 switch (strtoupper($attributes['TYPE'])) {
                     case 'ENUM':
                     case 'SET':
@@ -859,7 +859,7 @@ abstract class CI_DB_forge
      */
     protected function _attr_unique(&$attributes, &$field)
     {
-        if (!empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === true) {
+        if (! empty($attributes['UNIQUE']) && $attributes['UNIQUE'] === true) {
             $field['unique'] = ' UNIQUE';
         }
     }
@@ -876,7 +876,7 @@ abstract class CI_DB_forge
      */
     protected function _attr_auto_increment(&$attributes, &$field)
     {
-        if (!empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true && stripos($field['type'], 'int') !== false) {
+        if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true && stripos($field['type'], 'int') !== false) {
             $field['auto_increment'] = ' AUTO_INCREMENT';
         }
     }
@@ -895,7 +895,7 @@ abstract class CI_DB_forge
         $sql = '';
 
         for ($i = 0, $c = count($this->primary_keys); $i < $c; $i++) {
-            if (!isset($this->fields[$this->primary_keys[$i]])) {
+            if (! isset($this->fields[$this->primary_keys[$i]])) {
                 unset($this->primary_keys[$i]);
             }
         }
@@ -924,12 +924,12 @@ abstract class CI_DB_forge
         for ($i = 0, $c = count($this->keys); $i < $c; $i++) {
             if (is_array($this->keys[$i])) {
                 for ($i2 = 0, $c2 = count($this->keys[$i]); $i2 < $c2; $i2++) {
-                    if (!isset($this->fields[$this->keys[$i][$i2]])) {
+                    if (! isset($this->fields[$this->keys[$i][$i2]])) {
                         unset($this->keys[$i][$i2]);
                         continue;
                     }
                 }
-            } elseif (!isset($this->fields[$this->keys[$i]])) {
+            } elseif (! isset($this->fields[$this->keys[$i]])) {
                 unset($this->keys[$i]);
                 continue;
             }

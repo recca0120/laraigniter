@@ -213,7 +213,7 @@ class CI_DB_oci8_result extends CI_DB_result
             ? oci_fetch_object($this->curs_id)
             : oci_fetch_object($this->stmt_id);
 
-        if ($class_name === 'stdClass' or !$row) {
+        if ($class_name === 'stdClass' or ! $row) {
             return $row;
         }
 

@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_open')) {
+if (! function_exists('form_open')) {
     /**
      * Form Declaration.
      *
@@ -66,7 +66,7 @@ if (!function_exists('form_open')) {
         $CI = &get_instance();
 
         // If no action is provided then set to the current url
-        if (!$action) {
+        if (! $action) {
             $action = $CI->config->site_url($CI->uri->uri_string());
         }
         // If an action is not a full URL then turn it into one
@@ -87,7 +87,7 @@ if (!function_exists('form_open')) {
         $form = '<form action="'.$action.'"'.$attributes.">\n";
 
         // Add CSRF field if enabled, but leave it out for GET requests and requests to external websites
-        if ($CI->config->item('csrf_protection') === true && strpos($action, $CI->config->base_url()) !== false && !stripos($form, 'method="get"')) {
+        if ($CI->config->item('csrf_protection') === true && strpos($action, $CI->config->base_url()) !== false && ! stripos($form, 'method="get"')) {
             $hidden[$CI->security->get_csrf_token_name()] = $CI->security->get_csrf_hash();
         }
 
@@ -103,7 +103,7 @@ if (!function_exists('form_open')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_open_multipart')) {
+if (! function_exists('form_open_multipart')) {
     /**
      * Form Declaration - Multipart type.
      *
@@ -129,7 +129,7 @@ if (!function_exists('form_open_multipart')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_hidden')) {
+if (! function_exists('form_hidden')) {
     /**
      * Hidden Input Field.
      *
@@ -158,7 +158,7 @@ if (!function_exists('form_hidden')) {
             return $form;
         }
 
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             $form .= '<input type="hidden" name="'.$name.'" value="'.html_escape($value)."\" />\n";
         } else {
             foreach ($value as $k => $v) {
@@ -173,7 +173,7 @@ if (!function_exists('form_hidden')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_input')) {
+if (! function_exists('form_input')) {
     /**
      * Text Input Field.
      *
@@ -197,7 +197,7 @@ if (!function_exists('form_input')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_password')) {
+if (! function_exists('form_password')) {
     /**
      * Password Field.
      *
@@ -220,7 +220,7 @@ if (!function_exists('form_password')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_upload')) {
+if (! function_exists('form_upload')) {
     /**
      * Upload Field.
      *
@@ -244,7 +244,7 @@ if (!function_exists('form_upload')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_textarea')) {
+if (! function_exists('form_textarea')) {
     /**
      * Textarea field.
      *
@@ -262,7 +262,7 @@ if (!function_exists('form_textarea')) {
             'rows' => '10',
         ];
 
-        if (!is_array($data) or !isset($data['value'])) {
+        if (! is_array($data) or ! isset($data['value'])) {
             $val = $value;
         } else {
             $val = $data['value'];
@@ -277,7 +277,7 @@ if (!function_exists('form_textarea')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_multiselect')) {
+if (! function_exists('form_multiselect')) {
     /**
      * Multi-select menu.
      *
@@ -301,7 +301,7 @@ if (!function_exists('form_multiselect')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('form_dropdown')) {
+if (! function_exists('form_dropdown')) {
     /**
      * Drop-down Menu.
      *
@@ -380,7 +380,7 @@ if (!function_exists('form_dropdown')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_checkbox')) {
+if (! function_exists('form_checkbox')) {
     /**
      * Checkbox Field.
      *
@@ -393,7 +393,7 @@ if (!function_exists('form_checkbox')) {
      */
     function form_checkbox($data = '', $value = '', $checked = false, $extra = '')
     {
-        $defaults = ['type' => 'checkbox', 'name' => (!is_array($data) ? $data : ''), 'value' => $value];
+        $defaults = ['type' => 'checkbox', 'name' => (! is_array($data) ? $data : ''), 'value' => $value];
 
         if (is_array($data) && array_key_exists('checked', $data)) {
             $checked = $data['checked'];
@@ -417,7 +417,7 @@ if (!function_exists('form_checkbox')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_radio')) {
+if (! function_exists('form_radio')) {
     /**
      * Radio Button.
      *
@@ -439,7 +439,7 @@ if (!function_exists('form_radio')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_submit')) {
+if (! function_exists('form_submit')) {
     /**
      * Submit Button.
      *
@@ -463,7 +463,7 @@ if (!function_exists('form_submit')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_reset')) {
+if (! function_exists('form_reset')) {
     /**
      * Reset Button.
      *
@@ -487,7 +487,7 @@ if (!function_exists('form_reset')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_button')) {
+if (! function_exists('form_button')) {
     /**
      * Form Button.
      *
@@ -517,7 +517,7 @@ if (!function_exists('form_button')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_label')) {
+if (! function_exists('form_label')) {
     /**
      * Form Label Tag.
      *
@@ -547,7 +547,7 @@ if (!function_exists('form_label')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_fieldset')) {
+if (! function_exists('form_fieldset')) {
     /**
      * Fieldset Tag.
      *
@@ -572,7 +572,7 @@ if (!function_exists('form_fieldset')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_fieldset_close')) {
+if (! function_exists('form_fieldset_close')) {
     /**
      * Fieldset Close Tag.
      *
@@ -588,7 +588,7 @@ if (!function_exists('form_fieldset_close')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_close')) {
+if (! function_exists('form_close')) {
     /**
      * Form Close Tag.
      *
@@ -604,7 +604,7 @@ if (!function_exists('form_close')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_prep')) {
+if (! function_exists('form_prep')) {
     /**
      * Form Prep.
      *
@@ -624,7 +624,7 @@ if (!function_exists('form_prep')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('set_value')) {
+if (! function_exists('set_value')) {
     /**
      * Form Value.
      *
@@ -654,7 +654,7 @@ if (!function_exists('set_value')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('set_select')) {
+if (! function_exists('set_select')) {
     /**
      * Set Select.
      *
@@ -695,7 +695,7 @@ if (!function_exists('set_select')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('set_checkbox')) {
+if (! function_exists('set_checkbox')) {
     /**
      * Set Checkbox.
      *
@@ -742,7 +742,7 @@ if (!function_exists('set_checkbox')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('set_radio')) {
+if (! function_exists('set_radio')) {
     /**
      * Set Radio.
      *
@@ -789,7 +789,7 @@ if (!function_exists('set_radio')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('form_error')) {
+if (! function_exists('form_error')) {
     /**
      * Form Error.
      *
@@ -814,7 +814,7 @@ if (!function_exists('form_error')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('validation_errors')) {
+if (! function_exists('validation_errors')) {
     /**
      * Validation Error String.
      *
@@ -838,7 +838,7 @@ if (!function_exists('validation_errors')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_parse_form_attributes')) {
+if (! function_exists('_parse_form_attributes')) {
     /**
      * Parse the form attributes.
      *
@@ -869,7 +869,7 @@ if (!function_exists('_parse_form_attributes')) {
         foreach ($default as $key => $val) {
             if ($key === 'value') {
                 $val = html_escape($val);
-            } elseif ($key === 'name' && !strlen($default['name'])) {
+            } elseif ($key === 'name' && ! strlen($default['name'])) {
                 continue;
             }
 
@@ -882,7 +882,7 @@ if (!function_exists('_parse_form_attributes')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_attributes_to_string')) {
+if (! function_exists('_attributes_to_string')) {
     /**
      * Attributes To String.
      *
@@ -922,7 +922,7 @@ if (!function_exists('_attributes_to_string')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('_get_validation_object')) {
+if (! function_exists('_get_validation_object')) {
     /**
      * Validation Object.
      *
@@ -939,7 +939,7 @@ if (!function_exists('_get_validation_object')) {
         $return = false;
 
         if (false !== ($object = $CI->load->is_loaded('Form_validation'))) {
-            if (!isset($CI->$object) or !is_object($CI->$object)) {
+            if (! isset($CI->$object) or ! is_object($CI->$object)) {
                 return $return;
             }
 

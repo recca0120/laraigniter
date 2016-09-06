@@ -159,14 +159,14 @@ class CI_Encryption
             'openssl' => (is_php('5.3.3') && extension_loaded('openssl')),
         ];
 
-        if (!$this->_drivers['mcrypt'] && !$this->_drivers['openssl']) {
+        if (! $this->_drivers['mcrypt'] && ! $this->_drivers['openssl']) {
             show_error('Encryption: Unable to find an available encryption driver.');
         }
 
         isset(self::$func_override) or self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
         $this->initialize($params);
 
-        if (!isset($this->_key) && self::strlen($key = config_item('encryption_key')) > 0) {
+        if (! isset($this->_key) && self::strlen($key = config_item('encryption_key')) > 0) {
             $this->_key = $key;
         }
 
@@ -184,7 +184,7 @@ class CI_Encryption
      */
     public function initialize(array $params)
     {
-        if (!empty($params['driver'])) {
+        if (! empty($params['driver'])) {
             if (isset($this->_drivers[$params['driver']])) {
                 if ($this->_drivers[$params['driver']]) {
                     $this->_driver = $params['driver'];
@@ -222,20 +222,20 @@ class CI_Encryption
      */
     protected function _mcrypt_initialize($params)
     {
-        if (!empty($params['cipher'])) {
+        if (! empty($params['cipher'])) {
             $params['cipher'] = strtolower($params['cipher']);
             $this->_cipher_alias($params['cipher']);
 
-            if (!in_array($params['cipher'], mcrypt_list_algorithms(), true)) {
+            if (! in_array($params['cipher'], mcrypt_list_algorithms(), true)) {
                 log_message('error', 'Encryption: MCrypt cipher '.strtoupper($params['cipher']).' is not available.');
             } else {
                 $this->_cipher = $params['cipher'];
             }
         }
 
-        if (!empty($params['mode'])) {
+        if (! empty($params['mode'])) {
             $params['mode'] = strtolower($params['mode']);
-            if (!isset($this->_modes['mcrypt'][$params['mode']])) {
+            if (! isset($this->_modes['mcrypt'][$params['mode']])) {
                 log_message('error', 'Encryption: MCrypt mode '.strtoupper($params['mode']).' is not available.');
             } else {
                 $this->_mode = $this->_modes['mcrypt'][$params['mode']];
@@ -269,15 +269,15 @@ class CI_Encryption
      */
     protected function _openssl_initialize($params)
     {
-        if (!empty($params['cipher'])) {
+        if (! empty($params['cipher'])) {
             $params['cipher'] = strtolower($params['cipher']);
             $this->_cipher_alias($params['cipher']);
             $this->_cipher = $params['cipher'];
         }
 
-        if (!empty($params['mode'])) {
+        if (! empty($params['mode'])) {
             $params['mode'] = strtolower($params['mode']);
-            if (!isset($this->_modes['openssl'][$params['mode']])) {
+            if (! isset($this->_modes['openssl'][$params['mode']])) {
                 log_message('error', 'Encryption: OpenSSL mode '.strtoupper($params['mode']).' is not available.');
             } else {
                 $this->_mode = $this->_modes['openssl'][$params['mode']];
@@ -290,7 +290,7 @@ class CI_Encryption
                 ? $this->_cipher
                 : $this->_cipher.'-'.$this->_mode;
 
-            if (!in_array($handle, openssl_get_cipher_methods(), true)) {
+            if (! in_array($handle, openssl_get_cipher_methods(), true)) {
                 $this->_handle = null;
                 log_message('error', 'Encryption: Unable to initialize OpenSSL with method '.strtoupper($handle).'.');
             } else {
@@ -358,7 +358,7 @@ class CI_Encryption
         if (isset($params['hmac_digest'])) {
             isset($params['hmac_key']) or $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', null, null, 'authentication');
 
-            return hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], !$params['base64']).$data;
+            return hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']).$data;
         }
 
         return $data;
@@ -376,7 +376,7 @@ class CI_Encryption
      */
     protected function _mcrypt_encrypt($data, $params)
     {
-        if (!is_resource($params['handle'])) {
+        if (! is_resource($params['handle'])) {
             return false;
         }
 
@@ -491,7 +491,7 @@ class CI_Encryption
             $data = self::substr($data, $digest_size);
 
             isset($params['hmac_key']) or $params['hmac_key'] = $this->hkdf($this->_key, 'sha512', null, null, 'authentication');
-            $hmac_check = hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], !$params['base64']);
+            $hmac_check = hash_hmac($params['hmac_digest'], $data, $params['hmac_key'], ! $params['base64']);
 
             // Time-attack-safe comparison
             $diff = 0;
@@ -525,7 +525,7 @@ class CI_Encryption
      */
     protected function _mcrypt_decrypt($data, $params)
     {
-        if (!is_resource($params['handle'])) {
+        if (! is_resource($params['handle'])) {
             return false;
         }
 
@@ -618,13 +618,13 @@ class CI_Encryption
                     'hmac_key'    => null,
                 ]
                 : false;
-        } elseif (!isset($params['cipher'], $params['mode'], $params['key'])) {
+        } elseif (! isset($params['cipher'], $params['mode'], $params['key'])) {
             return false;
         }
 
         if (isset($params['mode'])) {
             $params['mode'] = strtolower($params['mode']);
-            if (!isset($this->_modes[$this->_driver][$params['mode']])) {
+            if (! isset($this->_modes[$this->_driver][$params['mode']])) {
                 return false;
             } else {
                 $params['mode'] = $this->_modes[$this->_driver][$params['mode']];
@@ -634,11 +634,11 @@ class CI_Encryption
         if (isset($params['hmac']) && $params['hmac'] === false) {
             $params['hmac_digest'] = $params['hmac_key'] = null;
         } else {
-            if (!isset($params['hmac_key'])) {
+            if (! isset($params['hmac_key'])) {
                 return false;
             } elseif (isset($params['hmac_digest'])) {
                 $params['hmac_digest'] = strtolower($params['hmac_digest']);
-                if (!isset($this->_digests[$params['hmac_digest']])) {
+                if (! isset($this->_digests[$params['hmac_digest']])) {
                     return false;
                 }
             } else {
@@ -651,7 +651,7 @@ class CI_Encryption
             'cipher'      => $params['cipher'],
             'mode'        => $params['mode'],
             'key'         => $params['key'],
-            'base64'      => isset($params['raw_data']) ? !$params['raw_data'] : false,
+            'base64'      => isset($params['raw_data']) ? ! $params['raw_data'] : false,
             'hmac_digest' => $params['hmac_digest'],
             'hmac_key'    => $params['hmac_key'],
         ];
@@ -788,11 +788,11 @@ class CI_Encryption
      */
     public function hkdf($key, $digest = 'sha512', $salt = null, $length = null, $info = '')
     {
-        if (!isset($this->_digests[$digest])) {
+        if (! isset($this->_digests[$digest])) {
             return false;
         }
 
-        if (empty($length) or !is_int($length)) {
+        if (empty($length) or ! is_int($length)) {
             $length = $this->_digests[$digest];
         } elseif ($length > (255 * $this->_digests[$digest])) {
             return false;

@@ -134,7 +134,7 @@ class CI_Table
      */
     public function set_template($template)
     {
-        if (!is_array($template)) {
+        if (! is_array($template)) {
             return false;
         }
 
@@ -176,7 +176,7 @@ class CI_Table
      */
     public function make_columns($array = [], $col_limit = 0)
     {
-        if (!is_array($array) or count($array) === 0 or !is_int($col_limit)) {
+        if (! is_array($array) or count($array) === 0 or ! is_int($col_limit)) {
             return false;
         }
 
@@ -256,7 +256,7 @@ class CI_Table
         // If there is no $args[0], skip this and treat as an associative array
         // This can happen if there is only a single key, for example this is passed to table->generate
         // array(array('foo'=>'bar'))
-        if (isset($args[0]) && count($args) === 1 && is_array($args[0]) && !isset($args[0]['data'])) {
+        if (isset($args[0]) && count($args) === 1 && is_array($args[0]) && ! isset($args[0]['data'])) {
             $args = $args[0];
         }
 
@@ -294,7 +294,7 @@ class CI_Table
     {
         // The table data can optionally be passed to this function
         // either as a database result object or an array
-        if (!empty($table_data)) {
+        if (! empty($table_data)) {
             if ($table_data instanceof CI_DB_result) {
                 $this->_set_from_db_result($table_data);
             } elseif (is_array($table_data)) {
@@ -311,7 +311,7 @@ class CI_Table
         $this->_compile_template();
 
         // Validate a possibly existing custom cell manipulation function
-        if (isset($this->function) && !is_callable($this->function)) {
+        if (isset($this->function) && ! is_callable($this->function)) {
             $this->function = null;
         }
 
@@ -325,7 +325,7 @@ class CI_Table
         }
 
         // Is there a table heading to display?
-        if (!empty($this->heading)) {
+        if (! empty($this->heading)) {
             $out .= $this->template['thead_open'].$this->newline.$this->template['heading_row_start'].$this->newline;
 
             foreach ($this->heading as $heading) {
@@ -344,12 +344,12 @@ class CI_Table
         }
 
         // Build the table rows
-        if (!empty($this->rows)) {
+        if (! empty($this->rows)) {
             $out .= $this->template['tbody_open'].$this->newline;
 
             $i = 1;
             foreach ($this->rows as $row) {
-                if (!is_array($row)) {
+                if (! is_array($row)) {
                     break;
                 }
 
@@ -469,7 +469,7 @@ class CI_Table
 
         $this->temp = $this->_default_template();
         foreach (['table_open', 'thead_open', 'thead_close', 'heading_row_start', 'heading_row_end', 'heading_cell_start', 'heading_cell_end', 'tbody_open', 'tbody_close', 'row_start', 'row_end', 'cell_start', 'cell_end', 'row_alt_start', 'row_alt_end', 'cell_alt_start', 'cell_alt_end', 'table_close'] as $val) {
-            if (!isset($this->template[$val])) {
+            if (! isset($this->template[$val])) {
                 $this->template[$val] = $this->temp[$val];
             }
         }

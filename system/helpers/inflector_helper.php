@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // --------------------------------------------------------------------
 
-if (!function_exists('singular')) {
+if (! function_exists('singular')) {
     /**
      * Singular.
      *
@@ -63,7 +63,7 @@ if (!function_exists('singular')) {
     {
         $result = strval($str);
 
-        if (!is_countable($result)) {
+        if (! is_countable($result)) {
             return $result;
         }
 
@@ -110,7 +110,7 @@ if (!function_exists('singular')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('plural')) {
+if (! function_exists('plural')) {
     /**
      * Plural.
      *
@@ -124,7 +124,7 @@ if (!function_exists('plural')) {
     {
         $result = strval($str);
 
-        if (!is_countable($result)) {
+        if (! is_countable($result)) {
             return $result;
         }
 
@@ -164,7 +164,7 @@ if (!function_exists('plural')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('camelize')) {
+if (! function_exists('camelize')) {
     /**
      * Camelize.
      *
@@ -182,7 +182,7 @@ if (!function_exists('camelize')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('underscore')) {
+if (! function_exists('underscore')) {
     /**
      * Underscore.
      *
@@ -200,7 +200,7 @@ if (!function_exists('underscore')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('humanize')) {
+if (! function_exists('humanize')) {
     /**
      * Humanize.
      *
@@ -219,7 +219,7 @@ if (!function_exists('humanize')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('is_countable')) {
+if (! function_exists('is_countable')) {
     /**
      * Checks if the given word has a plural version.
      *
@@ -229,7 +229,7 @@ if (!function_exists('is_countable')) {
      */
     function is_countable($word)
     {
-        return !in_array(
+        return ! in_array(
             strtolower($word),
             [
                 'equipment', 'information', 'rice', 'money',

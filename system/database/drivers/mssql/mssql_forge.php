@@ -143,7 +143,7 @@ class CI_DB_mssql_forge extends CI_DB_forge
      */
     protected function _attr_auto_increment(&$attributes, &$field)
     {
-        if (!empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true && stripos($field['type'], 'int') !== false) {
+        if (! empty($attributes['AUTO_INCREMENT']) && $attributes['AUTO_INCREMENT'] === true && stripos($field['type'], 'int') !== false) {
             $field['auto_increment'] = ' IDENTITY(1,1)';
         }
     }

@@ -121,7 +121,7 @@ class CI_Log
 
         file_exists($this->_log_path) or mkdir($this->_log_path, 0755, true);
 
-        if (!is_dir($this->_log_path) or !is_really_writable($this->_log_path)) {
+        if (! is_dir($this->_log_path) or ! is_really_writable($this->_log_path)) {
             $this->_enabled = false;
         }
 
@@ -132,11 +132,11 @@ class CI_Log
             $this->_threshold_array = array_flip($config['log_threshold']);
         }
 
-        if (!empty($config['log_date_format'])) {
+        if (! empty($config['log_date_format'])) {
             $this->_date_fmt = $config['log_date_format'];
         }
 
-        if (!empty($config['log_file_permissions']) && is_int($config['log_file_permissions'])) {
+        if (! empty($config['log_file_permissions']) && is_int($config['log_file_permissions'])) {
             $this->_file_permissions = $config['log_file_permissions'];
         }
     }
@@ -161,15 +161,15 @@ class CI_Log
 
         $level = strtoupper($level);
 
-        if ((!isset($this->_levels[$level]) or ($this->_levels[$level] > $this->_threshold))
-            && !isset($this->_threshold_array[$this->_levels[$level]])) {
+        if ((! isset($this->_levels[$level]) or ($this->_levels[$level] > $this->_threshold))
+            && ! isset($this->_threshold_array[$this->_levels[$level]])) {
             return false;
         }
 
         $filepath = $this->_log_path.'log-'.date('Y-m-d').'.'.$this->_file_ext;
         $message = '';
 
-        if (!file_exists($filepath)) {
+        if (! file_exists($filepath)) {
             $newfile = true;
             // Only add protection to php files
             if ($this->_file_ext === 'php') {
@@ -177,7 +177,7 @@ class CI_Log
             }
         }
 
-        if (!$fp = @fopen($filepath, 'ab')) {
+        if (! $fp = @fopen($filepath, 'ab')) {
             return false;
         }
 

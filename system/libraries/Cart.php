@@ -130,7 +130,7 @@ class CI_Cart
     public function insert($items = [])
     {
         // Was any cart data passed? No? Bah...
-        if (!is_array($items) or count($items) === 0) {
+        if (! is_array($items) or count($items) === 0) {
             log_message('error', 'The insert method must be passed an array containing data.');
 
             return false;
@@ -178,7 +178,7 @@ class CI_Cart
     protected function _insert($items = [])
     {
         // Was any cart data passed? No? Bah...
-        if (!is_array($items) or count($items) === 0) {
+        if (! is_array($items) or count($items) === 0) {
             log_message('error', 'The insert method must be passed an array containing data.');
 
             return false;
@@ -187,7 +187,7 @@ class CI_Cart
         // --------------------------------------------------------------------
 
         // Does the $items array contain an id, quantity, price, and name?  These are required
-        if (!isset($items['id'], $items['qty'], $items['price'], $items['name'])) {
+        if (! isset($items['id'], $items['qty'], $items['price'], $items['name'])) {
             log_message('error', 'The cart array must contain a product ID, quantity, price, and name.');
 
             return false;
@@ -208,7 +208,7 @@ class CI_Cart
         // Validate the product ID. It can only be alpha-numeric, dashes, underscores or periods
         // Not totally sure we should impose this rule, but it seems prudent to standardize IDs.
         // Note: These can be user-specified by setting the $this->product_id_rules variable.
-        if (!preg_match('/^['.$this->product_id_rules.']+$/i', $items['id'])) {
+        if (! preg_match('/^['.$this->product_id_rules.']+$/i', $items['id'])) {
             log_message('error', 'Invalid product ID.  The product ID can only contain alpha-numeric characters, dashes, and underscores');
 
             return false;
@@ -218,7 +218,7 @@ class CI_Cart
 
         // Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
         // Note: These can be user-specified by setting the $this->product_name_rules variable.
-        if ($this->product_name_safe && !preg_match('/^['.$this->product_name_rules.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $items['name'])) {
+        if ($this->product_name_safe && ! preg_match('/^['.$this->product_name_rules.']+$/i'.(UTF8_ENABLED ? 'u' : ''), $items['name'])) {
             log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
 
             return false;
@@ -279,7 +279,7 @@ class CI_Cart
     public function update($items = [])
     {
         // Was any cart data passed?
-        if (!is_array($items) or count($items) === 0) {
+        if (! is_array($items) or count($items) === 0) {
             return false;
         }
 
@@ -329,7 +329,7 @@ class CI_Cart
     protected function _update($items = [])
     {
         // Without these array indexes there is nothing we can do
-        if (!isset($items['rowid'], $this->_cart_contents[$items['rowid']])) {
+        if (! isset($items['rowid'], $this->_cart_contents[$items['rowid']])) {
             return false;
         }
 
@@ -373,7 +373,7 @@ class CI_Cart
         $this->_cart_contents['total_items'] = $this->_cart_contents['cart_total'] = 0;
         foreach ($this->_cart_contents as $key => $val) {
             // We make sure the array contains the proper indexes
-            if (!is_array($val) or !isset($val['price'], $val['qty'])) {
+            if (! is_array($val) or ! isset($val['price'], $val['qty'])) {
                 continue;
             }
 
@@ -480,7 +480,7 @@ class CI_Cart
      */
     public function get_item($row_id)
     {
-        return (in_array($row_id, ['total_items', 'cart_total'], true) or !isset($this->_cart_contents[$row_id]))
+        return (in_array($row_id, ['total_items', 'cart_total'], true) or ! isset($this->_cart_contents[$row_id]))
             ? false
             : $this->_cart_contents[$row_id];
     }

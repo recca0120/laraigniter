@@ -82,7 +82,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * ------------------------------------------------------
  */
 
-if (!is_php('5.4')) {
+if (! is_php('5.4')) {
     ini_set('magic_quotes_runtime', 0);
 
     if ((bool) ini_get('register_globals')) {
@@ -111,7 +111,7 @@ if (!is_php('5.4')) {
             }
 
             foreach (array_keys($$superglobal) as $var) {
-                if (isset($GLOBALS[$var]) && !in_array($var, $_protected, true)) {
+                if (isset($GLOBALS[$var]) && ! in_array($var, $_protected, true)) {
                     $GLOBALS[$var] = null;
                 }
             }
@@ -145,7 +145,7 @@ if (!is_php('5.4')) {
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
  */
-    if (!empty($assign_to_config['subclass_prefix'])) {
+    if (! empty($assign_to_config['subclass_prefix'])) {
         get_config(['subclass_prefix' => $assign_to_config['subclass_prefix']]);
     }
 
@@ -374,12 +374,12 @@ if (!is_php('5.4')) {
     $class = ucfirst($RTR->class);
     $method = $RTR->method;
 
-    if (empty($class) or !file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php')) {
+    if (empty($class) or ! file_exists(APPPATH.'controllers/'.$RTR->directory.$class.'.php')) {
         $e404 = true;
     } else {
         require_once APPPATH.'controllers/'.$RTR->directory.$class.'.php';
 
-        if (!class_exists($class, false) or $method[0] === '_' or method_exists('CI_Controller', $method)) {
+        if (! class_exists($class, false) or $method[0] === '_' or method_exists('CI_Controller', $method)) {
             $e404 = true;
         } elseif (method_exists($class, '_remap')) {
             $params = [$method, array_slice($URI->rsegments, 2)];
@@ -389,28 +389,28 @@ if (!is_php('5.4')) {
         // Furthermore, there are bug reports and feature/change requests related to it
         // that make it unreliable to use in this context. Please, DO NOT change this
         // work-around until a better alternative is available.
-        elseif (!in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), true)) {
+        elseif (! in_array(strtolower($method), array_map('strtolower', get_class_methods($class)), true)) {
             $e404 = true;
         }
     }
 
     if ($e404) {
-        if (!empty($RTR->routes['404_override'])) {
+        if (! empty($RTR->routes['404_override'])) {
             if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2) {
                 $error_method = 'index';
             }
 
             $error_class = ucfirst($error_class);
 
-            if (!class_exists($error_class, false)) {
+            if (! class_exists($error_class, false)) {
                 if (file_exists(APPPATH.'controllers/'.$RTR->directory.$error_class.'.php')) {
                     require_once APPPATH.'controllers/'.$RTR->directory.$error_class.'.php';
-                    $e404 = !class_exists($error_class, false);
+                    $e404 = ! class_exists($error_class, false);
                 }
                 // Were we in a directory? If so, check for a global override
-                elseif (!empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php')) {
+                elseif (! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php')) {
                     require_once APPPATH.'controllers/'.$error_class.'.php';
-                    if (($e404 = !class_exists($error_class, false)) === false) {
+                    if (($e404 = ! class_exists($error_class, false)) === false) {
                         $RTR->directory = '';
                     }
                 }
@@ -420,7 +420,7 @@ if (!is_php('5.4')) {
         }
 
         // Did we reset the $e404 flag? If so, set the rsegments, starting from index 1
-        if (!$e404) {
+        if (! $e404) {
             $class = $error_class;
             $method = $error_method;
 

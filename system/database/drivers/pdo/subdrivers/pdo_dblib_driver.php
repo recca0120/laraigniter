@@ -96,7 +96,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver
         if (empty($this->dsn)) {
             $this->dsn = $params['subdriver'].':host='.(empty($this->hostname) ? '127.0.0.1' : $this->hostname);
 
-            if (!empty($this->port)) {
+            if (! empty($this->port)) {
                 $this->dsn .= (DIRECTORY_SEPARATOR === '\\' ? ',' : ':').$this->port;
             }
 
@@ -104,7 +104,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver
             empty($this->char_set) or $this->dsn .= ';charset='.$this->char_set;
             empty($this->appname) or $this->dsn .= ';appname='.$this->appname;
         } else {
-            if (!empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === false) {
+            if (! empty($this->char_set) && strpos($this->dsn, 'charset=', 6) === false) {
                 $this->dsn .= ';charset='.$this->char_set;
             }
 
@@ -129,7 +129,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver
 
         $this->conn_id = parent::db_connect(false);
 
-        if (!is_object($this->conn_id)) {
+        if (! is_object($this->conn_id)) {
             return $this->conn_id;
         }
 
@@ -274,7 +274,7 @@ class CI_DB_pdo_dblib_driver extends CI_DB_pdo_driver
 
         // As of SQL Server 2005 (9.0.*) ROW_NUMBER() is supported,
         // however an ORDER BY clause is required for it to work
-        if (version_compare($this->version(), '9', '>=') && $this->qb_offset && !empty($this->qb_orderby)) {
+        if (version_compare($this->version(), '9', '>=') && $this->qb_offset && ! empty($this->qb_orderby)) {
             $orderby = $this->_compile_order_by();
 
             // We have to strip the ORDER BY clause

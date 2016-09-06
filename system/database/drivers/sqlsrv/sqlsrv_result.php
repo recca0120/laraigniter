@@ -83,7 +83,7 @@ class CI_DB_sqlsrv_result extends CI_DB_result
     public function num_rows()
     {
         // sqlsrv_num_rows() doesn't work with the FORWARD and DYNAMIC cursors (FALSE is the same as FORWARD)
-        if (!in_array($this->scrollable, [false, SQLSRV_CURSOR_FORWARD, SQLSRV_CURSOR_DYNAMIC], true)) {
+        if (! in_array($this->scrollable, [false, SQLSRV_CURSOR_FORWARD, SQLSRV_CURSOR_DYNAMIC], true)) {
             return parent::num_rows();
         }
 

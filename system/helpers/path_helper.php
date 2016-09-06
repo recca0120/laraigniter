@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('set_realpath')) {
+if (! function_exists('set_realpath')) {
     /**
      * Set Realpath.
      *
@@ -68,7 +68,7 @@ if (!function_exists('set_realpath')) {
         // Resolve the path
         if (realpath($path) !== false) {
             $path = realpath($path);
-        } elseif ($check_existance && !is_dir($path) && !is_file($path)) {
+        } elseif ($check_existance && ! is_dir($path) && ! is_file($path)) {
             show_error('Not a valid path: '.$path);
         }
 

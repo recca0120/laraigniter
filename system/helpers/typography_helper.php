@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('nl2br_except_pre')) {
+if (! function_exists('nl2br_except_pre')) {
     /**
      * Convert newlines to HTML line breaks except within PRE tags.
      *
@@ -68,7 +68,7 @@ if (!function_exists('nl2br_except_pre')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('auto_typography')) {
+if (! function_exists('auto_typography')) {
     /**
      * Auto Typography Wrapper Function.
      *
@@ -88,7 +88,7 @@ if (!function_exists('auto_typography')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('entity_decode')) {
+if (! function_exists('entity_decode')) {
     /**
      * HTML Entities Decode.
      *

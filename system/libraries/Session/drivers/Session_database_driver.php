@@ -86,7 +86,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
         isset($CI->db) or $CI->load->database();
         $this->_db = $CI->db;
 
-        if (!$this->_db instanceof CI_DB_query_builder) {
+        if (! $this->_db instanceof CI_DB_query_builder) {
             throw new Exception('Query Builder not enabled for the configured database. Aborting.');
         } elseif ($this->_db->pconnect) {
             throw new Exception('Configured database connection is persistent. Aborting.');
@@ -102,7 +102,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
         }
 
         // Note: BC work-around for the old 'sess_table_name' setting, should be removed in the future.
-        if (!isset($this->_config['save_path']) && ($this->_config['save_path'] = config_item('sess_table_name'))) {
+        if (! isset($this->_config['save_path']) && ($this->_config['save_path'] = config_item('sess_table_name'))) {
             log_message('debug', 'Session: "sess_save_path" is empty; using BC fallback to "sess_table_name".');
         }
     }
@@ -121,7 +121,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
      */
     public function open($save_path, $name)
     {
-        if (empty($this->_db->conn_id) && !$this->_db->db_connect()) {
+        if (empty($this->_db->conn_id) && ! $this->_db->db_connect()) {
             return $this->_fail();
         }
 
@@ -157,7 +157,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
                 $this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
             }
 
-            if (!($result = $this->_db->get()) or ($result = $result->row()) === null) {
+            if (! ($result = $this->_db->get()) or ($result = $result->row()) === null) {
                 // PHP7 will reuse the same SessionHandler object after
                 // ID regeneration, so we need to explicitly set this to
                 // FALSE instead of relying on the default ...
@@ -204,7 +204,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
         // Was the ID regenerated?
         if ($session_id !== $this->_session_id) {
-            if (!$this->_release_lock() or !$this->_get_lock($session_id)) {
+            if (! $this->_release_lock() or ! $this->_get_lock($session_id)) {
                 return $this->_fail();
             }
 
@@ -264,7 +264,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
      */
     public function close()
     {
-        return ($this->_lock && !$this->_release_lock())
+        return ($this->_lock && ! $this->_release_lock())
             ? $this->_fail()
             : $this->_success;
     }
@@ -291,7 +291,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
                 $this->_db->where('ip_address', $_SERVER['REMOTE_ADDR']);
             }
 
-            if (!$this->_db->delete($this->_config['save_path'])) {
+            if (! $this->_db->delete($this->_config['save_path'])) {
                 return $this->_fail();
             }
         }
@@ -373,7 +373,7 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
      */
     protected function _release_lock()
     {
-        if (!$this->_lock) {
+        if (! $this->_lock) {
             return true;
         }
 

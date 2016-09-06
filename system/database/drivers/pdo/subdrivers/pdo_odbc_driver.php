@@ -113,7 +113,7 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver
             if (empty($this->hostname) && empty($this->HOSTNAME) && empty($this->port) && empty($this->PORT)) {
                 if (isset($this->DSN)) {
                     $this->dsn .= 'DSN='.$this->DSN;
-                } elseif (!empty($this->database)) {
+                } elseif (! empty($this->database)) {
                     $this->dsn .= 'DSN='.$this->database;
                 }
 
@@ -125,7 +125,7 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver
 
             if (isset($this->DATABASE)) {
                 $this->dsn .= 'DATABASE='.$this->DATABASE.';';
-            } elseif (!empty($this->database)) {
+            } elseif (! empty($this->database)) {
                 $this->dsn .= 'DATABASE='.$this->database.';';
             }
 
@@ -137,7 +137,7 @@ class CI_DB_pdo_odbc_driver extends CI_DB_pdo_driver
 
             if (isset($this->PORT)) {
                 $this->dsn .= 'PORT='.$this->port.';';
-            } elseif (!empty($this->port)) {
+            } elseif (! empty($this->port)) {
                 $this->dsn .= ';PORT='.$this->port.';';
             }
 

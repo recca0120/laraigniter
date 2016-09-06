@@ -49,7 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('site_url')) {
+if (! function_exists('site_url')) {
     /**
      * Site URL.
      *
@@ -69,7 +69,7 @@ if (!function_exists('site_url')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('base_url')) {
+if (! function_exists('base_url')) {
     /**
      * Base URL.
      *
@@ -90,7 +90,7 @@ if (!function_exists('base_url')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('current_url')) {
+if (! function_exists('current_url')) {
     /**
      * Current URL.
      *
@@ -109,7 +109,7 @@ if (!function_exists('current_url')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('uri_string')) {
+if (! function_exists('uri_string')) {
     /**
      * URL String.
      *
@@ -125,7 +125,7 @@ if (!function_exists('uri_string')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('index_page')) {
+if (! function_exists('index_page')) {
     /**
      * Index page.
      *
@@ -141,7 +141,7 @@ if (!function_exists('index_page')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('anchor')) {
+if (! function_exists('anchor')) {
     /**
      * Anchor Link.
      *
@@ -175,7 +175,7 @@ if (!function_exists('anchor')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('anchor_popup')) {
+if (! function_exists('anchor_popup')) {
     /**
      * Anchor Link - Pop-up version.
      *
@@ -201,12 +201,12 @@ if (!function_exists('anchor_popup')) {
             return '<a href="'.$site_url.'" onclick="window.open(\''.$site_url."', '_blank'); return false;\">".$title.'</a>';
         }
 
-        if (!is_array($attributes)) {
+        if (! is_array($attributes)) {
             $attributes = [$attributes];
 
             // Ref: http://www.w3schools.com/jsref/met_win_open.asp
             $window_name = '_blank';
-        } elseif (!empty($attributes['window_name'])) {
+        } elseif (! empty($attributes['window_name'])) {
             $window_name = $attributes['window_name'];
             unset($attributes['window_name']);
         } else {
@@ -228,7 +228,7 @@ if (!function_exists('anchor_popup')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('mailto')) {
+if (! function_exists('mailto')) {
     /**
      * Mailto Link.
      *
@@ -252,7 +252,7 @@ if (!function_exists('mailto')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('safe_mailto')) {
+if (! function_exists('safe_mailto')) {
     /**
      * Encoded Mailto Link.
      *
@@ -349,7 +349,7 @@ if (!function_exists('safe_mailto')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('auto_link')) {
+if (! function_exists('auto_link')) {
     /**
      * Auto-linker.
      *
@@ -400,7 +400,7 @@ if (!function_exists('auto_link')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('prep_url')) {
+if (! function_exists('prep_url')) {
     /**
      * Prep URL.
      *
@@ -418,7 +418,7 @@ if (!function_exists('prep_url')) {
 
         $url = parse_url($str);
 
-        if (!$url or !isset($url['scheme'])) {
+        if (! $url or ! isset($url['scheme'])) {
             return 'http://'.$str;
         }
 
@@ -428,7 +428,7 @@ if (!function_exists('prep_url')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('url_title')) {
+if (! function_exists('url_title')) {
     /**
      * Create URL Title.
      *
@@ -477,7 +477,7 @@ if (!function_exists('url_title')) {
 
 // ------------------------------------------------------------------------
 
-if (!function_exists('redirect')) {
+if (! function_exists('redirect')) {
     /**
      * Header Redirect.
      *
@@ -494,14 +494,14 @@ if (!function_exists('redirect')) {
      */
     function redirect($uri = '', $method = 'auto', $code = null)
     {
-        if (!preg_match('#^(\w+:)?//#i', $uri)) {
+        if (! preg_match('#^(\w+:)?//#i', $uri)) {
             $uri = site_url($uri);
         }
 
         // IIS environment likely? Use 'refresh' for better compatibility
         if ($method === 'auto' && isset($_SERVER['SERVER_SOFTWARE']) && strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) {
             $method = 'refresh';
-        } elseif ($method !== 'refresh' && (empty($code) or !is_numeric($code))) {
+        } elseif ($method !== 'refresh' && (empty($code) or ! is_numeric($code))) {
             if (isset($_SERVER['SERVER_PROTOCOL'], $_SERVER['REQUEST_METHOD']) && $_SERVER['SERVER_PROTOCOL'] === 'HTTP/1.1') {
                 $code = ($_SERVER['REQUEST_METHOD'] !== 'GET')
                     ? 303    // reference: http://en.wikipedia.org/wiki/Post/Redirect/Get

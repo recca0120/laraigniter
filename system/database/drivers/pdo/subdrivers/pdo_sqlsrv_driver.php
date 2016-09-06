@@ -144,13 +144,13 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver
      */
     public function db_connect($persistent = false)
     {
-        if (!empty($this->char_set) && preg_match('/utf[^8]*8/i', $this->char_set)) {
+        if (! empty($this->char_set) && preg_match('/utf[^8]*8/i', $this->char_set)) {
             $this->options[PDO::SQLSRV_ENCODING_UTF8] = 1;
         }
 
         $this->conn_id = parent::db_connect($persistent);
 
-        if (!is_object($this->conn_id) or is_bool($this->_quoted_identifier)) {
+        if (! is_object($this->conn_id) or is_bool($this->_quoted_identifier)) {
             return $this->conn_id;
         }
 
@@ -302,7 +302,7 @@ class CI_DB_pdo_sqlsrv_driver extends CI_DB_pdo_driver
         $limit = $this->qb_offset + $this->qb_limit;
 
         // An ORDER BY clause is required for ROW_NUMBER() to work
-        if ($this->qb_offset && !empty($this->qb_orderby)) {
+        if ($this->qb_offset && ! empty($this->qb_orderby)) {
             $orderby = $this->_compile_order_by();
 
             // We have to strip the ORDER BY clause

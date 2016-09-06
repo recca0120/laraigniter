@@ -177,7 +177,7 @@ class CI_Form_validation
         if (is_array($field)) {
             foreach ($field as $row) {
                 // Houston, we have a problem...
-                if (!isset($row['field'], $row['rules'])) {
+                if (! isset($row['field'], $row['rules'])) {
                     continue;
                 }
 
@@ -195,11 +195,11 @@ class CI_Form_validation
         }
 
         // No fields or no rules? Nothing to do...
-        if (!is_string($field) or $field === '' or empty($rules)) {
+        if (! is_string($field) or $field === '' or empty($rules)) {
             return $this;
-        } elseif (!is_array($rules)) {
+        } elseif (! is_array($rules)) {
             // BC: Convert pipe-separated rules string to an array
-            if (!is_string($rules)) {
+            if (! is_string($rules)) {
                 return $this;
             }
 
@@ -256,7 +256,7 @@ class CI_Form_validation
      */
     public function set_data(array $data)
     {
-        if (!empty($data)) {
+        if (! empty($data)) {
             $this->validation_data = $data;
         }
 
@@ -278,7 +278,7 @@ class CI_Form_validation
      */
     public function set_message($lang, $val = '')
     {
-        if (!is_array($lang)) {
+        if (! is_array($lang)) {
             $lang = [$lang => $val];
         }
 
@@ -590,7 +590,7 @@ class CI_Form_validation
         //
         // Note: We MUST check if the array is empty or not!
         //       Otherwise empty arrays will always pass validation.
-        if (is_array($postdata) && !empty($postdata)) {
+        if (is_array($postdata) && ! empty($postdata)) {
             foreach ($postdata as $key => $val) {
                 $this->_execute($row, $rules, $val, $key);
             }
@@ -607,7 +607,7 @@ class CI_Form_validation
             if ($row['is_array'] === true && is_array($this->_field_data[$row['field']]['postdata'])) {
                 // We shouldn't need this safety, but just in case there isn't an array index
                 // associated with this cycle we'll bail out
-                if (!isset($this->_field_data[$row['field']]['postdata'][$cycles])) {
+                if (! isset($this->_field_data[$row['field']]['postdata'][$cycles])) {
                     continue;
                 }
 
@@ -640,7 +640,7 @@ class CI_Form_validation
             // Strip the parameter (if exists) from the rule
             // Rules can contain a parameter: max_length[5]
             $param = false;
-            if (!$callable && preg_match('/(.*?)\[(.*)\]/', $rule, $match)) {
+            if (! $callable && preg_match('/(.*?)\[(.*)\]/', $rule, $match)) {
                 $rule = $match[1];
                 $param = $match[2];
             }
@@ -650,7 +650,7 @@ class CI_Form_validation
                 ($postdata === null or $postdata === '')
                 && $callback === false
                 && $callable === false
-                && !in_array($rule, ['required', 'isset', 'matches'], true)
+                && ! in_array($rule, ['required', 'isset', 'matches'], true)
             ) {
                 continue;
             }
@@ -658,7 +658,7 @@ class CI_Form_validation
             // Call the function that corresponds to the rule
             if ($callback or $callable !== false) {
                 if ($callback) {
-                    if (!method_exists($this->CI, $rule)) {
+                    if (! method_exists($this->CI, $rule)) {
                         log_message('debug', 'Unable to find callback validation rule: '.$rule);
                         $result = false;
                     } else {
@@ -682,7 +682,7 @@ class CI_Form_validation
                 } else {
                     $this->_field_data[$row['field']]['postdata'] = is_bool($result) ? $postdata : $result;
                 }
-            } elseif (!method_exists($this, $rule)) {
+            } elseif (! method_exists($this, $rule)) {
                 // If our own wrapper function doesn't exist we see if a native PHP function does.
                 // Users can use any native PHP function call that has one param.
                 if (function_exists($rule)) {
@@ -711,7 +711,7 @@ class CI_Form_validation
             // Did the rule test negatively? If so, grab the error.
             if ($result === false) {
                 // Callable rules might not have named error messages
-                if (!is_string($rule)) {
+                if (! is_string($rule)) {
                     $line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
                 } else {
                     $line = $this->_get_error_message($rule, $row['field']);
@@ -729,7 +729,7 @@ class CI_Form_validation
                 // Save the error message
                 $this->_field_data[$row['field']]['error'] = $message;
 
-                if (!isset($this->_error_array[$row['field']])) {
+                if (! isset($this->_error_array[$row['field']])) {
                     $this->_error_array[$row['field']] = $message;
                 }
 
@@ -840,7 +840,7 @@ class CI_Form_validation
      */
     public function set_value($field = '', $default = '')
     {
-        if (!isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])) {
+        if (! isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])) {
             return $default;
         }
 
@@ -869,7 +869,7 @@ class CI_Form_validation
      */
     public function set_select($field = '', $value = '', $default = false)
     {
-        if (!isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])) {
+        if (! isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])) {
             return ($default === true && count($this->_field_data) === 0) ? ' selected="selected"' : '';
         }
 
@@ -907,7 +907,7 @@ class CI_Form_validation
      */
     public function set_radio($field = '', $value = '', $default = false)
     {
-        if (!isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])) {
+        if (! isset($this->_field_data[$field], $this->_field_data[$field]['postdata'])) {
             return ($default === true && count($this->_field_data) === 0) ? ' checked="checked"' : '';
         }
 
@@ -1009,7 +1009,7 @@ class CI_Form_validation
      */
     public function differs($str, $field)
     {
-        return !(isset($this->_field_data[$field]) && $this->_field_data[$field]['postdata'] === $str);
+        return ! (isset($this->_field_data[$field]) && $this->_field_data[$field]['postdata'] === $str);
     }
 
     // --------------------------------------------------------------------
@@ -1046,7 +1046,7 @@ class CI_Form_validation
      */
     public function min_length($str, $val)
     {
-        if (!is_numeric($val)) {
+        if (! is_numeric($val)) {
             return false;
         }
 
@@ -1065,7 +1065,7 @@ class CI_Form_validation
      */
     public function max_length($str, $val)
     {
-        if (!is_numeric($val)) {
+        if (! is_numeric($val)) {
             return false;
         }
 
@@ -1084,7 +1084,7 @@ class CI_Form_validation
      */
     public function exact_length($str, $val)
     {
-        if (!is_numeric($val)) {
+        if (! is_numeric($val)) {
             return false;
         }
 
@@ -1107,7 +1107,7 @@ class CI_Form_validation
         } elseif (preg_match('/^(?:([^:]*)\:)?\/\/(.+)$/', $str, $matches)) {
             if (empty($matches[2])) {
                 return false;
-            } elseif (!in_array($matches[1], ['http', 'https'], true)) {
+            } elseif (! in_array($matches[1], ['http', 'https'], true)) {
                 return false;
             }
 
@@ -1117,7 +1117,7 @@ class CI_Form_validation
         // PHP 7 accepts IPv6 addresses within square brackets as hostnames,
         // but it appears that the PR that came in with https://bugs.php.net/bug.php?id=68039
         // was never merged into a PHP 5 branch ... https://3v4l.org/8PsSN
-        if (preg_match('/^\[([^\]]+)\]/', $str, $matches) && !is_php('7') && filter_var($matches[1], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
+        if (preg_match('/^\[([^\]]+)\]/', $str, $matches) && ! is_php('7') && filter_var($matches[1], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
             $str = 'ipv6.host'.substr($str, strlen($matches[1]) + 2);
         }
 
